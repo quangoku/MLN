@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { ROOMS } from '../world/layout.js'
+import { playerRef } from '../player/playerRef.js'
 
 const STORAGE_KEY = 'philoverse-progress-v1'
 
@@ -55,4 +56,35 @@ export const useMuseumStore = create((set, get) => ({
 
   muted: false,
   toggleMute: () => set((s) => ({ muted: !s.muted })),
+
+  // --- FEATURE 2: KHÔNG GIAN VŨ TRỤ (SPACE SCENE) ---
+  inSpaceScene: false,
+  spaceWarping: null, // 'entering' | 'exiting' | null
+  nearEarth: false,
+  earthNearness: 0,
+  selectedPlanet: null,
+
+  setNearEarth: (near, factor = 0) => set({ nearEarth: near, earthNearness: factor }),
+  setSelectedPlanet: (planet) => set({ selectedPlanet: planet }),
+
+  startSpaceWarp: () => {
+    const s = get()
+    if (s.inSpaceScene || s.spaceWarping) return
+    set({ spaceWarping: 'entering' })
+    setTimeout(() => {
+      set({ inSpaceScene: true, spaceWarping: null, selectedPlanet: null })
+    }, 1100)
+  },
+
+  exitSpaceScene: () => {
+    const s = get()
+    if (!s.inSpaceScene || s.spaceWarping) return
+    set({ spaceWarping: 'exiting', selectedPlanet: null })
+    setTimeout(() => {
+      if (playerRef.current) {
+        playerRef.current.position.set(0, 0, 3.2)
+      }
+      set({ inSpaceScene: false, spaceWarping: null, nearEarth: false, earthNearness: 0 })
+    }, 900)
+  },
 }))

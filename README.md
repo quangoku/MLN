@@ -22,7 +22,26 @@
 ## 1. Tính năng
 
 - **Bố cục kiến trúc 2D hình chữ thập (Cross Layout)**:
-  - **Sảnh chính** nằm ở trung tâm rộng và thoáng, sàn gạch kem ngà viền thảm đỏ. Ở giữa là Quả địa cầu & Floating Earth, xung quanh là tượng đài danh nhân triết học: **tượng toàn thân V.I. Lênin** đứng chỉ tay về phía trước, **tượng bán thân Karl Marx**, **Người suy tưởng (The Thinker)**, **Đài tưởng niệm Obelisk**, tượng hiền triết cổ điển, kiosk điện tử và đèn đường.
+  - **Sảnh chính trung tâm**: Không gian trung tâm rộng và thoáng, sàn gạch kem viền thảm đỏ.
+    - **FEATURE 1 – Bộ tượng danh nhân & hiện vật chủ đề Mác - Lênin**:
+      - **Tượng toàn thân V.I. Lênin**: Đứng trang trọng trên bệ đá granite viền đồng, tay phải giơ cao chỉ về phía trước (đặc trưng tượng đài Lênin).
+      - **Tượng bán thân Karl Marx & Friedrich Engels**: Hai nhà tư tưởng vĩ đại sáng lập chủ nghĩa Mác song hành ở phía Bắc sảnh, trang nghiêm và cân đối.
+      - **Đài tưởng niệm Biểu tượng Cách mạng Tháng Mười (1917)**: Búa Liềm vàng óng đúc nổi 3D cùng ngôi sao đỏ trên nền đĩa đá đỏ.
+      - **Bia đá Tuyên ngôn của Đảng Cộng sản (1848)**: Quyển sách đá mở trang với chữ vàng ghi dấu mốc lịch sử.
+      - **Đài tưởng niệm Obelisk & Tượng Người suy tưởng (The Thinker)**: Bố trí ở các góc thoáng, tạo vẻ uy nghiêm của viện bảo tàng.
+      - Mỗi tượng đều có **bệ đá hoa cương (pedestal)**, **biển tên đồng** sắc nét và **đèn spotlight bảo tàng chiếu nhẹ** từ trên cao xuống.
+    - **FEATURE 2 – Quả Địa Cầu (Earth) là Cổng mở ra Không gian Vũ trụ (Space Scene)**:
+      - Earth ở giữa sảnh là một interactive centerpiece. **Không cần click**.
+      - Khi nhân vật **di chuyển đến gần Earth** (< 4m): Vòng năng lượng cổng không gian đa tầng dưới sàn phát sáng xoay tròn, hào quang Earth tăng dần, xuất hiện bảng hướng dẫn lơ lửng.
+      - Khi **tiến đủ gần** (< 2m): Kích hoạt transition mượt mà, hiệu ứng **Warp Tunnel** du hành vũ trụ và âm thanh quét tần số vũ trụ.
+      - Mở ra **Không gian Vũ trụ 3D (Space Scene)**:
+        - **Mặt Trời (Sun)** ở trung tâm với nhật hoa rực rỡ và ánh sáng tỏa đi toàn hệ.
+        - **8 hành tinh** (Sao Thủy, Sao Kim, Trái Đất + Mặt Trăng, Sao Hỏa, Sao Mộc, Sao Thổ với vành đai lộng lẫy, Sao Thiên Vương, Sao Hải Vương) cùng các quỹ đạo phát sáng chuyển động xoay quanh Mặt Trời.
+        - Bầu trời sao vô tận (Starfield).
+        - Điều khiển camera 3D tự do: xoay 360°, phóng to/thu nhỏ bằng chuột (OrbitControls).
+        - **Tương tác**: Nhấp vào từng hành tinh để xem bảng thông số thiên văn và **Góc nhìn Triết học Mác - Lênin** sâu sắc (Chủ nghĩa duy vật biện chứng về tính thống nhất vật chất của thế giới, sự vận động vĩnh viễn của vật chất trong không gian và thời gian).
+        - Thanh chọn nhanh hành tinh ở cạnh dưới màn hình.
+        - Nút **"⬅ Trở về Sảnh chính"** (hoặc nhấn phím `Esc`) để chuyển cảnh warp trở lại bảo tàng an toàn.
   - **Phòng 1 (C1)**: Nằm ở **phía TRÊN (Bắc)**, sàn gạch xanh ngọc — Khái luận về triết học và triết học Mác-Lênin.
   - **Phòng 2 (C2)**: Nằm ở **bên TRÁI (Tây)**, sàn gỗ nâu ấm — Chủ nghĩa duy vật biện chứng.
   - **Phòng 3 (C3)**: Nằm ở **bên PHẢI (Đông)**, sàn đá cẩm thạch xám — Chủ nghĩa duy vật lịch sử.
@@ -32,19 +51,20 @@
 - **Tiến trình khám phá**: biển trên bục chuyển vàng, thanh tiến trình theo phòng, tổng x/40, lưu vào `localStorage`, có thông báo khi hoàn thành.
 - **Minimap** góc phải hiển thị toàn cảnh mặt bằng 2D bảo tàng (vị trí các phòng, cửa, la bàn hướng Bắc N, chấm hiện vật và vị trí người chơi thời gian thực).
 - **Khách tham quan (NPC)** đi lại tự do trong từng khu vực, dừng chân chiêm ngưỡng hiện vật và tượng danh nhân.
-- **Đạo cụ low-poly** dựng thuần bằng Three.js: tượng Lênin, tượng Marx, Obelisk, tượng suy tưởng, ghế băng, cột đèn phát sáng, chậu cây, tranh vẽ thủ tục, kiosk vé, địa cầu sảnh chính.
-- **Âm thanh** tổng hợp bằng Web Audio (không cần file): bước chân, hover, khám phá, vào phòng, hoàn thành. Phím **M** để tắt.
-- **Camera isometric** trực giao bám theo người chơi, **cuộn chuột** để phóng to/thu nhỏ.
+- **Âm thanh** tổng hợp bằng Web Audio (không cần file): bước chân, hover, khám phá, vào phòng, warp vũ trụ, chọn hành tinh. Phím **M** để tắt.
+- **Camera isometric** trực giao bám theo người chơi trong bảo tàng; camera perspective xoay tự do trong vũ trụ.
 
 | Phím | Tác dụng |
 |---|---|
-| W A S D / mũi tên | Di chuyển |
-| Shift | Chạy |
-| Cuộn chuột | Phóng to / thu nhỏ |
-| Đến gần hiện vật | Xem bảng thông tin |
-| Check trên bảng | Đánh dấu đã xem |
+| W A S D / mũi tên | Di chuyển nhân vật |
+| Shift | Chạy nhanh |
+| Cuộn chuột | Phóng to / thu nhỏ góc nhìn |
+| Kéo chuột (trong Space) | Xoay 360° khám phá Hệ Mặt Trời |
+| Đến gần hiện vật | Xem bảng thông tin lý thuyết |
+| Đến gần quả địa cầu | Kích hoạt cổng mở ra Không gian Vũ trụ |
+| Check trên bảng | Đánh dấu đã xem hiện vật |
 | Nhấp vào hiện vật | Ghim / bỏ ghim bảng thông tin |
-| Esc | Đóng bảng đang ghim |
+| Esc | Đóng bảng đang ghim / Thoát Không gian Vũ trụ |
 | M | Bật / tắt âm thanh |
 
 ---

@@ -34,7 +34,11 @@ export default function CameraRig() {
 
     const t = 1 - Math.exp(-CAMERA.followSmoothing * delta)
     const moved = focus.current.distanceToSquared(player.position) > 1e-6
-    focus.current.lerp(player.position, t)
+    if (focus.current.distanceTo(player.position) > 15) {
+      focus.current.copy(player.position)
+    } else {
+      focus.current.lerp(player.position, t)
+    }
 
     cam.position.copy(focus.current).add(offset)
     cam.lookAt(focus.current)

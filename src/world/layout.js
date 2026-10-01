@@ -185,34 +185,32 @@ addDecor('plant', 3.4, -3.4)
 addDecor('plant', -3.4, 3.4)
 addDecor('plant', 3.4, 3.4)
 
-// CÁC TƯỢNG DANH NHÂN VÀ HIỆN VẬT SẢNH CHÍNH (THEO ẢNH REFERENCE):
+// CÁC TƯỢNG DANH NHÂN VÀ HIỆN VẬT CHỦ ĐỀ MÁC - LÊNIN Ở SẢNH CHÍNH:
 // 1. Tượng toàn thân V.I. Lênin chỉ tay về phía trước (đứng trang trọng ở phía nam địa cầu, hướng ra cổng)
-addDecor('statue', 0, 4.0, Math.PI, { statueType: 'lenin', name: 'V.I. Lenin' })
-addDecor('kiosk', -1.35, 4.0, 0)
+addDecor('statue', 0, 4.2, Math.PI, { statueType: 'lenin', name: 'V.I. Lenin' })
+addDecor('kiosk', -1.35, 4.2, 0)
 
-// 2. Tượng bán thân Karl Marx (ở phía bắc địa cầu, hướng về phía nam)
-addDecor('statue', 0, -4.6, 0, { statueType: 'marx_bust', name: 'Karl Marx' })
-addDecor('kiosk', 1.35, -4.6, 0)
+// 2. Tượng bán thân Karl Marx (phía bắc địa cầu, bên trái lối lên C1)
+addDecor('statue', -2.4, -4.6, 0, { statueType: 'marx_bust', name: 'Karl Marx' })
+addDecor('kiosk', -3.5, -4.6, 0)
 
-// 3. Đài tưởng niệm Obelisk (phía tây bắc sảnh)
-addDecor('statue', -4.2, -3.2, 0, { statueType: 'obelisk', name: 'Đài tưởng niệm' })
-addDecor('kiosk', -3.1, -3.2, 0)
+// 3. Tượng bán thân Friedrich Engels (phía bắc địa cầu, bên phải lối lên C1, song hành cùng Marx)
+addDecor('statue', 2.4, -4.6, 0, { statueType: 'engels_bust', name: 'Friedrich Engels' })
+addDecor('kiosk', 3.5, -4.6, 0)
 
-// 4. Tượng Người suy tưởng (The Thinker) (phía đông bắc sảnh)
-addDecor('statue', 4.2, -3.2, 0, { statueType: 'seated_thinker', name: 'Người suy tưởng' })
-addDecor('kiosk', 3.1, -3.2, 0)
+// 4. Đài tưởng niệm Biểu tượng Cách mạng Tháng Mười (Búa Liềm vàng & Ngôi sao đỏ, góc Tây Nam)
+addDecor('statue', -4.8, 3.6, Math.PI, { statueType: 'revolution_monument', name: 'Cách mạng Tháng Mười (1917)' })
+addDecor('kiosk', -3.6, 3.6, Math.PI)
 
-// 5. Tượng nhà hiền triết cổ điển cầm đuốc/sách (phía đông sảnh)
-addDecor('statue', 5.2, 1.4, -Math.PI / 2, { statueType: 'standing_philosopher', name: 'Nhà hiền triết' })
-addDecor('kiosk', 5.2, 2.6, -Math.PI / 2)
+// 5. Bia đá Tuyên ngôn của Đảng Cộng sản 1848 (góc Đông Nam)
+addDecor('statue', 4.8, 3.6, Math.PI, { statueType: 'manifesto_stele', name: 'Tuyên ngôn ĐCS (1848)' })
+addDecor('kiosk', 3.6, 3.6, Math.PI)
 
-// 6. Tượng bán thân triết học (phía tây nam)
-addDecor('statue', -4.2, 3.8, Math.PI, { statueType: 'bust', name: 'Triết gia' })
-addDecor('kiosk', -3.1, 3.8, Math.PI)
+// 6. Đài tưởng niệm Obelisk triết học (góc Tây Bắc)
+addDecor('statue', -4.8, -3.2, 0, { statueType: 'obelisk', name: 'Đài tưởng niệm' })
 
-// 7. Bia đá triết học cổ (phía đông nam)
-addDecor('statue', 4.2, 3.8, Math.PI, { statueType: 'stele', name: 'Bia đá triết học' })
-addDecor('kiosk', 3.1, 3.8, Math.PI)
+// 7. Tượng Người suy tưởng The Thinker (góc Đông Bắc)
+addDecor('statue', 4.8, -3.2, 0, { statueType: 'seated_thinker', name: 'Người suy tưởng' })
 
 // Đèn & ghế sảnh chính
 addDecor('lamp', -6.6, -0.6)
@@ -224,14 +222,16 @@ addDecor('bench', 6.6, -5.5, -Math.PI / 2)
 
 // Điểm tham quan cho NPC trong Sảnh chính
 lobbyPts.push(
-  { x: 0, z: 2.2, faceX: 0, faceZ: 4.0 }, // ngắm tượng Lênin
-  { x: 0, z: 5.6, faceX: 0, faceZ: 4.0 },
+  { x: 0, z: 2.4, faceX: 0, faceZ: 4.2 }, // ngắm tượng Lênin
+  { x: 0, z: 5.6, faceX: 0, faceZ: 4.2 },
   { x: -1.8, z: 0.6, faceX: 0, faceZ: 0 }, // ngắm Địa cầu
   { x: 1.8, z: -0.6, faceX: 0, faceZ: 0 },
-  { x: 0, z: -2.8, faceX: 0, faceZ: -4.6 }, // ngắm Marx
-  { x: -2.8, z: -3.2, faceX: -4.2, faceZ: -3.2 }, // ngắm Obelisk
-  { x: 2.8, z: -3.2, faceX: 4.2, faceZ: -3.2 }, // ngắm Thinker
-  { x: 3.6, z: 1.4, faceX: 5.2, faceZ: 1.4 }, // ngắm Standing
+  { x: -2.4, z: -2.8, faceX: -2.4, faceZ: -4.6 }, // ngắm Marx
+  { x: 2.4, z: -2.8, faceX: 2.4, faceZ: -4.6 }, // ngắm Engels
+  { x: -3.8, z: 2.6, faceX: -4.8, faceZ: 3.6 }, // ngắm Biểu tượng Cách mạng
+  { x: 3.8, z: 2.6, faceX: 4.8, faceZ: 3.6 }, // ngắm Tuyên ngôn ĐCS
+  { x: -3.8, z: -3.2, faceX: -4.8, faceZ: -3.2 }, // ngắm Obelisk
+  { x: 3.8, z: -3.2, faceX: 4.8, faceZ: -3.2 }, // ngắm Thinker
   { x: -2.6, z: 4.8, faceX: -2.6, faceZ: 6.2 }, // xem bảng chào mừng
 )
 

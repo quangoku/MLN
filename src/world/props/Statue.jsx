@@ -400,11 +400,184 @@ function SteleStatue({ name = 'Bia đá triết học' }) {
   )
 }
 
+// 7. Tượng bán thân Friedrich Engels (Nhà đồng sáng lập chủ nghĩa Mác)
+function EngelsBustStatue({ name = 'Friedrich Engels' }) {
+  const plaqueTex = useMemo(() => makePlaqueTexture(name), [name])
+  const stoneColor = '#DDD5C4'
+
+  return (
+    <group>
+      <mesh position-y={0.12} castShadow receiveShadow>
+        <boxGeometry args={[1.3, 0.24, 1.3]} />
+        <meshStandardMaterial color="#2E3035" />
+      </mesh>
+      <mesh position-y={0.65} castShadow receiveShadow>
+        <boxGeometry args={[0.95, 0.85, 0.95]} />
+        <meshStandardMaterial color="#444750" />
+      </mesh>
+      <mesh position-y={1.12} castShadow receiveShadow>
+        <boxGeometry args={[1.05, 0.1, 1.05]} />
+        <meshStandardMaterial color="#2E3035" />
+      </mesh>
+
+      <mesh position={[0, 0.65, 0.485]}>
+        <planeGeometry args={[0.68, 0.2]} />
+        <meshStandardMaterial map={plaqueTex} />
+      </mesh>
+
+      <group position-y={1.18}>
+        {/* Vai áo vest & ngực */}
+        <mesh position={[0, 0.26, 0]} castShadow>
+          <boxGeometry args={[0.78, 0.46, 0.42]} />
+          <meshStandardMaterial color={stoneColor} />
+        </mesh>
+        <mesh position={[0, 0.42, 0.08]} castShadow>
+          <boxGeometry args={[0.26, 0.2, 0.18]} />
+          <meshStandardMaterial color={stoneColor} />
+        </mesh>
+        {/* Đầu & tóc rẽ ngôi chải mượt */}
+        <mesh position={[0, 0.68, 0.02]} castShadow>
+          <boxGeometry args={[0.38, 0.36, 0.34]} />
+          <meshStandardMaterial color={stoneColor} />
+        </mesh>
+        {/* Bộ ria mép rậm dài đặc trưng của Engels */}
+        <mesh position={[0, 0.54, 0.16]} castShadow>
+          <boxGeometry args={[0.34, 0.26, 0.18]} />
+          <meshStandardMaterial color={stoneColor} />
+        </mesh>
+        <mesh position={[0, 0.42, 0.14]} castShadow>
+          <boxGeometry args={[0.28, 0.16, 0.16]} />
+          <meshStandardMaterial color={stoneColor} />
+        </mesh>
+      </group>
+    </group>
+  )
+}
+
+// 8. Đài tưởng niệm Biểu tượng Cách mạng Tháng Mười (Búa Liềm vàng & Ngôi sao đỏ)
+function RevolutionMonument({ name = 'Cách mạng Tháng Mười (1917)' }) {
+  const plaqueTex = useMemo(() => makePlaqueTexture(name), [name])
+
+  return (
+    <group>
+      <mesh position-y={0.12} castShadow receiveShadow>
+        <boxGeometry args={[1.4, 0.24, 1.2]} />
+        <meshStandardMaterial color="#2E3035" />
+      </mesh>
+      <mesh position-y={0.55} castShadow receiveShadow>
+        <boxGeometry args={[1.15, 0.65, 0.95]} />
+        <meshStandardMaterial color="#8C2F39" roughness={0.7} />
+      </mesh>
+      <mesh position-y={0.9} castShadow receiveShadow>
+        <boxGeometry args={[1.25, 0.08, 1.05]} />
+        <meshStandardMaterial color="#2E3035" />
+      </mesh>
+
+      <mesh position={[0, 0.55, 0.485]}>
+        <planeGeometry args={[0.74, 0.22]} />
+        <meshStandardMaterial map={plaqueTex} />
+      </mesh>
+
+      {/* Đĩa đá đỏ trang trọng */}
+      <group position={[0, 1.55, 0]}>
+        <mesh rotation-x={Math.PI / 2} castShadow>
+          <cylinderGeometry args={[0.62, 0.62, 0.15, 24]} />
+          <meshStandardMaterial color="#A82834" roughness={0.5} />
+        </mesh>
+        {/* Viền vàng đĩa */}
+        <mesh rotation-x={Math.PI / 2}>
+          <torusGeometry args={[0.62, 0.04, 12, 24]} />
+          <meshStandardMaterial color={COLORS.gold} metalness={0.8} roughness={0.3} />
+        </mesh>
+
+        {/* Ngôi sao vàng đỉnh */}
+        <mesh position={[0, 0.38, 0.1]} castShadow>
+          <coneGeometry args={[0.16, 0.25, 5]} />
+          <meshStandardMaterial color={COLORS.gold} metalness={0.8} roughness={0.2} emissive={COLORS.gold} emissiveIntensity={0.3} />
+        </mesh>
+
+        {/* Biểu tượng Búa Liềm vàng đúc nổi */}
+        {/* Lưỡi liềm (vòng cong) */}
+        <mesh position={[-0.04, 0.02, 0.1]} rotation-z={0.35} castShadow>
+          <torusGeometry args={[0.26, 0.05, 8, 16, Math.PI * 1.2]} />
+          <meshStandardMaterial color={COLORS.gold} metalness={0.8} roughness={0.2} emissive={COLORS.gold} emissiveIntensity={0.3} />
+        </mesh>
+        {/* Chuôi liềm */}
+        <mesh position={[-0.2, -0.22, 0.1]} rotation-z={-0.6} castShadow>
+          <cylinderGeometry args={[0.03, 0.03, 0.2, 8]} />
+          <meshStandardMaterial color="#7A3524" />
+        </mesh>
+        {/* Búa: Cán búa chéo */}
+        <mesh position={[0.04, 0.02, 0.1]} rotation-z={-0.8} castShadow>
+          <cylinderGeometry args={[0.035, 0.035, 0.54, 8]} />
+          <meshStandardMaterial color="#7A3524" />
+        </mesh>
+        {/* Đầu búa */}
+        <mesh position={[-0.14, 0.18, 0.1]} rotation-z={-0.8} castShadow>
+          <boxGeometry args={[0.1, 0.18, 0.1]} />
+          <meshStandardMaterial color={COLORS.gold} metalness={0.8} roughness={0.2} emissive={COLORS.gold} emissiveIntensity={0.3} />
+        </mesh>
+      </group>
+    </group>
+  )
+}
+
+// 9. Bia đá Tuyên ngôn của Đảng Cộng sản (1848)
+function ManifestoStele({ name = 'Tuyên ngôn của ĐCS (1848)' }) {
+  const plaqueTex = useMemo(() => makePlaqueTexture(name), [name])
+
+  return (
+    <group>
+      <mesh position-y={0.12} castShadow receiveShadow>
+        <boxGeometry args={[1.3, 0.24, 1.1]} />
+        <meshStandardMaterial color="#2E3035" />
+      </mesh>
+      <mesh position-y={0.52} castShadow receiveShadow>
+        <boxGeometry args={[1.05, 0.6, 0.85]} />
+        <meshStandardMaterial color="#3D4048" />
+      </mesh>
+      <mesh position-y={0.84} castShadow receiveShadow>
+        <boxGeometry args={[1.15, 0.08, 0.95]} />
+        <meshStandardMaterial color="#2E3035" />
+      </mesh>
+
+      <mesh position={[0, 0.52, 0.435]}>
+        <planeGeometry args={[0.7, 0.2]} />
+        <meshStandardMaterial map={plaqueTex} />
+      </mesh>
+
+      {/* Giá đỡ & Quyển sách Tuyên ngôn tạc bằng đá hoa cương */}
+      <group position={[0, 1.25, 0]} rotation-x={-0.35}>
+        <mesh castShadow>
+          <boxGeometry args={[0.75, 0.55, 0.14]} />
+          <meshStandardMaterial color="#8C2F39" />
+        </mesh>
+        {/* Các trang sách vàng kim */}
+        <mesh position={[0, 0, 0.08]} castShadow>
+          <boxGeometry args={[0.68, 0.48, 0.06]} />
+          <meshStandardMaterial color="#FBF3E2" />
+        </mesh>
+        {/* Sống sách & đường rãnh mở */}
+        <mesh position={[0, 0, 0.11]} castShadow>
+          <boxGeometry args={[0.04, 0.48, 0.02]} />
+          <meshStandardMaterial color="#C9A043" />
+        </mesh>
+      </group>
+    </group>
+  )
+}
+
 export default function Statue({ position, rotation = 0, statueType = 'lenin', name }) {
   return (
     <group position={position} rotation-y={rotation}>
+      {/* Đèn bảo tàng chiếu nhẹ nhàng từ trên cao xuống hiện vật */}
+      <pointLight position={[0, 2.8, 0.35]} intensity={0.9} distance={4.2} color="#FFF8E7" decay={2} />
+
       {statueType === 'lenin' && <LeninStatue name={name ?? 'V.I. Lenin'} />}
       {statueType === 'marx_bust' && <MarxBustStatue name={name ?? 'Karl Marx'} />}
+      {statueType === 'engels_bust' && <EngelsBustStatue name={name ?? 'Friedrich Engels'} />}
+      {statueType === 'revolution_monument' && <RevolutionMonument name={name ?? 'Cách mạng Tháng Mười'} />}
+      {statueType === 'manifesto_stele' && <ManifestoStele name={name ?? 'Tuyên ngôn của ĐCS (1848)'} />}
       {statueType === 'seated_thinker' && <ThinkerStatue name={name ?? 'Người suy tưởng'} />}
       {statueType === 'obelisk' && <ObeliskStatue name={name ?? 'Đài tưởng niệm'} />}
       {statueType === 'standing_philosopher' && <StandingStatue name={name ?? 'Nhà hiền triết'} />}

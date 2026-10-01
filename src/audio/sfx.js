@@ -86,3 +86,26 @@ export function playStep() {
   src.connect(filter).connect(amp).connect(master)
   src.start()
 }
+
+// Âm thanh dịch chuyển không gian vũ trụ (Warp Sound)
+export function playSpaceWarp() {
+  if (!ready()) return
+  // Dải hợp âm vũ trụ quét tần số mở ra không gian
+  ;[220, 329.63, 440, 659.25, 880, 1318.5].forEach((freq, i) => {
+    tone({
+      freq,
+      slideTo: freq * 1.8,
+      duration: 1.2,
+      gain: 0.04,
+      delay: i * 0.08,
+      type: 'sine',
+    })
+  })
+}
+
+// Âm thanh khi nhấp chọn hành tinh trong Space Scene
+export function playPlanetSelect() {
+  if (!ready()) return
+  tone({ freq: 587.33, duration: 0.25, gain: 0.04, type: 'triangle' })
+  tone({ freq: 880, duration: 0.45, gain: 0.035, delay: 0.08, type: 'sine' })
+}
