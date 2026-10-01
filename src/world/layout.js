@@ -18,7 +18,6 @@ const DECOR_SIZE = {
   bench: [0.82, 0.3],
   lamp: [0.18, 0.18],
   plant: [0.3, 0.3],
-  kiosk: [0.36, 0.26],
   globe: [0.9, 0.9],
   statue: [0.75, 0.75],
   painting: null,
@@ -188,23 +187,18 @@ addDecor('plant', 3.4, 3.4)
 // CÁC TƯỢNG DANH NHÂN VÀ HIỆN VẬT CHỦ ĐỀ MÁC - LÊNIN Ở SẢNH CHÍNH:
 // 1. Tượng toàn thân V.I. Lênin chỉ tay về phía trước (đứng trang trọng ở phía nam địa cầu, hướng ra cổng)
 addDecor('statue', 0, 4.2, Math.PI, { statueType: 'lenin', name: 'V.I. Lenin' })
-addDecor('kiosk', -1.35, 4.2, 0)
 
 // 2. Tượng bán thân Karl Marx (phía bắc địa cầu, bên trái lối lên C1)
 addDecor('statue', -2.4, -4.6, 0, { statueType: 'marx_bust', name: 'Karl Marx' })
-addDecor('kiosk', -3.5, -4.6, 0)
 
 // 3. Tượng bán thân Friedrich Engels (phía bắc địa cầu, bên phải lối lên C1, song hành cùng Marx)
 addDecor('statue', 2.4, -4.6, 0, { statueType: 'engels_bust', name: 'Friedrich Engels' })
-addDecor('kiosk', 3.5, -4.6, 0)
 
 // 4. Đài tưởng niệm Biểu tượng Cách mạng Tháng Mười (Búa Liềm vàng & Ngôi sao đỏ, góc Tây Nam)
 addDecor('statue', -4.8, 3.6, Math.PI, { statueType: 'revolution_monument', name: 'Cách mạng Tháng Mười (1917)' })
-addDecor('kiosk', -3.6, 3.6, Math.PI)
 
 // 5. Bia đá Tuyên ngôn của Đảng Cộng sản 1848 (góc Đông Nam)
 addDecor('statue', 4.8, 3.6, Math.PI, { statueType: 'manifesto_stele', name: 'Tuyên ngôn ĐCS (1848)' })
-addDecor('kiosk', 3.6, 3.6, Math.PI)
 
 // 6. Đài tưởng niệm Obelisk triết học (góc Tây Bắc)
 addDecor('statue', -4.8, -3.2, 0, { statueType: 'obelisk', name: 'Đài tưởng niệm' })

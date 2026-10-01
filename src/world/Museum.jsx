@@ -39,7 +39,7 @@ export default function Museum() {
         <Pillar key={i} position={p} />
       ))}
 
-      {/* Hiện vật trang trí, tượng, kiosk, cây, ghế, đèn */}
+      {/* Hiện vật trang trí, tượng, cây, ghế, đèn */}
       {DECOR.map(({ kind, ...props }, i) => {
         const Prop = PROPS[kind]
         if (!Prop) return null

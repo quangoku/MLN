@@ -150,7 +150,7 @@ src/
 │   ├── textures.js        # Texture sàn (tile/wood/marble/carpet) và tranh vẽ bằng canvas
 │   ├── Museum.jsx         # Render sàn + tường + cột + đồ trang trí từ layout.js
 │   ├── Floor.jsx, Wall.jsx, Pillar.jsx
-│   └── props/             # Bench, LampPost, Plant, Painting, Kiosk, Globe (+ index.js)
+│   └── props/             # Bench, LampPost, Plant, Painting, Globe (+ index.js)
 │
 ├── exhibits/              # Mọi thứ tương tác được
 │   ├── Exhibit.jsx        # Wrapper: hiệu ứng hover, bảng gần nhất, ghim, Check, âm thanh
