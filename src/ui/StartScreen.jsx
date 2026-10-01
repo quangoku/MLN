@@ -6,7 +6,8 @@ export default function StartScreen() {
   const started = useMuseumStore((s) => s.started)
   const start = useMuseumStore((s) => s.start)
   const resetProgress = useMuseumStore((s) => s.resetProgress)
-  const done = useMuseumStore((s) => s.discovered.size)
+  const done = useMuseumStore((s) => COUNTABLE.filter((exhibit) => s.discovered.has(exhibit.id)).length)
+  const hasChecked = useMuseumStore((s) => s.discovered.size > 0)
 
   if (started) return null
 
@@ -21,7 +22,7 @@ export default function StartScreen() {
         <p className="start__eyebrow">MLN111 · Triết học Mác-Lênin</p>
         <h1>PhiloVerse</h1>
         <p className="start__lead">
-          Bảo tàng triết học 2.5D. Dạo qua ba phòng trưng bày, rê chuột vào hiện vật để đọc khái niệm, nguyên lý và kết luận của giáo trình.
+          Bảo tàng triết học 2.5D. Dạo qua ba phòng trưng bày, đến gần hiện vật để đọc khái niệm, nguyên lý và kết luận của giáo trình.
         </p>
 
         <ol className="start__rooms">
@@ -45,7 +46,7 @@ export default function StartScreen() {
         <button className="start__button" onClick={enter} autoFocus>
           {done > 0 ? `Tiếp tục tham quan (${done}/${COUNTABLE.length})` : 'Vào bảo tàng'}
         </button>
-        {done > 0 && (
+        {hasChecked && (
           <button className="start__link" onClick={resetProgress}>
             Xoá tiến trình và bắt đầu lại
           </button>

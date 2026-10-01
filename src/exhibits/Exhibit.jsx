@@ -17,10 +17,13 @@ const TYPES = {
 
 export default function Exhibit({ data }) {
   const [hovered, setHovered] = useState(false)
-  const pinned = useMuseumStore((s) => s.pinnedId === data.id)
+  const pinnedId = useMuseumStore((s) => s.pinnedId)
+  const pinned = pinnedId === data.id
+  const nearby = useMuseumStore((s) => s.nearbyId === data.id)
   const discovered = useMuseumStore((s) => s.discovered.has(data.id))
   const { Item, pedestal, panelY } = TYPES[data.type]
-  const active = hovered || pinned
+  const active = hovered || nearby || pinned
+  const showPanel = pinned || (!pinnedId && nearby)
 
   useEffect(() => {
     if (!hovered) return
@@ -33,9 +36,7 @@ export default function Exhibit({ data }) {
       e.stopPropagation()
       if (hovered) return
       setHovered(true)
-      const isNew = data.type !== 'sign' && useMuseumStore.getState().discover(data.id)
-      if (isNew) playDiscover()
-      else playHover()
+      playHover()
     },
     onPointerOut: () => setHovered(false),
     onClick: (e) => {
@@ -45,11 +46,15 @@ export default function Exhibit({ data }) {
     },
   }
 
+  const check = () => {
+    if (useMuseumStore.getState().discover(data.id)) playDiscover()
+  }
+
   return (
     <group position={data.position} rotation-y={data.rotation ?? 0}>
       {pedestal && <Pedestal highlighted={active} discovered={discovered} />}
       <Item hovered={active} accent={data.accent} {...handlers} />
-      {active && <ExhibitPanel data={data} y={panelY} pinned={pinned} />}
+      {showPanel && <ExhibitPanel data={data} y={panelY} pinned={pinned} checked={discovered} onCheck={check} />}
     </group>
   )
 }

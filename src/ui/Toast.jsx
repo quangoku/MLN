@@ -7,7 +7,7 @@ import { playComplete, playRoomEnter } from '../audio/sfx.js'
 export default function Toast() {
   const started = useMuseumStore((s) => s.started)
   const roomId = useMuseumStore((s) => s.roomId)
-  const done = useMuseumStore((s) => s.discovered.size)
+  const done = useMuseumStore((s) => COUNTABLE.filter((exhibit) => s.discovered.has(exhibit.id)).length)
   const [toast, setToast] = useState(null)
   const prevDone = useRef(done)
 

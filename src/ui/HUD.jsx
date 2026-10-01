@@ -49,6 +49,7 @@ export default function HUD() {
         <span><kbd>WASD</kbd> đi</span>
         <span><kbd>Shift</kbd> chạy</span>
         <span><kbd>Cuộn chuột</kbd> phóng to</span>
+        <span>Đến gần để đọc · bấm Check để đánh dấu đã xem</span>
         <span><kbd>Nhấp</kbd> ghim bảng</span>
         <span><kbd>M</kbd> âm thanh</span>
       </div>

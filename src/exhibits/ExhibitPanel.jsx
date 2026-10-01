@@ -8,8 +8,7 @@ const KIND_LABEL = {
 }
 
 // Bảng thông tin DOM gắn vào vị trí 3D của hiện vật.
-// pointer-events: none (trong CSS) để bảng không "cướp" hover khỏi vật thể.
-export default function ExhibitPanel({ data, y, pinned }) {
+export default function ExhibitPanel({ data, y, pinned, checked, onCheck }) {
   const body = Array.isArray(data.body) ? data.body : [data.body]
   const room = ROOMS.find((r) => r.id === data.roomId)
 
@@ -39,7 +38,12 @@ export default function ExhibitPanel({ data, y, pinned }) {
         ) : (
           <p>{body[0]}</p>
         )}
-        <footer>{pinned ? 'Đã ghim · Esc hoặc nhấp ra ngoài để đóng' : 'Nhấp để ghim bảng này'}</footer>
+        <div className="exhibit-panel__actions">
+          <button type="button" onClick={(event) => { event.stopPropagation(); onCheck() }} disabled={checked}>
+            {checked ? 'Đã xem' : 'Check · Đánh dấu đã xem'}
+          </button>
+        </div>
+        <footer>{pinned ? 'Đã ghim · Esc hoặc nhấp ra ngoài để đóng' : 'Đến gần để đọc · Nhấp hiện vật để ghim'}</footer>
       </div>
     </Html>
   )

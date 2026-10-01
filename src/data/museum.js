@@ -19,7 +19,7 @@ export const MUSEUM = [
         'Bảo tàng tương tác của học phần Triết học Mác-Lênin (MLN111).',
         'Ba phòng trưng bày ở phía đông ứng với ba chương của giáo trình. Đi qua cửa để sang phòng tiếp theo.',
         'Quyển sách lơ lửng là định nghĩa, lý thuyết. Viên đá quý phát sáng là kết luận, ý nghĩa.',
-        'Rê chuột để đọc, nhấp để ghim bảng thông tin. Hãy khám phá hết mọi hiện vật!',
+        'Đến gần để đọc, bấm Check để đánh dấu đã xem, nhấp hiện vật để ghim bảng thông tin. Hãy khám phá hết mọi hiện vật!',
       ],
     },
   },

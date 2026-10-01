@@ -50,6 +50,9 @@ export const useMuseumStore = create((set, get) => ({
   togglePin: (id) => set((s) => ({ pinnedId: s.pinnedId === id ? null : id })),
   clearPin: () => set({ pinnedId: null }),
 
+  nearbyId: null,
+  setNearby: (id) => set({ nearbyId: id }),
+
   muted: false,
   toggleMute: () => set((s) => ({ muted: !s.muted })),
 }))

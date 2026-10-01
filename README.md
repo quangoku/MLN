@@ -1,7 +1,7 @@
 # PhiloVerse 🏛️
 
 > Bảo tàng triết học 2.5D tương tác trên web — đồ án cuối kỳ môn **Triết học Mác-Lênin (MLN111)**.
-> Người chơi đi dạo qua sảnh và ba phòng trưng bày (ba chương giáo trình), rê chuột vào hiện vật để đọc khái niệm, nguyên lý và kết luận.
+> Người chơi đi dạo qua sảnh và ba phòng trưng bày (ba chương giáo trình), đến gần hiện vật để đọc khái niệm, nguyên lý và kết luận.
 
 ---
 
@@ -23,7 +23,7 @@
 
 - **Sảnh + 3 phòng** nối với nhau bằng cửa: Chương 1 (sàn gạch xanh ngọc), Chương 2 (sàn gỗ), Chương 3 (sàn đá cẩm thạch).
 - **40 hiện vật** lấy từ giáo trình: 📖 *sách lơ lửng* = định nghĩa, lý thuyết; 💎 *đá quý phát sáng* = kết luận, ý nghĩa. Mỗi phòng có thêm bảng giới thiệu chương ở cửa vào.
-- **Hover** để đọc, **nhấp** để ghim bảng, **Esc** hoặc nhấp ra ngoài để đóng.
+- **Đến gần** để tự mở bảng thông tin của hiện vật gần nhất, **Check** để đánh dấu đã xem, **nhấp** để ghim bảng, **Esc** hoặc nhấp ra ngoài để đóng.
 - **Tiến trình khám phá**: biển trên bục chuyển vàng, thanh tiến trình theo phòng, tổng x/40, lưu vào `localStorage`, có thông báo khi hoàn thành.
 - **Minimap** góc phải, **thông báo** khi sang phòng mới.
 - **Khách tham quan (NPC)** đi lại, dừng ngắm từng hiện vật.
@@ -36,6 +36,8 @@
 | W A S D / mũi tên | Di chuyển |
 | Shift | Chạy |
 | Cuộn chuột | Phóng to / thu nhỏ |
+| Đến gần hiện vật | Xem bảng thông tin |
+| Check trên bảng | Đánh dấu đã xem |
 | Nhấp vào hiện vật | Ghim / bỏ ghim bảng thông tin |
 | Esc | Đóng bảng đang ghim |
 | M | Bật / tắt âm thanh |
@@ -126,7 +128,8 @@ src/
 │   └── props/             # Bench, LampPost, Plant, Painting, Kiosk, Globe (+ index.js)
 │
 ├── exhibits/              # Mọi thứ tương tác được
-│   ├── Exhibit.jsx        # Wrapper: hover, ghim, khám phá, âm thanh, bảng thông tin
+│   ├── Exhibit.jsx        # Wrapper: hiệu ứng hover, bảng gần nhất, ghim, Check, âm thanh
+│   ├── nearestExhibit.js  # Chọn hiện vật gần player nhất trong bán kính tương tác
 │   ├── Pedestal.jsx       # Bục + biển nhỏ (vàng khi đã khám phá)
 │   ├── FloatingBook.jsx   # Sách mở, có tờ giấy lật qua lại
 │   ├── FloatingGem.jsx    # Đá quý rỗng, lõi phát sáng (Bloom)
@@ -136,7 +139,7 @@ src/
 │
 ├── player/
 │   ├── Character.jsx      # Nhân vật low-poly dùng chung cho player và NPC (vung tay chân khi đi)
-│   ├── Player.jsx         # Input WASD, va chạm, tiếng bước chân, cập nhật phòng hiện tại
+│   ├── Player.jsx         # Input WASD, va chạm, tiếng bước chân, cập nhật phòng và hiện vật gần nhất
 │   └── playerRef.js       # Ref vị trí player cho camera, đèn, minimap
 │
 ├── npc/
@@ -150,7 +153,7 @@ src/
 │   ├── Lighting.jsx       # Hemisphere + directional (vùng bóng đổ đi theo player)
 │   └── Effects.jsx        # Bloom
 │
-├── store/useMuseumStore.js  # zustand: started, phòng hiện tại, hiện vật đã khám phá, ghim, tắt tiếng
+├── store/useMuseumStore.js  # zustand: started, phòng hiện tại, hiện vật gần nhất/đã xem, ghim, tắt tiếng
 ├── audio/sfx.js             # Âm thanh Web Audio
 ├── ui/                      # HUD, Minimap, StartScreen, Toast
 ├── utils/                   # random có seed, dampAngle
@@ -162,7 +165,7 @@ src/
 - **`data/`** chỉ chứa chữ. Không có toạ độ, không có code 3D.
 - **`world/layout.js`** là nơi *duy nhất* tính toạ độ. Component chỉ render những gì layout đưa ra; `Player` và `Visitor` dùng chung `COLLIDERS` và `VISIT_POINTS` từ đây.
 - **`exhibits/Exhibit.jsx`** là cửa ngõ duy nhất cho tương tác. Thêm loại hiện vật mới = thêm một dòng vào `TYPES`.
-- Thứ cập nhật mỗi frame (vị trí player/NPC, camera, đèn, minimap) ghi thẳng vào ref/DOM, **không** qua React state, để không re-render.
+- Thứ cập nhật mỗi frame (vị trí player/NPC, camera, đèn, minimap) ghi thẳng vào ref/DOM; `nearbyId` chỉ đổi khi hiện vật gần nhất thay đổi.
 
 ---
 
@@ -181,22 +184,22 @@ world/layout.js ──► ROOMS, EXHIBITS, WALLS, PILLARS, DECOR, COLLIDERS, VIS
  │         ├── <Lighting/>     ── đọc playerRef, dời vùng bóng theo player
  │         ├── <CameraRig/>    ── đọc playerRef, lerp camera; raycast lại khi camera trôi
  │         ├── <Museum/>       ── sàn, tường, cột, props
- │         ├── <Player/>       ── ghi playerRef; va chạm COLLIDERS + npcRegistry; setRoom()
+ │         ├── <Player/>       ── ghi playerRef; va chạm; setRoom() + setNearby()
  │         ├── <Visitors/>     ── đi giữa VISIT_POINTS
- │         ├── EXHIBITS.map → <Exhibit>  ── hover/click → store.discover() / togglePin()
+ │         ├── EXHIBITS.map → <Exhibit>  ── bảng gần nhất; Check → discover(); nhấp → togglePin()
  │         └── <Effects/>
  ├── <HUD/> (+ <Minimap/>)     ── đọc store; minimap đọc playerRef bằng rAF
  ├── <Toast/>                  ── phản ứng khi roomId / số hiện vật đã khám phá đổi
  └── <StartScreen/>            ── unlockAudio() + store.start()
 ```
 
-**Luồng hover:**
+**Luồng đọc hiện vật:**
 
-1. R3F raycast → `onPointerOver` trên vật thể của `Exhibit`.
-2. `Exhibit` đặt `hovered`; nếu là lần đầu → `store.discover(id)` → chuông "khám phá", biển trên bục chuyển vàng, HUD và minimap cập nhật.
-3. `useFloat` tăng tốc xoay; `SelectionHull` vẽ viền xanh quanh vật thể và bục.
-4. `ExhibitPanel` hiện bảng (`<Html>`) với tiêu đề, trích dẫn và các gạch đầu dòng.
-5. Nhấp → ghim (`pinnedId`), bảng ở lại khi chuột rời đi. Esc / nhấp ra ngoài (`onPointerMissed`) → bỏ ghim.
+1. `Player` chọn hiện vật gần nhất trong bán kính 3 ô theo mặt sàn và cập nhật `nearbyId` khi lựa chọn đổi.
+2. `ExhibitPanel` tự hiện bảng (`<Html>`) cho hiện vật đó, có tiêu đề, trích dẫn và nội dung.
+3. Bấm Check → `store.discover(id)` → chuông "khám phá", biển trên bục chuyển vàng, HUD và minimap cập nhật. Bảng giới thiệu không tính vào tổng tiến trình.
+4. Hover vẫn tạo viền xanh và tăng tốc hiệu ứng vật thể.
+5. Nhấp hiện vật → ghim (`pinnedId`), bảng ở lại khi đi xa. Esc / nhấp ra ngoài (`onPointerMissed`) → bỏ ghim.
 
 **Luồng di chuyển:**
 

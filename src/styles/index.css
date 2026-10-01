@@ -149,7 +149,7 @@ kbd {
   background: var(--paper);
   color: var(--ink);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
-  pointer-events: none;
+  pointer-events: auto;
   user-select: none;
   animation: panel-in 160ms ease-out;
 }
@@ -222,6 +222,31 @@ kbd {
   font-style: normal;
   font-weight: 700;
   opacity: 0.7;
+}
+
+.exhibit-panel__actions {
+  margin-top: 10px;
+}
+
+.exhibit-panel__actions button {
+  padding: 7px 12px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  font: 700 12px system-ui, sans-serif;
+  cursor: pointer;
+}
+
+.exhibit-panel__actions button:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.exhibit-panel__actions button:disabled {
+  background: #dbd1be;
+  color: var(--ink);
+  cursor: default;
 }
 
 .exhibit-panel footer {

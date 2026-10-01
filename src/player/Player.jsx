@@ -4,14 +4,15 @@ import { useKeyboardControls } from '@react-three/drei'
 import { Vector3 } from 'three'
 import Character from './Character.jsx'
 import { playerRef } from './playerRef.js'
-import { PLAYER, NPC } from '../config/constants.js'
+import { PLAYER, NPC, INTERACTION } from '../config/constants.js'
 import { COLORS } from '../config/theme.js'
-import { PLAYER_START, roomAt } from '../world/layout.js'
+import { EXHIBITS, PLAYER_START, roomAt } from '../world/layout.js'
 import { resolveBoxes, resolveCircles } from '../world/collision.js'
 import { npcRegistry } from '../npc/npcRegistry.js'
 import { useMuseumStore } from '../store/useMuseumStore.js'
 import { playStep } from '../audio/sfx.js'
 import { dampAngle } from '../utils/math.js'
+import { nearestExhibitId } from '../exhibits/nearestExhibit.js'
 
 const direction = new Vector3()
 const before = new Vector3()
@@ -28,6 +29,11 @@ export default function Player() {
     const player = playerRef.current
     if (!player) return
     const store = useMuseumStore.getState()
+
+    if (store.started) {
+      const nearbyId = nearestExhibitId(player.position, EXHIBITS, INTERACTION.radius)
+      if (nearbyId !== store.nearbyId) store.setNearby(nearbyId)
+    }
 
     const { forward, backward, left, right, sprint } = getKeys()
 
