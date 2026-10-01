@@ -7,7 +7,7 @@
 // - Toàn bộ nội dung lý thuyết, exhibit của C1, C2, C3 được giữ nguyên 100%.
 
 import { MUSEUM } from '../data/museum.js'
-import { LAYOUT, PEDESTAL } from '../config/constants.js'
+import { DOOR_FRAME, LAYOUT, PEDESTAL } from '../config/constants.js'
 import { ROOM_THEMES } from '../config/theme.js'
 
 const { doorWidth, wallThickness: T, backWallHeight, partitionHeight, frontWallHeight } = LAYOUT
@@ -215,7 +215,7 @@ addDecor('statue', 4.8, -3.2, 0, { statueType: 'seated_thinker', name: 'Người
 // Đèn & ghế sảnh chính
 addDecor('lamp', -6.6, -0.6)
 addDecor('lamp', 6.6, 1.5)
-addDecor('lamp', -0.2, 6.8)
+addDecor('lamp', -1.9, 6.8)
 addDecor('lamp', 0, -6.6)
 addDecor('bench', -6.6, -5.5, Math.PI / 2)
 addDecor('bench', 6.6, -5.5, -Math.PI / 2)
@@ -385,13 +385,24 @@ DOORWAYS.push(
   { id: 'door-entrance', x: 0, z: 8, axis: 'x', width: doorWidth }, // ra cổng vào
 )
 
+// Walls end at the outside of each post; only the posts block the frame itself.
+for (const door of DOORWAYS) {
+  const { postWidth, postDepth } = DOOR_FRAME
+  const offset = (door.width + postWidth) / 2
+  for (const side of [-1, 1]) {
+    COLLIDERS.push(door.axis === 'x'
+      ? box(door.x + side * offset, door.z, postWidth / 2, postDepth / 2)
+      : box(door.x, door.z + side * offset, postDepth / 2, postWidth / 2))
+  }
+}
+
 // Tường ngăn giữa Sảnh chính và C1 (trục Z = -8, chừa cửa ở giữa)
-const wallSegLobbyX = (16 - doorWidth) / 2
+const wallSegLobbyX = (16 - doorWidth - 2 * DOOR_FRAME.postWidth) / 2
 addWall('x', -8 + wallSegLobbyX / 2, -8, wallSegLobbyX, partitionHeight, ROOM_THEMES.lobby.wall)
 addWall('x', 8 - wallSegLobbyX / 2, -8, wallSegLobbyX, partitionHeight, ROOM_THEMES.lobby.wall)
 
 // Tường ngăn giữa Sảnh chính và C2 (trục X = -8, chừa cửa ở giữa)
-const wallSegLobbyZ = (16 - doorWidth) / 2
+const wallSegLobbyZ = (16 - doorWidth - 2 * DOOR_FRAME.postWidth) / 2
 addWall('z', -8, -8 + wallSegLobbyZ / 2, wallSegLobbyZ, partitionHeight, ROOM_THEMES.lobby.wall)
 addWall('z', -8, 8 - wallSegLobbyZ / 2, wallSegLobbyZ, partitionHeight, ROOM_THEMES.lobby.wall)
 

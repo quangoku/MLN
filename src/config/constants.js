@@ -12,6 +12,11 @@ export const LAYOUT = {
  frontWallHeight: 0.35, // tường phía gần camera, thấp để nhìn xuyên vào (cutaway)
 };
 
+export const DOOR_FRAME = {
+ postWidth: 0.3,
+ postDepth: LAYOUT.wallThickness + 0.1, // covers the wall cap (wall thickness + 0.06)
+};
+
 export const PLAYER = {
  startOffset: [6, 3], // so với góc tây của sảnh (x0 + 6, z = 3)
  speed: 4.5, // ô / giây
