@@ -60,11 +60,11 @@ export const useMuseumStore = create((set, get) => ({
   // --- FEATURE 2: KHÔNG GIAN VŨ TRỤ (SPACE SCENE) ---
   inSpaceScene: false,
   spaceWarping: null, // 'entering' | 'exiting' | null
-  nearEarth: false,
-  earthNearness: 0,
+  nearSun: false,
+  sunNearness: 0,
   selectedPlanet: null,
 
-  setNearEarth: (near, factor = 0) => set({ nearEarth: near, earthNearness: factor }),
+  setNearSun: (near, factor = 0) => set({ nearSun: near, sunNearness: factor }),
   setSelectedPlanet: (planet) => set({ selectedPlanet: planet }),
 
   startSpaceWarp: () => {
@@ -84,7 +84,7 @@ export const useMuseumStore = create((set, get) => ({
       if (playerRef.current) {
         playerRef.current.position.set(0, 0, 3.2)
       }
-      set({ inSpaceScene: false, spaceWarping: null, nearEarth: false, earthNearness: 0 })
+      set({ inSpaceScene: false, spaceWarping: null, nearSun: false, sunNearness: 0 })
     }, 900)
   },
 }))

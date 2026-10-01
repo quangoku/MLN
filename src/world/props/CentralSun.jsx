@@ -8,32 +8,33 @@ import { playerRef } from '../../player/playerRef.js'
 import { useMuseumStore } from '../../store/useMuseumStore.js'
 import { playSpaceWarp } from '../../audio/sfx.js'
 
-// Quả địa cầu low-poly ở giữa sảnh:
-// mỗi mặt tô ngẫu nhiên màu đất hoặc biển, xoay chậm, có vầng sáng mờ.
-function makeGlobeGeometry() {
+// Mặt Trời low-poly: các mặt vàng, cam và đỏ tạo cảm giác bề mặt đang cháy.
+function makeSunGeometry() {
   const geo = new IcosahedronGeometry(0.75, 2).toNonIndexed()
   const rng = mulberry32(42)
-  const land = [new Color('#9DBF6B'), new Color('#C9B36A'), new Color('#7FA65A')]
-  const sea = [new Color('#3F8FA8'), new Color('#2F7A94')]
+  const surface = [
+    new Color('#FFD45A'),
+    new Color('#FFB72E'),
+    new Color('#FF911F'),
+    new Color('#F56A19'),
+  ]
   const colors = []
   const count = geo.attributes.position.count
   for (let i = 0; i < count; i += 3) {
-    const y = geo.attributes.position.getY(i)
-    const isLand = rng() < 0.38 + Math.abs(y) * 0.2
-    const c = isLand ? land[Math.floor(rng() * land.length)] : sea[Math.floor(rng() * sea.length)]
+    const c = surface[Math.floor(rng() * surface.length)]
     for (let k = 0; k < 3; k++) colors.push(c.r, c.g, c.b)
   }
   geo.setAttribute('color', new Float32BufferAttribute(colors, 3))
   return geo
 }
 
-export default function Globe({ position }) {
-  const globe = useRef()
+export default function CentralSun({ position }) {
+  const sun = useRef()
   const auraRef = useRef()
   const portalRingRef = useRef()
-  const geometry = useMemo(makeGlobeGeometry, [])
+  const geometry = useMemo(makeSunGeometry, [])
 
-  const setNearEarth = useMuseumStore((s) => s.setNearEarth)
+  const setNearSun = useMuseumStore((s) => s.setNearSun)
   const inSpaceScene = useMuseumStore((s) => s.inSpaceScene)
   const spaceWarping = useMuseumStore((s) => s.spaceWarping)
   const startSpaceWarp = useMuseumStore((s) => s.startSpaceWarp)
@@ -47,19 +48,19 @@ export default function Globe({ position }) {
       dist = Math.hypot(player.position.x - position[0], player.position.z - position[2])
     }
 
-    // Khoảng cách kích hoạt hiệu ứng gần Earth (< 4.2m)
+    // Khoảng cách kích hoạt hiệu ứng gần Mặt Trời (< 4.2m)
     const isNear = dist < 4.2
     const factor = isNear ? Math.max(0, Math.min(1, (4.2 - dist) / 2.2)) : 0
 
     if (proximityRef.current.near !== isNear || Math.abs(proximityRef.current.factor - factor) > 0.05) {
       proximityRef.current = { near: isNear, factor }
-      setNearEarth(isNear, factor)
+      setNearSun(isNear, factor)
     }
 
     // Tốc độ quay tăng dần khi người chơi tiến lại gần
     const spinMult = 1 + factor * 2.2
-    globe.current.rotation.y += delta * 0.25 * spinMult
-    globe.current.position.y = 1.85 + Math.sin(state.clock.elapsedTime * (1.2 + factor * 1.5)) * (0.06 + factor * 0.04)
+    sun.current.rotation.y += delta * 0.25 * spinMult
+    sun.current.position.y = 1.85 + Math.sin(state.clock.elapsedTime * (1.2 + factor * 1.5)) * (0.06 + factor * 0.04)
 
     // Hiệu ứng phát sáng tăng mạnh khi người chơi đến gần
     if (auraRef.current) {
@@ -89,7 +90,7 @@ export default function Globe({ position }) {
         <mesh ref={portalRingRef}>
           <ringGeometry args={[1.5, 1.65, 36]} />
           <meshBasicMaterial
-            color="#4FD1C5"
+            color="#FF9B36"
             transparent
             opacity={0.15 + factor * 0.75}
             side={2}
@@ -99,7 +100,7 @@ export default function Globe({ position }) {
         <mesh rotation-z={0.5}>
           <ringGeometry args={[1.2, 1.3, 32]} />
           <meshBasicMaterial
-            color="#FFE27A"
+            color="#FFD45A"
             transparent
             opacity={0.1 + factor * 0.65}
             side={2}
@@ -110,7 +111,7 @@ export default function Globe({ position }) {
           <mesh>
             <circleGeometry args={[1.8, 32]} />
             <meshBasicMaterial
-              color="#38B2AC"
+              color="#FF9B36"
               transparent
               opacity={0.05 + factor * 0.2}
               depthWrite={false}
@@ -133,21 +134,26 @@ export default function Globe({ position }) {
         <meshStandardMaterial color={COLORS.gold} />
       </mesh>
 
-      {/* Quả địa cầu trung tâm */}
-      <group ref={globe} rotation-z={0.4}>
+      {/* Mặt Trời trung tâm */}
+      <group ref={sun}>
         <mesh geometry={geometry} castShadow>
-          <meshStandardMaterial vertexColors flatShading />
+          <meshStandardMaterial vertexColors flatShading emissive="#FF7900" emissiveIntensity={0.5} toneMapped={false} />
         </mesh>
 
-        {/* Hào quang khí quyển / Cổng không gian phát sáng */}
+        {/* Nhật hoa và cổng không gian phát sáng */}
         <mesh ref={auraRef} scale={1.08}>
           <sphereGeometry args={[0.75, 20, 16]} />
           <meshBasicMaterial
-            color={near ? '#7CE2FE' : '#BFE9FF'}
+            color="#FFAA38"
             transparent
-            opacity={0.12 + factor * 0.45}
+            opacity={0.14 + factor * 0.28}
             depthWrite={false}
           />
+        </mesh>
+
+        <mesh scale={1.2}>
+          <sphereGeometry args={[0.75, 16, 12]} />
+          <meshBasicMaterial color="#FF6C20" transparent opacity={0.08} depthWrite={false} />
         </mesh>
 
         {/* Đốm sáng rực rỡ khi gần tới ngưỡng kích hoạt */}
@@ -155,7 +161,7 @@ export default function Globe({ position }) {
           <mesh scale={1.25}>
             <sphereGeometry args={[0.75, 16, 12]} />
             <meshBasicMaterial
-              color="#FFE27A"
+              color="#FFD45A"
               transparent
               opacity={factor * 0.35}
               depthWrite={false}

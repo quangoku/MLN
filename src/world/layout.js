@@ -18,7 +18,7 @@ const DECOR_SIZE = {
   bench: [0.82, 0.3],
   lamp: [0.18, 0.18],
   plant: [0.3, 0.3],
-  globe: [0.9, 0.9],
+  sun: [0.9, 0.9],
   statue: [0.75, 0.75],
   painting: null,
   floatingEarth: null,
@@ -174,8 +174,8 @@ const lobbyPts = VISIT_POINTS.lobby
 // Bảng chào mừng sảnh chính
 addSign(lobbyRoom, { id: 'lobby-welcome', ...lobbyDef.welcome }, -2.6, 6.2, 0)
 
-// Quả địa cầu & FloatingEarth ở giữa trung tâm sảnh
-addDecor('globe', 0, 0)
+// Mặt Trời trung tâm và Trái Đất bay quanh trong sảnh
+addDecor('sun', 0, 0)
 addDecor('floatingEarth', 0, 0, 0, { radiusX: 3.8, radiusZ: 3.2, height: 2.7, speed: 0.35 })
 
 // 4 chậu cây ở 4 góc thảm đỏ trung tâm

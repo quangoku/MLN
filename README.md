@@ -30,9 +30,9 @@
       - **Bia đá Tuyên ngôn của Đảng Cộng sản (1848)**: Quyển sách đá mở trang với chữ vàng ghi dấu mốc lịch sử.
       - **Đài tưởng niệm Obelisk & Tượng Người suy tưởng (The Thinker)**: Bố trí ở các góc thoáng, tạo vẻ uy nghiêm của viện bảo tàng.
       - Mỗi tượng đều có **bệ đá hoa cương (pedestal)**, **biển tên đồng** sắc nét và **đèn spotlight bảo tàng chiếu nhẹ** từ trên cao xuống.
-    - **FEATURE 2 – Quả Địa Cầu (Earth) là Cổng mở ra Không gian Vũ trụ (Space Scene)**:
-      - Earth ở giữa sảnh là một interactive centerpiece. **Không cần click**.
-      - Khi nhân vật **di chuyển đến gần Earth** (< 4m): Vòng năng lượng cổng không gian đa tầng dưới sàn phát sáng xoay tròn, hào quang Earth tăng dần, xuất hiện bảng hướng dẫn lơ lửng.
+    - **FEATURE 2 – Mặt Trời là Cổng mở ra Không gian Vũ trụ (Space Scene)**:
+      - Mặt Trời ở giữa sảnh, Trái Đất bay quanh. **Không cần click**.
+      - Khi nhân vật **di chuyển đến gần Mặt Trời** (< 4m): Vòng năng lượng cổng không gian đa tầng dưới sàn phát sáng xoay tròn, nhật hoa tăng dần, xuất hiện bảng hướng dẫn lơ lửng.
       - Khi **tiến đủ gần** (< 2m): Kích hoạt transition mượt mà, hiệu ứng **Warp Tunnel** du hành vũ trụ và âm thanh quét tần số vũ trụ.
       - Mở ra **Không gian Vũ trụ 3D (Space Scene)**:
         - **Mặt Trời (Sun)** ở trung tâm với nhật hoa rực rỡ và ánh sáng tỏa đi toàn hệ.
