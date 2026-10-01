@@ -18,6 +18,33 @@ test('the entrance approach is clear in both directions', () => {
   }
 })
 
+test('door approaches in the lobby stay clear across the walking lane', () => {
+  const approaches = [
+    ['door-c1', -5.4, -0.1],
+    ['door-c2', -5.4, -0.1],
+    ['door-c3', 5.4, 0.1],
+    ['door-entrance', 5.8, 0.1],
+  ]
+
+  for (const [id, start, increment] of approaches) {
+    const door = DOORWAYS.find((entry) => entry.id === id)
+    const along = door.axis === 'x' ? 'x' : 'z'
+    const across = door.axis === 'x' ? 'z' : 'x'
+    for (const lane of [-0.5, 0, 0.5]) {
+      const pos = { x: door.x, z: door.z }
+      pos[along] += lane
+      pos[across] = start
+      for (let step = 0; step < 35; step++) {
+        pos[across] += increment
+        const expected = { ...pos }
+        resolveBoxes(pos, PLAYER.radius)
+        assert.ok(Math.hypot(pos.x - expected.x, pos.z - expected.z) < 1e-8,
+          `${id} is blocked at ${JSON.stringify(expected)}`)
+      }
+    }
+  }
+})
+
 test('partition walls stop outside the doorposts', () => {
   for (const door of DOORWAYS) {
     const along = door.axis === 'x' ? 'x' : 'z'

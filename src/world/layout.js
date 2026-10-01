@@ -207,10 +207,10 @@ addDecor('statue', -4.8, -3.2, 0, { statueType: 'obelisk', name: 'Đài tưởng
 addDecor('statue', 4.8, -3.2, 0, { statueType: 'seated_thinker', name: 'Người suy tưởng' })
 
 // Đèn & ghế sảnh chính
-addDecor('lamp', -6.6, -0.6)
-addDecor('lamp', 6.6, 1.5)
-addDecor('lamp', -1.9, 6.8)
-addDecor('lamp', 0, -6.6)
+addDecor('lamp', -6.6, -3.6)
+addDecor('lamp', 6.6, -3.6)
+addDecor('lamp', -5.8, 5.5)
+addDecor('lamp', 5.8, 5.5)
 addDecor('bench', -6.6, -5.5, Math.PI / 2)
 addDecor('bench', 6.6, -5.5, -Math.PI / 2)
 
