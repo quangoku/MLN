@@ -31,10 +31,10 @@ export const COLORS = {
 
 // Mỗi phòng một tông sàn/tường, lấy cảm hứng từ ảnh tham chiếu
 export const ROOM_THEMES = {
-  lobby: { floor: 'carpet', wall: '#CFC4A6', accent: '#B3202A', map: '#C9575E' },
-  ch1: { floor: 'tile', wall: '#B9B6D6', accent: '#2C8F86', map: '#5FA8A0' },
-  ch2: { floor: 'wood', wall: '#C6B9D9', accent: '#B5664A', map: '#B5664A' },
-  ch3: { floor: 'marble', wall: '#B7C3D6', accent: '#5B6FA8', map: '#CFCCD8' },
+  lobby: { floor: 'cream', wall: '#CFC4A6', accent: '#B3202A', map: '#EAE3D2' },
+  ch1: { floor: 'tile', wall: '#B9B6D6', accent: '#2C8F86', map: '#3C9E90' },
+  ch2: { floor: 'wood', wall: '#C6B9D9', accent: '#B5664A', map: '#B55734' },
+  ch3: { floor: 'marble', wall: '#B7C3D6', accent: '#5B6FA8', map: '#7B8CA8' },
 }
 
 export const VISITOR_LOOKS = {

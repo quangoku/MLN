@@ -17,7 +17,7 @@ export const MUSEUM = [
       title: 'Chào mừng đến PhiloVerse',
       body: [
         'Bảo tàng tương tác của học phần Triết học Mác-Lênin (MLN111).',
-        'Ba phòng trưng bày ở phía đông ứng với ba chương của giáo trình. Đi qua cửa để sang phòng tiếp theo.',
+        'Ba phòng trưng bày: C1 ở phía trên, C2 ở bên trái, C3 ở bên phải. Đi qua các cửa từ sảnh chính để vào từng phòng.',
         'Quyển sách lơ lửng là định nghĩa, lý thuyết. Viên đá quý phát sáng là kết luận, ý nghĩa.',
         'Đến gần để đọc, bấm Check để đánh dấu đã xem, nhấp hiện vật để ghim bảng thông tin. Hãy khám phá hết mọi hiện vật!',
       ],

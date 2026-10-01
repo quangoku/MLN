@@ -71,7 +71,7 @@ export default function Player() {
       playStep()
     }
 
-    const room = roomAt(pos.x)
+    const room = roomAt(pos.x, pos.z)
     if (room.id !== store.roomId) store.setRoom(room.id)
   })
 

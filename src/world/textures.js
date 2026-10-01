@@ -62,6 +62,15 @@ const PAINTERS = {
     ctx.lineWidth = 2
     ctx.strokeRect(0, 0, SIZE, SIZE)
   },
+  cream(ctx) {
+    ctx.fillStyle = '#EDE8DB'
+    ctx.fillRect(0, 0, SIZE, SIZE)
+    ctx.fillStyle = '#F7F3E9'
+    ctx.fillRect(8, 8, SIZE - 16, SIZE - 16)
+    ctx.strokeStyle = '#DCD3C1'
+    ctx.lineWidth = 3
+    ctx.strokeRect(0, 0, SIZE, SIZE)
+  },
 }
 
 export function floorTexture(kind, width, depth) {

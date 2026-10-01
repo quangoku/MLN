@@ -94,15 +94,17 @@ kbd {
 
 .minimap {
   display: block;
-  border-radius: 8px;
-  background: var(--hud-bg);
+  border-radius: 12px;
+  background: rgba(15, 22, 20, 0.94);
+  border: 1.5px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
   padding: 4px;
 }
 
 .minimap__label {
-  font: 700 9px system-ui, sans-serif;
-  fill: rgba(0, 0, 0, 0.55);
+  font: 800 10.5px system-ui, sans-serif;
   text-anchor: middle;
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.6));
 }
 
 .hud__button {

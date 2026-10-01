@@ -21,13 +21,18 @@
 
 ## 1. Tính năng
 
-- **Sảnh + 3 phòng** nối với nhau bằng cửa: Chương 1 (sàn gạch xanh ngọc), Chương 2 (sàn gỗ), Chương 3 (sàn đá cẩm thạch).
-- **40 hiện vật** lấy từ giáo trình: 📖 *sách lơ lửng* = định nghĩa, lý thuyết; 💎 *đá quý phát sáng* = kết luận, ý nghĩa. Mỗi phòng có thêm bảng giới thiệu chương ở cửa vào.
+- **Bố cục kiến trúc 2D hình chữ thập (Cross Layout)**:
+  - **Sảnh chính** nằm ở trung tâm rộng và thoáng, sàn gạch kem ngà viền thảm đỏ. Ở giữa là Quả địa cầu & Floating Earth, xung quanh là tượng đài danh nhân triết học: **tượng toàn thân V.I. Lênin** đứng chỉ tay về phía trước, **tượng bán thân Karl Marx**, **Người suy tưởng (The Thinker)**, **Đài tưởng niệm Obelisk**, tượng hiền triết cổ điển, kiosk điện tử và đèn đường.
+  - **Phòng 1 (C1)**: Nằm ở **phía TRÊN (Bắc)**, sàn gạch xanh ngọc — Khái luận về triết học và triết học Mác-Lênin.
+  - **Phòng 2 (C2)**: Nằm ở **bên TRÁI (Tây)**, sàn gỗ nâu ấm — Chủ nghĩa duy vật biện chứng.
+  - **Phòng 3 (C3)**: Nằm ở **bên PHẢI (Đông)**, sàn đá cẩm thạch xám — Chủ nghĩa duy vật lịch sử.
+  - Cổng vòm khung gỗ nâu kết nối thông suốt từ sảnh chính tới C1, C2, C3 và cổng vào phía Nam.
+- **40 hiện vật** lấy từ giáo trình (giữ nguyên 100% nội dung học tập và logic hoạt động): 📖 *sách lơ lửng* = định nghĩa, lý thuyết; 💎 *đá quý phát sáng* = kết luận, ý nghĩa. Mỗi phòng có bảng giới thiệu chương riêng.
 - **Đến gần** để tự mở bảng thông tin của hiện vật gần nhất, **Check** để đánh dấu đã xem (sách bắn confetti 3D), **nhấp** để ghim bảng, **Esc** hoặc nhấp ra ngoài để đóng.
 - **Tiến trình khám phá**: biển trên bục chuyển vàng, thanh tiến trình theo phòng, tổng x/40, lưu vào `localStorage`, có thông báo khi hoàn thành.
-- **Minimap** góc phải, **thông báo** khi sang phòng mới.
-- **Khách tham quan (NPC)** đi lại, dừng ngắm từng hiện vật.
-- **Đạo cụ low-poly** dựng bằng code: ghế băng, cột đèn phát sáng, chậu cây, tranh treo tường vẽ thủ tục, kiosk vé, quả địa cầu ở sảnh.
+- **Minimap** góc phải hiển thị toàn cảnh mặt bằng 2D bảo tàng (vị trí các phòng, cửa, la bàn hướng Bắc N, chấm hiện vật và vị trí người chơi thời gian thực).
+- **Khách tham quan (NPC)** đi lại tự do trong từng khu vực, dừng chân chiêm ngưỡng hiện vật và tượng danh nhân.
+- **Đạo cụ low-poly** dựng thuần bằng Three.js: tượng Lênin, tượng Marx, Obelisk, tượng suy tưởng, ghế băng, cột đèn phát sáng, chậu cây, tranh vẽ thủ tục, kiosk vé, địa cầu sảnh chính.
 - **Âm thanh** tổng hợp bằng Web Audio (không cần file): bước chân, hover, khám phá, vào phòng, hoàn thành. Phím **M** để tắt.
 - **Camera isometric** trực giao bám theo người chơi, **cuộn chuột** để phóng to/thu nhỏ.
 
@@ -234,7 +239,12 @@ Muốn thêm phòng thứ tư: tạo `chapter4.js`, thêm một mục vào `data
 ## 7. Quy ước toạ độ và camera
 
 - **Trục Y hướng lên**, sàn ở `y = 0`. **1 đơn vị = 1 ô gạch.**
-- Các phòng xếp liền nhau dọc **trục X** (tây → đông), mọi phòng sâu 12 ô (`z` từ −6 tới 6). Cửa nằm ở giữa vách ngăn (`z ≈ 0`), trùng lối đi giữa hai hàng bục.
+- **Bố cục mặt bằng 2D**:
+  - **Sảnh chính**: Nằm ở trung tâm `[x: -8..8, z: -8..8]`, kích thước 16x16 ô.
+  - **Phòng 1 (C1)**: Nằm ở phía Bắc `[x: -8..8, z: -18..-8]`, kích thước 16x10 ô. Cửa nối ở `(0, -8)`.
+  - **Phòng 2 (C2)**: Nằm ở phía Tây `[x: -17..-8, z: -8..8]`, kích thước 9x16 ô. Cửa nối ở `(-8, 0)`.
+  - **Phòng 3 (C3)**: Nằm ở phía Đông `[x: 8..17, z: -8..8]`, kích thước 9x16 ô. Cửa nối ở `(8, 0)`.
+  - **Cổng vào**: Nằm ở phía Nam sảnh `[x: -2.8..2.8, z: 8..10.5]`. Cửa nối ở `(0, 8)`.
 - **Tường phía xa camera** (bắc, tây) cao 1.4; **vách ngăn** 1.2; **tường phía gần camera** (nam, đông) chỉ 0.35 để nhìn xuyên vào (cutaway).
 - **Camera**: `OrthographicCamera`, offset cố định `[10, 10, 10]` so với điểm nhìn; zoom 30–110.
 - **Hướng di chuyển**: camera nhìn từ góc (+X, +Z) nên **W** = `(-1, 0, -1)`, **S** = `(1, 0, 1)`, **A** = `(-1, 0, 1)`, **D** = `(1, 0, -1)` (trước khi chuẩn hoá).
