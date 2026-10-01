@@ -4,6 +4,7 @@ import Plant from './Plant.jsx'
 import Painting from './Painting.jsx'
 import Kiosk from './Kiosk.jsx'
 import Globe from './Globe.jsx'
+import FloatingEarth from './FloatingEarth.jsx'
 
 // kind trong layout.js → component
 export const PROPS = {
@@ -13,4 +14,5 @@ export const PROPS = {
   painting: Painting,
   kiosk: Kiosk,
   globe: Globe,
+  floatingEarth: FloatingEarth,
 }

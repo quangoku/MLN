@@ -18,6 +18,7 @@ const DECOR_SIZE = {
   kiosk: [0.36, 0.26],
   globe: [0.85, 0.85],
   painting: null, // treo tường, không cản
+  floatingEarth: null, // bay lơ lửng trên cao, không cản đường đi
 }
 
 export const ROOMS = []
@@ -75,6 +76,7 @@ MUSEUM.forEach((def, index) => {
     const cx = room.cx
     addSign(room, { id: 'lobby-welcome', ...def.welcome }, cx, -HZ + 1.4, 0)
     addDecor('globe', cx, -0.6)
+    addDecor('floatingEarth', cx, -0.6, 0, { radiusX: 3.8, radiusZ: 3.2, height: 2.7, speed: 0.35 })
     addDecor('kiosk', x0 + 2, -HZ + 0.8)
     addDecor('kiosk', x1 - 2, -HZ + 0.8)
     addDecor('bench', cx - 2.2, HZ - 1, Math.PI)
