@@ -1,7 +1,8 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { MathUtils } from 'three'
 import SelectionHull from './SelectionHull.jsx'
+import BookConfetti from './BookConfetti.jsx'
 import useFloat from '../hooks/useFloat.js'
 import { COLORS } from '../config/theme.js'
 
@@ -33,10 +34,17 @@ function BookHalf({ side, hovered }) {
 
 // "Định nghĩa / Lý thuyết": quyển sách mở lơ lửng, kiểu bàn phù phép Minecraft.
 // Một tờ giấy lật qua lật lại giữa hai nửa sách.
-export default function FloatingBook({ hovered, accent, ...pointerHandlers }) {
+export default function FloatingBook({ hovered, checked, accent, ...pointerHandlers }) {
   const ref = useFloat(hovered)
   const leaf = useRef()
   const phase = useRef(0)
+  const wasChecked = useRef(checked)
+  const [celebrating, setCelebrating] = useState(false)
+
+  useEffect(() => {
+    if (checked && !wasChecked.current) setCelebrating(true)
+    wasChecked.current = checked
+  }, [checked])
 
   useFrame((_, delta) => {
     phase.current += delta * (hovered ? 4 : 1.2)
@@ -58,6 +66,7 @@ export default function FloatingBook({ hovered, accent, ...pointerHandlers }) {
           </mesh>
         </group>
       </group>
+      {celebrating && <BookConfetti onDone={() => setCelebrating(false)} />}
     </group>
   )
 }

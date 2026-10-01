@@ -23,7 +23,7 @@
 
 - **Sảnh + 3 phòng** nối với nhau bằng cửa: Chương 1 (sàn gạch xanh ngọc), Chương 2 (sàn gỗ), Chương 3 (sàn đá cẩm thạch).
 - **40 hiện vật** lấy từ giáo trình: 📖 *sách lơ lửng* = định nghĩa, lý thuyết; 💎 *đá quý phát sáng* = kết luận, ý nghĩa. Mỗi phòng có thêm bảng giới thiệu chương ở cửa vào.
-- **Đến gần** để tự mở bảng thông tin của hiện vật gần nhất, **Check** để đánh dấu đã xem, **nhấp** để ghim bảng, **Esc** hoặc nhấp ra ngoài để đóng.
+- **Đến gần** để tự mở bảng thông tin của hiện vật gần nhất, **Check** để đánh dấu đã xem (sách bắn confetti 3D), **nhấp** để ghim bảng, **Esc** hoặc nhấp ra ngoài để đóng.
 - **Tiến trình khám phá**: biển trên bục chuyển vàng, thanh tiến trình theo phòng, tổng x/40, lưu vào `localStorage`, có thông báo khi hoàn thành.
 - **Minimap** góc phải, **thông báo** khi sang phòng mới.
 - **Khách tham quan (NPC)** đi lại, dừng ngắm từng hiện vật.

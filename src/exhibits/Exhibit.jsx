@@ -53,7 +53,7 @@ export default function Exhibit({ data }) {
   return (
     <group position={data.position} rotation-y={data.rotation ?? 0}>
       {pedestal && <Pedestal highlighted={active} discovered={discovered} />}
-      <Item hovered={active} accent={data.accent} {...handlers} />
+      <Item hovered={active} accent={data.accent} {...(data.type === 'book' ? { checked: discovered } : {})} {...handlers} />
       {showPanel && <ExhibitPanel data={data} y={panelY} pinned={pinned} checked={discovered} onCheck={check} />}
     </group>
   )
