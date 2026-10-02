@@ -101,7 +101,7 @@ const c1Room = {
   theme: ROOM_THEMES.ch1,
 }
 
-// C2 (Phòng 2): 9 x 16 ở phía Tây (x: -17 -> -8, z: -8 -> 8)
+// C2 (Phòng 2): 9 x 26 ở phía Tây (x: -17 -> -8, z: -13 -> 13)
 const c2Room = {
   id: 'ch2',
   kind: 'gallery',
@@ -113,16 +113,16 @@ const c2Room = {
   index: 2,
   x0: -17,
   x1: -8,
-  z0: -8,
-  z1: 8,
+  z0: -13,
+  z1: 13,
   cx: -12.5,
   cz: 0,
   width: 9,
-  depth: 16,
+  depth: 26,
   theme: ROOM_THEMES.ch2,
 }
 
-// C3 (Phòng 3): 9 x 16 ở phía Đông (x: 8 -> 17, z: -8 -> 8)
+// C3 (Phòng 3): 9 x 26 ở phía Đông (x: 8 -> 17, z: -13 -> 13)
 const c3Room = {
   id: 'ch3',
   kind: 'gallery',
@@ -134,12 +134,12 @@ const c3Room = {
   index: 3,
   x0: 8,
   x1: 17,
-  z0: -8,
-  z1: 8,
+  z0: -13,
+  z1: 13,
   cx: 12.5,
   cz: 0,
   width: 9,
-  depth: 16,
+  depth: 26,
   theme: ROOM_THEMES.ch3,
 }
 
@@ -283,24 +283,24 @@ addSign(c2Room, { id: 'ch2-intro', title: `Chương 2 · ${c2Def.title}`, body: 
 // Cột ngoài (x = -14.6): 9 hiện vật
 // Cột trong (x = -10.6): 8 hiện vật (chừa khoảng trống ở z = 0 cho cửa thông sang sảnh)
 const c2ExhibitsPos = [
-  // Cột ngoài
-  [-14.6, -6.4],
-  [-10.6, -6.0],
-  [-14.6, -4.8],
-  [-10.6, -4.4],
-  [-14.6, -3.2],
-  [-10.6, -2.8],
-  [-14.6, -1.6],
-  [-10.6, -1.4],
+  // Cột ngoài (x = -14.6) & Cột trong (x = -10.6) trải dài z từ -10.8 đến 10.8 (khoảng cách 2.7m)
+  [-14.6, -10.8],
+  [-10.6, -9.45],
+  [-14.6, -8.1],
+  [-10.6, -6.75],
+  [-14.6, -5.4],
+  [-10.6, -4.05],
+  [-14.6, -2.7],
+  [-10.6, -1.8],
   [-14.6, 0.0],
-  [-10.6, 1.4],
-  [-14.6, 1.6],
-  [-10.6, 2.8],
-  [-14.6, 3.2],
-  [-10.6, 4.4],
-  [-14.6, 4.8],
-  [-10.6, 6.0],
-  [-14.6, 6.4],
+  [-10.6, 1.8],
+  [-14.6, 2.7],
+  [-10.6, 4.05],
+  [-14.6, 5.4],
+  [-10.6, 6.75],
+  [-14.6, 8.1],
+  [-10.6, 9.45],
+  [-14.6, 10.8],
 ]
 
 c2Def.exhibits.forEach((ex, i) => {
@@ -310,19 +310,30 @@ c2Def.exhibits.forEach((ex, i) => {
   c2Pts.push({ x: x + (x < -12 ? 1.0 : -1.0), z, faceX: x, faceZ: z })
 })
 
-// Tranh, ghế, đèn phòng C2
-addDecor('painting', -14.0, -8 + T / 2 + 0.03, 0, { seed: 201 })
-addDecor('painting', -11.0, -8 + T / 2 + 0.03, 0, { seed: 202 })
-addDecor('painting', -17 + T / 2 + 0.03, -4.5, Math.PI / 2, { seed: 203 })
-addDecor('painting', -17 + T / 2 + 0.03, -1.5, Math.PI / 2, { seed: 204 })
-addDecor('painting', -17 + T / 2 + 0.03, 1.5, Math.PI / 2, { seed: 205 })
-addDecor('painting', -17 + T / 2 + 0.03, 4.5, Math.PI / 2, { seed: 206 })
-addDecor('bench', -15.8, 7.0, Math.PI)
-addDecor('bench', -15.8, -7.0, 0)
-addDecor('lamp', -12.5, -7.0)
-addDecor('lamp', -12.5, 7.0)
-addDecor('plant', -16.2, -7.2)
-addDecor('plant', -16.2, 7.2)
+// Tranh, ghế, đèn, cây cối phòng C2
+addDecor('painting', -14.0, -13 + T / 2 + 0.03, 0, { seed: 201 })
+addDecor('painting', -11.0, -13 + T / 2 + 0.03, 0, { seed: 202 })
+addDecor('painting', -17 + T / 2 + 0.03, -8.1, Math.PI / 2, { seed: 203 })
+addDecor('painting', -17 + T / 2 + 0.03, -2.7, Math.PI / 2, { seed: 204 })
+addDecor('painting', -17 + T / 2 + 0.03, 2.7, Math.PI / 2, { seed: 205 })
+addDecor('painting', -17 + T / 2 + 0.03, 8.1, Math.PI / 2, { seed: 206 })
+addDecor('bench', -12.5, -12.0, 0)
+addDecor('bench', -12.5, 12.0, Math.PI)
+addDecor('lamp', -15.8, -12.0)
+addDecor('lamp', -8.8, -12.0)
+addDecor('lamp', -15.8, 12.0)
+addDecor('lamp', -8.8, 12.0)
+addDecor('lamp', -15.8, 0.0)
+
+// Cây cối trang trí tạo không gian xanh mát, thoáng đãng cho C2
+addDecor('plant', -16.2, -12.2)
+addDecor('plant', -8.8, -12.2)
+addDecor('plant', -16.2, 12.2)
+addDecor('plant', -8.8, 12.2)
+addDecor('plant', -16.2, -6.8)
+addDecor('plant', -16.2, 6.8)
+addDecor('plant', -8.8, -4.5)
+addDecor('plant', -8.8, 4.5)
 
 // -------------------------------------------------------------
 // 5. HIỆN VẬT PHÒNG 3 (C3 - BÊN PHẢI / ĐÔNG)
@@ -333,22 +344,22 @@ addSign(c3Room, { id: 'ch3-intro', title: `Chương 3 · ${c3Def.title}`, body: 
 
 // 14 hiện vật xếp thành 2 cột dọc trục Z (khớp sơ đồ minimap):
 // Cột trong (x = 10.6): 7 hiện vật
-// Cột ngoài (x = 14.6): 7 hiện vật
+// Cột ngoài (x = 14.6): 7 hiện vật, khoảng cách thoáng đãng ~2.8m - 3.4m
 const c3ExhibitsPos = [
-  [10.6, -5.6],
-  [14.6, -5.4],
-  [10.6, -3.8],
-  [14.6, -3.6],
-  [10.6, -2.0],
-  [14.6, -1.8],
+  [10.6, -9.8],
+  [14.6, -8.4],
+  [10.6, -6.4],
+  [14.6, -4.8],
+  [10.6, -2.8],
+  [14.6, -2.0],
   [14.6, 0.0],
-  [10.6, 1.8],
-  [14.6, 1.8],
-  [10.6, 3.4],
-  [14.6, 3.6],
-  [10.6, 5.0],
-  [14.6, 5.4],
-  [10.6, 6.4],
+  [10.6, 2.4],
+  [14.6, 3.0],
+  [10.6, 5.2],
+  [14.6, 6.0],
+  [10.6, 7.8],
+  [14.6, 9.0],
+  [10.6, 10.4],
 ]
 
 c3Def.exhibits.forEach((ex, i) => {
@@ -358,15 +369,25 @@ c3Def.exhibits.forEach((ex, i) => {
   c3Pts.push({ x: x + (x > 12 ? -1.0 : 1.0), z, faceX: x, faceZ: z })
 })
 
-// Tranh, ghế, đèn phòng C3
-addDecor('painting', 11.0, -8 + T / 2 + 0.03, 0, { seed: 301 })
-addDecor('painting', 14.0, -8 + T / 2 + 0.03, 0, { seed: 302 })
-addDecor('bench', 12.5, 7.0, Math.PI)
-addDecor('bench', 12.5, -7.0, 0)
-addDecor('lamp', 9.6, -7.0)
-addDecor('lamp', 9.6, 7.0)
-addDecor('plant', 16.2, -7.2)
-addDecor('plant', 16.2, 7.2)
+// Tranh, ghế, đèn, cây cối phòng C3
+addDecor('painting', 11.0, -13 + T / 2 + 0.03, 0, { seed: 301 })
+addDecor('painting', 14.0, -13 + T / 2 + 0.03, 0, { seed: 302 })
+addDecor('bench', 12.5, -12.0, 0)
+addDecor('bench', 12.5, 12.0, Math.PI)
+addDecor('lamp', 15.8, -12.0)
+addDecor('lamp', 8.8, -12.0)
+addDecor('lamp', 15.8, 12.0)
+addDecor('lamp', 8.8, 12.0)
+
+// Cây cối trang trí tạo không gian xanh mát, thoáng đãng cho C3
+addDecor('plant', 16.2, -12.2)
+addDecor('plant', 8.8, -12.2)
+addDecor('plant', 16.2, 12.2)
+addDecor('plant', 8.8, 12.2)
+addDecor('plant', 16.2, -6.8)
+addDecor('plant', 16.2, 6.8)
+addDecor('plant', 8.8, -4.5)
+addDecor('plant', 8.8, 4.5)
 
 // -------------------------------------------------------------
 // 6. HỆ THỐNG CỬA & TƯỜNG KIẾN TRÚC
@@ -418,19 +439,23 @@ addWall('z', 8, -13, 10 + T, frontWallHeight, ROOM_THEMES.ch1.wall)
 
 // TƯỜNG NGOÀI PHÒNG C2:
 // Tường Tây C2 (xa camera, cao treo tranh)
-addWall('z', -17, 0, 16 + T, backWallHeight, ROOM_THEMES.ch2.wall)
+addWall('z', -17, 0, 26 + T, backWallHeight, ROOM_THEMES.ch2.wall)
 // Tường Bắc C2 (cao)
-addWall('x', -12.5, -8, 9 + T, backWallHeight, ROOM_THEMES.ch2.wall)
+addWall('x', -12.5, -13, 9 + T, backWallHeight, ROOM_THEMES.ch2.wall)
 // Tường Nam C2 (thấp cutaway)
-addWall('x', -12.5, 8, 9 + T, frontWallHeight, ROOM_THEMES.ch2.wall)
+addWall('x', -12.5, 13, 9 + T, frontWallHeight, ROOM_THEMES.ch2.wall)
+// Tường Đông C2 nhánh Nam (phía Nam sảnh chính, x = -8, z: 8 -> 13)
+addWall('z', -8, 10.5, 5 + T, frontWallHeight, ROOM_THEMES.ch2.wall)
 
 // TƯỜNG NGOÀI PHÒNG C3:
 // Tường Đông C3 (thấp cutaway)
-addWall('z', 17, 0, 16 + T, frontWallHeight, ROOM_THEMES.ch3.wall)
+addWall('z', 17, 0, 26 + T, frontWallHeight, ROOM_THEMES.ch3.wall)
 // Tường Bắc C3 (cao)
-addWall('x', 12.5, -8, 9 + T, backWallHeight, ROOM_THEMES.ch3.wall)
+addWall('x', 12.5, -13, 9 + T, backWallHeight, ROOM_THEMES.ch3.wall)
 // Tường Nam C3 (thấp cutaway)
-addWall('x', 12.5, 8, 9 + T, frontWallHeight, ROOM_THEMES.ch3.wall)
+addWall('x', 12.5, 13, 9 + T, frontWallHeight, ROOM_THEMES.ch3.wall)
+// Tường Tây C3 nhánh Nam (phía Nam sảnh chính, x = 8, z: 8 -> 13)
+addWall('z', 8, 10.5, 5 + T, frontWallHeight, ROOM_THEMES.ch3.wall)
 
 // TƯỜNG TIỀN SẢNH / CỔNG VÀO (VESTIBULE):
 addWall('z', -2.8, 9.25, 2.5, frontWallHeight, ROOM_THEMES.lobby.wall)
@@ -442,12 +467,19 @@ PILLARS.push(
   [-8, 0, -18],
   [8, 0, -18],
   // Góc ngoài C2
-  [-17, 0, -8],
-  [-17, 0, 8],
+  [-17, 0, -13],
+  [-17, 0, 13],
   // Góc ngoài C3
-  [17, 0, -8],
-  [17, 0, 8],
-  // Điểm giao T-junction
+  [17, 0, -13],
+  [17, 0, 13],
+  // Điểm nối C2 & C3 với C1 & tường ngoài
+  [-8, 0, -13],
+  [8, 0, -13],
+  [-8, 0, 13],
+  [8, 0, 13],
+  // Điểm giao T-junction Sảnh chính
+  [-8, 0, -8],
+  [8, 0, -8],
   [-8, 0, 8],
   [8, 0, 8],
   // Tiền sảnh cổng vào
@@ -458,7 +490,7 @@ PILLARS.push(
 // -------------------------------------------------------------
 // 7. TIỆN ÍCH, BOUNDS, VỊ TRÍ XUẤT PHÁT CỦA NGƯỜI CHƠI
 // -------------------------------------------------------------
-export const BOUNDS = { minX: -17.5, maxX: 17.5, minZ: -18.5, maxZ: 10.8 }
+export const BOUNDS = { minX: -17.5, maxX: 17.5, minZ: -18.5, maxZ: 13.8 }
 
 // Xuất phát ở Sảnh chính phía Nam, hướng nhìn về tượng Lênin & Địa cầu
 export const PLAYER_START = [0, 0, 5.8]
