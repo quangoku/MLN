@@ -28,7 +28,7 @@ export const MUSEUM = [
     chapter: 1,
     name: 'Phòng 1',
     short: 'C1',
-    title: 'Khái luận về triết học và triết học Mác-Lênin',
+    title: 'Khái niệm về triết học và triết học Mác-Lênin',
     theme: 'ch1',
     visitors: 3,
     ...CHAPTER_1,

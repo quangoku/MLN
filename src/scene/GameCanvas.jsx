@@ -7,6 +7,7 @@ import Player from '../player/Player.jsx'
 import Visitors from '../npc/Visitors.jsx'
 import Exhibit from '../exhibits/Exhibit.jsx'
 import SpaceScene from '../space/SpaceScene.jsx'
+import GhostSwarm from '../world/GhostSwarm.jsx'
 import { EXHIBITS } from '../world/layout.js'
 import { COLORS } from '../config/theme.js'
 import { useMuseumStore } from '../store/useMuseumStore.js'
@@ -45,6 +46,8 @@ export default function GameCanvas() {
           <Museum />
           <Player />
           <Visitors />
+          {/* Bầy ma bay ngoài vùng bảo tàng (vùng xanh) */}
+          <GhostSwarm />
           {EXHIBITS.map((exhibit) => (
             <Exhibit key={exhibit.id} data={exhibit} />
           ))}
@@ -54,3 +57,4 @@ export default function GameCanvas() {
     </Canvas>
   )
 }
+
