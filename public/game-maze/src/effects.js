@@ -32,12 +32,12 @@ export function createEffects(renderer, scene, camera) {
     composer = new EffectComposer(renderer, renderTarget);
     composer.addPass(new RenderPass(scene, camera));
 
-    // Bloom tuned: threshold 0.90 để chỉ emissive mạnh mới bloom
+    // Bloom tuned: nửa độ phân giải để tăng gấp đôi hiệu năng mà vẫn giữ độ lan toả phát sáng mềm mịn
     bloomPass = new UnrealBloomPass(
-      new THREE.Vector2(width, height),
-      CONFIG.bloom.strength,   // 0.6
-      CONFIG.bloom.radius,     // 0.5
-      CONFIG.bloom.threshold   // 0.90
+      new THREE.Vector2(Math.floor(width / 2), Math.floor(height / 2)),
+      CONFIG.bloom.strength,
+      CONFIG.bloom.radius,
+      CONFIG.bloom.threshold
     );
     composer.addPass(bloomPass);
 
@@ -97,7 +97,7 @@ export function createEffects(renderer, scene, camera) {
   function setSize(w, h) {
     if (!composer) return;
     composer.setSize(w, h);
-    if (bloomPass) bloomPass.resolution.set(w, h);
+    if (bloomPass) bloomPass.resolution.set(Math.floor(w / 2), Math.floor(h / 2));
   }
 
   return {

@@ -77,7 +77,7 @@ export function getTerrainHeight(x, z) {
  */
 export function createTerrain(scene) {
   const size = CONFIG.world.size; // 1000
-  const segments = 200;          // Đủ chi tiết cho đồi nhấp nhô
+  const segments = 120;          // 120x120 đủ chi tiết đồi núi mượt mà, giảm 65% số đa giác tam giác
 
   const geom = new THREE.PlaneGeometry(size, size, segments, segments);
   geom.rotateX(-Math.PI / 2);

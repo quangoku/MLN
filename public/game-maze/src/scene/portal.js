@@ -81,20 +81,15 @@ export function createPortal(scene) {
   const energyHalo = new THREE.Mesh(haloGeom, haloMat);
   portalGroup.add(energyHalo);
 
-  // 3. Primary PointLight at Portal (Intensity ~60-80)
+  // 3. Primary PointLight at Portal (Intensity ~60-80, không đổ shadow cube map để tối ưu 60 FPS)
   const portalLight = new THREE.PointLight(
     CONFIG.lighting.portalLightColor,
-    CONFIG.lighting.portalLightIntensity, // ~75.0
-    CONFIG.lighting.portalLightDistance,  // 28m
-    CONFIG.lighting.portalLightDecay      // 2.0
+    CONFIG.lighting.portalLightIntensity,
+    CONFIG.lighting.portalLightDistance,
+    CONFIG.lighting.portalLightDecay
   );
   portalLight.position.set(0, 0, 0.2);
-  portalLight.castShadow = true;
-  portalLight.shadow.mapSize.width = 2048;
-  portalLight.shadow.mapSize.height = 2048;
-  portalLight.shadow.camera.near = 0.5;
-  portalLight.shadow.camera.far = 30.0;
-  portalLight.shadow.bias = -0.0015;
+  portalLight.castShadow = false;
   portalGroup.add(portalLight);
 
   // Green rim light behind portal
@@ -102,8 +97,8 @@ export function createPortal(scene) {
   rimLight.position.set(0, 0.5, -1.8);
   portalGroup.add(rimLight);
 
-  // 4. Floating Fireflies (Points)
-  const particleCount = 320;
+  // 4. Floating Fireflies (Points - tối ưu 100 hạt)
+  const particleCount = 100;
   const particleGeom = new THREE.BufferGeometry();
   const particlePositions = new Float32Array(particleCount * 3);
   const particleSpeeds = new Float32Array(particleCount * 3);

@@ -46,10 +46,12 @@ export default function App() {
       {/* ── ECONOMY MAZE ── fullscreen iframe wrapper */}
       {gameMode === 'economy' && <EconomyMazeScreen />}
 
-      {/* ── PHILOSOPHY GAME (game cũ) ── always mounted, hidden behind portal */}
-      <KeyboardControls map={KEYMAP}>
-        <GameCanvas />
-      </KeyboardControls>
+      {/* ── PHILOSOPHY GAME ── chỉ render khi đang ở chế độ bảo tàng triết học (tránh chạy ngầm 2 canvas WebGL) */}
+      {gameMode === 'philosophy' && (
+        <KeyboardControls map={KEYMAP}>
+          <GameCanvas />
+        </KeyboardControls>
+      )}
 
       {/* Giao diện bảo tàng khi ở mặt đất */}
       {started && !inSpaceScene && gameMode === 'philosophy' && <HUD />}

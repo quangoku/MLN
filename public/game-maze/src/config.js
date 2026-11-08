@@ -5,7 +5,7 @@ import * as THREE from 'three';
  * Chỉnh sửa tất cả hằng số tại đây để tinh chỉnh mà không cần đọc code game.
  */
 export const CONFIG = {
-  // ── 1. RENDERER & EXPOSURE ──
+  // ── 1. RENDERER & EXPOSURE (TỐI ƯU HIỆU NĂNG) ──
   renderer: {
     exposure: 2.0,             // Độ phơi sáng cơ bản (chỉnh bằng [ và ] in-game)
     minExposure: 0.8,          // Tối thiểu
@@ -13,8 +13,8 @@ export const CONFIG = {
     exposureStep: 0.1,         // Bước mỗi lần nhấn [ hoặc ]
     toneMapping: THREE.ACESFilmicToneMapping,
     outputColorSpace: THREE.SRGBColorSpace,
-    pixelRatioLimit: 2.0,      // Giới hạn pixel ratio để không quá nặng
-    shadowMapSize: 2048        // Kích thước shadow map (1024 nếu FPS thấp)
+    pixelRatioLimit: 1.5,      // Giới hạn 1.5 để nhẹ máy trên màn hình Retina / High-DPI
+    shadowMapSize: 1024        // 1024x1024 tối ưu đổ bóng mượt mà 60 FPS
   },
 
   // ── 2. LIGHTING (BAN NGÀY TƯƠI SÁNG) ──

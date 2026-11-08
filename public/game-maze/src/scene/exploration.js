@@ -619,8 +619,8 @@ export function createExplorationWorld(scene) {
     lanterns.push({ pos: post.position, flame, light: lanternLight });
   }
 
-  // ── 13. HẠT BỤI PHÁT SÁNG QUANH ĐỀN ──
-  const dustCount = 300;
+  // ── 13. HẠT BỤI PHÁT SÁNG QUANH ĐỀN (TỐI ƯU 100 HẠT) ──
+  const dustCount = 100;
   const dustGeom = new THREE.BufferGeometry();
   const dustPos = new Float32Array(dustCount * 3);
   const dustVel = new Float32Array(dustCount * 3);
