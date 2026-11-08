@@ -82,7 +82,7 @@ export const CONFIG = {
   camera: {
     worldFov: 75,
     viewmodelFov: 60,          // FPS tay: FOV riêng để không méo
-    near: 0.1,
+    near: 0.2,                 // Tăng lên 0.2 để tăng độ chính xác depth buffer, chống Z-fighting
     far: 600.0                 // Tăng far plane cho thế giới 1000m
   },
 

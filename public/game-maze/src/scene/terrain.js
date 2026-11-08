@@ -7,6 +7,11 @@ import { getStoneTexture } from './textures.js';
  * Thuần toán học O(1), dùng được ở mọi nơi không cần array.
  */
 export function getTerrainHeight(x, z) {
+  // 0. Hạ thấp địa hình dưới sàn đền cổ (-0.2m) để triệt tiêu hoàn toàn Z-fighting với sàn đá
+  if (Math.abs(x) < 9.2 && z >= -12.0 && z <= 16.5) {
+    return -0.2;
+  }
+
   const distFromCenter = Math.hypot(x, z);
 
   // 1. Vùng phẳng quanh đền trung tâm (bán kính 28m)

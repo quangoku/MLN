@@ -22,9 +22,9 @@ export function createPhysics(colliders = []) {
    * Determine exact ground height at (x, z) combining temple steps/dais and outdoor terrain
    */
   function getGroundHeightAt(x, z) {
-    // 1. Inside temple sanctuary bounds (|x| < 8.5 && z between -10.5 and 15)
-    if (Math.abs(x) < 8.5 && z >= -10.5 && z <= 15.0) {
-      let templeY = 0.0;
+    // 1. Inside temple sanctuary bounds (|x| < 9.0 && z between -12.0 and 16.2)
+    if (Math.abs(x) < 9.0 && z >= -12.0 && z <= 16.2) {
+      let templeY = 0.02; // Sàn đền ở y = 0.02
       for (const c of colliders) {
         if (c.type === 'step') {
           if (x >= c.min[0] && x <= c.max[0] && z >= c.min[2] && z <= c.max[2]) {

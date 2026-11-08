@@ -46,7 +46,10 @@ export function createTemple(scene) {
     metalness: 0.1,
     emissive: new THREE.Color(0x00ff88),
     emissiveIntensity: 0.85,
-    side: THREE.DoubleSide
+    side: THREE.DoubleSide,
+    polygonOffset: true,
+    polygonOffsetFactor: -1,
+    polygonOffsetUnits: -1
   });
 
   const runeDiscMaterial = new THREE.MeshStandardMaterial({
@@ -54,7 +57,10 @@ export function createTemple(scene) {
     roughness: 0.5,
     metalness: 0.2,
     emissive: new THREE.Color(0x00f5ff),
-    emissiveIntensity: 1.4
+    emissiveIntensity: 1.4,
+    polygonOffset: true,
+    polygonOffsetFactor: -2,
+    polygonOffsetUnits: -2
   });
 
   const ivyMaterial = new THREE.MeshStandardMaterial({
@@ -63,7 +69,10 @@ export function createTemple(scene) {
     alphaTest: 0.25,
     roughness: 0.75,
     metalness: 0.05,
-    side: THREE.DoubleSide
+    side: THREE.DoubleSide,
+    polygonOffset: true,
+    polygonOffsetFactor: -1,
+    polygonOffsetUnits: -1
   });
 
   // ── 1. FLOOR (EARTH & SOIL BASE UNDER GRASS) ──
@@ -73,11 +82,14 @@ export function createTemple(scene) {
     roughness: 0.85,
     metalness: 0.08,
     emissive: new THREE.Color(0x1a2622),
-    emissiveIntensity: 0.28
+    emissiveIntensity: 0.28,
+    polygonOffset: true,
+    polygonOffsetFactor: -2,
+    polygonOffsetUnits: -2
   });
   const floor = new THREE.Mesh(floorGeom, floorMat);
   floor.rotation.x = -Math.PI / 2;
-  floor.position.set(0, 0, 3);
+  floor.position.set(0, 0.02, 3); // Nâng sàn lên y = 0.02 để triệt tiêu Z-fighting với terrain
   floor.receiveShadow = true;
   scene.add(floor);
 
@@ -249,17 +261,17 @@ export function createTemple(scene) {
     if (hasBanner) {
       const bannerGeom = new THREE.PlaneGeometry(0.58, 4.0);
       const banner = new THREE.Mesh(bannerGeom, bannerMaterial);
-      banner.position.set(0, 5.2, 0.86);
+      banner.position.set(0, 5.2, 0.88); // cách mặt cột tránh z-fighting
       pillarGroup.add(banner);
     }
 
     // Creeping ivy
     const ivyPlane1 = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 2.4), ivyMaterial);
-    ivyPlane1.position.set(0, 1.8, 0.98);
+    ivyPlane1.position.set(0, 1.8, 1.01);
     pillarGroup.add(ivyPlane1);
 
     const ivyPlane2 = new THREE.Mesh(new THREE.PlaneGeometry(1.0, 2.0), ivyMaterial);
-    ivyPlane2.position.set(0.98, 1.5, 0);
+    ivyPlane2.position.set(1.01, 1.5, 0);
     ivyPlane2.rotation.y = Math.PI / 2;
     pillarGroup.add(ivyPlane2);
 
@@ -334,7 +346,7 @@ export function createTemple(scene) {
     if (s % 2 === 0) {
       const stairIvy = new THREE.Mesh(new THREE.PlaneGeometry(0.65, 0.5), ivyMaterial);
       stairIvy.rotation.x = -Math.PI / 2;
-      stairIvy.position.set((s % 4 === 0 ? 1 : -1) * 1.5, sy + 0.11, sz);
+      stairIvy.position.set((s % 4 === 0 ? 1 : -1) * 1.5, sy + 0.12, sz);
       scene.add(stairIvy);
     }
   }
