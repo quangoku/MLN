@@ -69,11 +69,11 @@ export function createTemple(scene) {
   // ── 1. FLOOR (EARTH & SOIL BASE UNDER GRASS) ──
   const floorGeom = new THREE.PlaneGeometry(18, 30);
   const floorMat = new THREE.MeshStandardMaterial({
-    color: 0x092621,
-    roughness: 0.9,
-    metalness: 0.05,
-    emissive: new THREE.Color(0x061916),
-    emissiveIntensity: 0.12
+    color: 0x3d4e46,           // Sàn nền đá rêu sáng màu sạch sẽ
+    roughness: 0.85,
+    metalness: 0.08,
+    emissive: new THREE.Color(0x1a2622),
+    emissiveIntensity: 0.28
   });
   const floor = new THREE.Mesh(floorGeom, floorMat);
   floor.rotation.x = -Math.PI / 2;
@@ -133,11 +133,11 @@ export function createTemple(scene) {
   const cofferGeomOuter = new THREE.BoxGeometry(2.4, 0.4, 2.4);
   const cofferGeomInner = new THREE.BoxGeometry(1.6, 0.4, 1.6);
   const cofferMat = new THREE.MeshStandardMaterial({
-    color: 0x14282e,
-    roughness: 0.88,
+    color: 0x30424a,
+    roughness: 0.85,
     metalness: 0.1,
-    emissive: new THREE.Color(0x091c20),
-    emissiveIntensity: 0.15
+    emissive: new THREE.Color(0x1a2830),
+    emissiveIntensity: 0.28
   });
 
   for (let cx = -6; cx <= 6; cx += 3.0) {

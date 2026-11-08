@@ -17,65 +17,65 @@ export const CONFIG = {
     shadowMapSize: 2048        // Kích thước shadow map (1024 nếu FPS thấp)
   },
 
-  // ── 2. LIGHTING ──
+  // ── 2. LIGHTING (BAN NGÀY TƯƠI SÁNG) ──
   lighting: {
-    // HemisphereLight: bầu trời teal sáng, mặt đất xanh rêu
-    hemiSkyColor: 0x7fd0e0,    // Bầu trời xanh lam teal sáng
-    hemiGroundColor: 0x1d4a34, // Mặt đất xanh rêu
-    hemiIntensity: 2.2,        // Cường độ tổng thể
+    // HemisphereLight: bầu trời ban ngày xanh mát, mặt đất phản xạ ấm
+    hemiSkyColor: 0x98ddf5,    // Bầu trời xanh ban ngày
+    hemiGroundColor: 0x7cb36b, // Mặt đất cỏ phản xạ ấm
+    hemiIntensity: 2.8,        // Cường độ ánh sáng vòm trời
 
-    // AmbientLight: fill light xanh teal
-    ambientColor: 0x4a9a96,
-    ambientIntensity: 1.0,
+    // AmbientLight: ánh sáng môi trường ban ngày phủ khắp không gian (trong đền sáng rõ)
+    ambientColor: 0xffffff,    // Trắng ban ngày
+    ambientIntensity: 1.8,     // Sáng rõ không gian và chi tiết
 
-    // DirectionalLight ánh trăng: xanh lam nhạt từ cao
-    moonColor: 0x9fd0ff,
-    moonIntensity: 1.6,
-    moonPosition: [60, 120, 40],
+    // DirectionalLight: Ánh nắng mặt trời ban ngày rực rỡ
+    moonColor: 0xfff6dc,       // Nắng vàng ấm tự nhiên
+    moonIntensity: 3.0,        // Cường độ ánh nắng
+    moonPosition: [75, 160, 55],
 
     // Portal PointLight: phát sáng cyan mạnh
     portalLightColor: 0x00ffcc,
-    portalLightIntensity: 80.0,
-    portalLightDistance: 28.0,
+    portalLightIntensity: 85.0,
+    portalLightDistance: 30.0,
     portalLightDecay: 2.0,
 
     // 2 PointLight cột đền: chiếu sáng mặt trong cột
     pillarLightColor: 0x00e5c8,
-    pillarLightIntensity: 18.0,
-    pillarLightDistance: 14.0
+    pillarLightIntensity: 24.0,
+    pillarLightDistance: 16.0
   },
 
-  // ── 3. FOG ──
+  // ── 3. FOG (BẦU TRỜI BAN NGÀY RỘNG MỞ) ──
   fog: {
-    color: 0x15404a,           // Teal sáng (không đen kịt)
-    density: 0.010             // Thấp = tầm nhìn xa hơn 150m
+    color: 0x98ddf5,           // Trời xanh ban ngày (Sky Blue)
+    density: 0.0025            // Mỏng, tầm nhìn xa rõ nét cảnh quan
   },
 
   // ── 4. BLOOM & POST-PROCESSING ──
   bloom: {
-    strength: 0.6,             // Nhẹ hơn để không làm mờ toàn màn hình
-    radius: 0.5,
-    threshold: 0.90            // Chỉ phần rất sáng mới bloom
+    strength: 0.45,            // Mức bloom vừa phải, trong trẻo
+    radius: 0.4,
+    threshold: 0.88            // Chỉ phần phát sáng mới bloom
   },
   colorGrading: {
-    vignetteDarkness: 0.6,     // Giảm vignette để góc không bị đen
-    vignetteOffset: 1.0,
-    tealShadowTint: 0x052226
+    vignetteDarkness: 0.18,    // Rất nhẹ, góc màn hình không bị tối
+    vignetteOffset: 1.1,
+    tealShadowTint: 0x000000   // Bóng tự nhiên, không ám đen/teal
   },
 
   // ── 5. GRASS & MATERIALS ──
   grass: {
-    baseColor: 0x145c35,       // Gốc xanh đậm (+40% so với trước)
-    tipColor: 0x5fe0a0,        // Ngọn xanh sáng mượt
-    cyanRimColor: 0x4ff5d0,    // Rim sáng cyan gần cổng
-    count: 38000,              // Số lá cỏ
-    bladeHeight: 0.65          // Chiều cao trung bình lá cỏ
+    baseColor: 0x145c35,
+    tipColor: 0x5fe0a0,
+    cyanRimColor: 0x4ff5d0,
+    count: 38000,
+    bladeHeight: 0.65
   },
   stone: {
-    roughness: 0.80,
-    metalness: 0.12,
-    emissiveColor: 0x0f3030,   // Emissive nhẹ để đá không chìm trong bóng
-    emissiveIntensity: 0.25    // Tăng lên 0.25 để rõ chi tiết
+    roughness: 0.75,
+    metalness: 0.10,
+    emissiveColor: 0x243336,   // Đá sáng màu, hoa văn vân đá nổi bật
+    emissiveIntensity: 0.35    // Sáng rõ chi tiết
   },
 
   // ── 6. CAMERAS & FOV ──

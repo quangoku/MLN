@@ -90,11 +90,11 @@ export function createTerrain(scene) {
   }
   geom.computeVertexNormals();
 
-  // Terrain màu xanh rêu đậm, đủ sáng để nhìn rõ
+  // Terrain màu cỏ xanh tươi ban ngày, sáng rõ cảnh quan
   const terrainMat = new THREE.MeshStandardMaterial({
-    color: 0x1a3d2a,           // Xanh rêu sáng hơn trước (+40%)
-    roughness: 0.88,
-    metalness: 0.08,
+    color: 0x3d7e42,           // Cỏ xanh ban ngày tươi sáng
+    roughness: 0.85,
+    metalness: 0.05,
     flatShading: false
   });
 
@@ -107,7 +107,7 @@ export function createTerrain(scene) {
     map: getStoneTexture(),
     roughness: 0.82,
     metalness: 0.1,
-    color: 0x3d4a3a            // Đá xám xanh rêu
+    color: 0x6e7568            // Đá đường mòn tự nhiên sáng màu
   });
 
   function createPath(points, width = 2.6) {
@@ -222,11 +222,11 @@ export function createTerrain(scene) {
   lakeGeom.rotateX(-Math.PI / 2);
 
   const waterMat = new THREE.MeshStandardMaterial({
-    color: 0x0a4455,
+    color: 0x1f88a8,           // Nước hồ trong xanh ban ngày
     roughness: 0.08,
-    metalness: 0.90,
+    metalness: 0.85,
     transparent: true,
-    opacity: 0.85,
+    opacity: 0.88,
     envMapIntensity: 1.5
   });
 
@@ -255,105 +255,28 @@ export function createTerrain(scene) {
   lakeLight.position.set(230, 4, -230);
   scene.add(lakeLight);
 
-  // ── 3. BẦU TRỜI ĐÊM: SAO, TRĂNG, DẢI NGÂN HÀ ──
+  // ── 3. BẦU TRỜI BAN NGÀY: MẶT TRỜI VÀ HÀO QUANG NẮNG ẤM ──
+  const sunGroup = new THREE.Group();
+  sunGroup.position.set(200, 280, -360);
 
-  // Trăng
-  const moonGroup = new THREE.Group();
-  moonGroup.position.set(180, 260, -360);
-
-  const moonMesh = new THREE.Mesh(
-    new THREE.SphereGeometry(22, 32, 32),
-    new THREE.MeshBasicMaterial({ color: 0xd8f4ff })
+  const sunMesh = new THREE.Mesh(
+    new THREE.SphereGeometry(30, 32, 32),
+    new THREE.MeshBasicMaterial({ color: 0xfffae0 })
   );
-  moonGroup.add(moonMesh);
+  sunGroup.add(sunMesh);
 
-  const moonHalo = new THREE.Mesh(
-    new THREE.SphereGeometry(30, 24, 24),
+  const sunHalo = new THREE.Mesh(
+    new THREE.SphereGeometry(52, 24, 24),
     new THREE.MeshBasicMaterial({
-      color: 0x5fc0d8,
+      color: 0xffe680,
       transparent: true,
-      opacity: 0.32,
+      opacity: 0.45,
       side: THREE.BackSide,
       blending: THREE.AdditiveBlending
     })
   );
-  moonGroup.add(moonHalo);
-  scene.add(moonGroup);
-
-  // 3600 ngôi sao (tăng mật độ)
-  const starCount = 3600;
-  const starGeom = new THREE.BufferGeometry();
-  const starPositions = new Float32Array(starCount * 3);
-  const starColors = new Float32Array(starCount * 3);
-
-  for (let i = 0; i < starCount; i++) {
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos(THREE.MathUtils.randFloat(0.08, 1.0));
-    const r = THREE.MathUtils.randFloat(450, 580);
-
-    starPositions[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
-    starPositions[i * 3 + 1] = r * Math.cos(phi);
-    starPositions[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
-
-    // Màu sao: trắng → xanh lam nhạt → teal
-    const rnd = Math.random();
-    starColors[i * 3]     = rnd > 0.7 ? 0.7 : 1.0;
-    starColors[i * 3 + 1] = rnd > 0.7 ? 0.9 : 1.0;
-    starColors[i * 3 + 2] = 1.0;
-  }
-
-  starGeom.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
-  starGeom.setAttribute('color', new THREE.BufferAttribute(starColors, 3));
-
-  const starMat = new THREE.PointsMaterial({
-    size: 1.0,
-    vertexColors: true,
-    transparent: true,
-    opacity: 0.92,
-    sizeAttenuation: true
-  });
-
-  const starfield = new THREE.Points(starGeom, starMat);
-  scene.add(starfield);
-
-  // Dải Ngân Hà: vòng đai sao dày hơn, hơi tím xanh
-  const milkyCount = 1800;
-  const milkyGeom = new THREE.BufferGeometry();
-  const milkyPos = new Float32Array(milkyCount * 3);
-
-  for (let i = 0; i < milkyCount; i++) {
-    // Phân bố dọc theo mặt phẳng nghiêng (dải ngân hà)
-    const angle = (i / milkyCount) * Math.PI * 2;
-    const spread = (Math.random() - 0.5) * 0.6;
-    const r = THREE.MathUtils.randFloat(380, 480);
-    const phi = Math.PI * 0.5 + spread;
-
-    // Nghiêng 25 độ
-    const sinTilt = Math.sin(0.44);
-    const cosTilt = Math.cos(0.44);
-
-    const x0 = r * Math.sin(phi) * Math.cos(angle);
-    const y0 = r * Math.cos(phi) + (Math.random() - 0.5) * 60;
-    const z0 = r * Math.sin(phi) * Math.sin(angle);
-
-    milkyPos[i * 3]     = x0;
-    milkyPos[i * 3 + 1] = y0 * cosTilt - z0 * sinTilt;
-    milkyPos[i * 3 + 2] = y0 * sinTilt + z0 * cosTilt;
-  }
-
-  milkyGeom.setAttribute('position', new THREE.BufferAttribute(milkyPos, 3));
-
-  const milkyMat = new THREE.PointsMaterial({
-    color: 0xaab0ff,           // Màu tím xanh của dải ngân hà
-    size: 0.6,
-    transparent: true,
-    opacity: 0.55,
-    blending: THREE.AdditiveBlending,
-    sizeAttenuation: true
-  });
-
-  const milkyWay = new THREE.Points(milkyGeom, milkyMat);
-  scene.add(milkyWay);
+  sunGroup.add(sunHalo);
+  scene.add(sunGroup);
 
   return {
     terrainMesh,
@@ -361,8 +284,6 @@ export function createTerrain(scene) {
     update: (time) => {
       // Gợn sóng hồ nhẹ
       lakeMesh.position.y = lakeCenter.y + Math.sin(time * 1.2) * 0.05;
-      // Nhấp nháy sao
-      starMat.opacity = 0.85 + Math.sin(time * 1.8) * 0.12;
     }
   };
 }
