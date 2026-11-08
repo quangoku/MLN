@@ -1,0 +1,1753 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mê Cung Kinh Tế — MLN122</title>
+<meta name="description" content="Game thoát khỏi mê cung Kinh tế chính trị Mác-Lênin"/>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Inter:wght@400;500;600;700&display=swap');
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{overflow:hidden;background:#000a08;font-family:'Inter',system-ui,sans-serif;color:#e0f0ec;user-select:none}
+  #c{display:block;width:100vw;height:100vh}
+
+  /* ── OVERLAY SCREENS ── */
+  .screen{
+    position:fixed;inset:0;z-index:100;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:radial-gradient(ellipse at center, rgba(0,25,20,0.88) 0%, rgba(0,6,5,0.97) 100%);
+    backdrop-filter:blur(10px);
+    gap:18px;padding:30px;
+    transition:opacity 0.3s ease;
+  }
+  .screen.hidden{display:none}
+
+  .screen-title{
+    font-family:'Cinzel',Georgia,serif;
+    font-size:clamp(28px,5vw,50px);font-weight:900;
+    background:linear-gradient(135deg,#00e5c0 0%,#4effd8 45%,#ffe27a 85%,#c9a043 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    text-align:center;
+    filter:drop-shadow(0 0 24px rgba(0,229,192,0.4));
+  }
+  .screen-sub{font-size:14px;color:rgba(200,240,230,0.75);text-align:center;max-width:520px;line-height:1.6}
+
+  .btn{
+    padding:12px 32px;border:none;border-radius:12px;
+    font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;
+    transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,#00b894,#00796b);
+    color:#fff;
+    box-shadow:0 4px 20px rgba(0,184,148,0.4),0 0 0 1px rgba(0,229,192,0.4);
+  }
+  .btn-primary:hover{
+    transform:translateY(-2px) scale(1.02);
+    box-shadow:0 8px 30px rgba(0,184,148,0.6),0 0 0 1px rgba(0,229,192,0.8);
+  }
+  .btn-secondary{
+    background:rgba(0,35,28,0.7);color:#7ee8c8;
+    border:1px solid rgba(0,220,180,0.35);
+    backdrop-filter:blur(8px);
+  }
+  .btn-secondary:hover{
+    background:rgba(0,220,180,0.18);
+    border-color:#00e5c0;
+    color:#a8ffd8;
+    transform:translateY(-2px);
+  }
+  .btn-back{
+    position:fixed;top:14px;left:14px;z-index:200;
+    background:rgba(0,24,20,0.85);border:1px solid rgba(0,220,180,0.35);
+    border-radius:24px;color:#7ee8c8;
+    padding:8px 18px;font-size:13px;font-weight:700;cursor:pointer;
+    backdrop-filter:blur(8px);transition:all 0.2s;
+    box-shadow:0 4px 16px rgba(0,0,0,0.4);
+  }
+  .btn-back:hover{background:rgba(0,45,38,0.95);color:#a0f0d8;border-color:#00e5c0}
+
+  .btn-sound{
+    position:fixed;top:14px;left:134px;z-index:200;
+    background:rgba(0,24,20,0.85);border:1px solid rgba(0,220,180,0.35);
+    border-radius:24px;color:#7ee8c8;
+    padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;
+    backdrop-filter:blur(8px);transition:all 0.2s;
+  }
+  .btn-sound:hover{background:rgba(0,45,38,0.95);color:#a0f0d8;border-color:#00e5c0}
+
+  /* ── HUD ── */
+  #hud{
+    position:fixed;inset:0;pointer-events:none;z-index:50;
+  }
+  #hud.hidden{display:none}
+
+  /* Timer */
+  #timer-wrap{
+    position:absolute;top:14px;left:50%;transform:translateX(-50%);
+    background:rgba(0,14,12,0.85);border:1.5px solid rgba(0,220,180,0.35);
+    border-radius:18px;padding:8px 24px;backdrop-filter:blur(10px);
+    display:flex;align-items:center;gap:10px;
+    box-shadow:0 6px 25px rgba(0,0,0,0.6),0 0 20px rgba(0,229,192,0.15);
+  }
+  #timer-icon{font-size:20px;filter:drop-shadow(0 0 8px #ffe27a)}
+  #timer-val{
+    font-family:'Cinzel',serif;font-size:24px;font-weight:700;
+    color:#00e5c0;letter-spacing:2px;
+    text-shadow:0 0 14px rgba(0,229,192,0.6);
+  }
+  #timer-val.warning{color:#f39c12;text-shadow:0 0 14px rgba(243,156,18,0.8);animation:timerBlink 0.8s ease-in-out infinite alternate}
+  #timer-val.danger{color:#e74c3c;text-shadow:0 0 14px rgba(231,76,60,0.8);animation:timerBlink 0.4s ease-in-out infinite alternate}
+  @keyframes timerBlink{from{opacity:0.6}to{opacity:1}}
+
+  /* Crosshair */
+  #crosshair{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:20px;height:20px;pointer-events:none;
+  }
+  #crosshair::before,#crosshair::after{
+    content:'';position:absolute;background:rgba(0,229,192,0.75);border-radius:2px;
+    box-shadow:0 0 6px rgba(0,229,192,0.5);
+  }
+  #crosshair::before{width:2px;height:100%;left:50%;transform:translateX(-50%)}
+  #crosshair::after{width:100%;height:2px;top:50%;transform:translateY(-50%)}
+  #crosshair-dot{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:4px;height:4px;background:#ffe27a;border-radius:50%;
+  }
+
+  /* Interact hint */
+  #interact-hint{
+    position:absolute;bottom:22%;left:50%;transform:translateX(-50%);
+    background:rgba(0,20,18,0.92);border:1.5px solid rgba(0,220,180,0.5);
+    border-radius:12px;padding:11px 22px;
+    font-size:14px;font-weight:600;color:#e0f8f0;
+    display:flex;align-items:center;gap:10px;
+    backdrop-filter:blur(8px);
+    box-shadow:0 8px 30px rgba(0,0,0,0.7),0 0 20px rgba(0,220,180,0.25);
+    animation:fadeIn 0.25s ease;
+  }
+  #interact-hint.hidden{display:none}
+  #interact-hint kbd{
+    background:linear-gradient(135deg,rgba(0,220,180,0.3),rgba(0,180,140,0.15));
+    border:1px solid rgba(0,220,180,0.6);
+    border-radius:6px;padding:3px 8px;font-size:12px;font-weight:800;color:#4effd8;
+  }
+  @keyframes fadeIn{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+
+  /* Minimap */
+  #minimap-wrap{
+    position:absolute;top:14px;right:14px;
+    background:rgba(0,14,12,0.9);border:1.5px solid rgba(0,220,180,0.3);
+    border-radius:14px;padding:10px;backdrop-filter:blur(10px);
+    box-shadow:0 8px 25px rgba(0,0,0,0.6);
+  }
+  #minimap-wrap.locked{filter:grayscale(0.9) brightness(0.6);opacity:0.5}
+  #minimap-canvas{display:block;border-radius:8px;background:#000e0a}
+  #minimap-label{text-align:center;font-size:10px;font-weight:700;letter-spacing:0.1em;color:rgba(0,220,180,0.7);margin-top:6px;text-transform:uppercase}
+
+  /* Inventory */
+  #inventory{
+    position:absolute;bottom:22px;left:50%;transform:translateX(-50%);
+    display:flex;gap:12px;
+    background:rgba(0,14,12,0.85);border:1.5px solid rgba(0,220,180,0.25);
+    border-radius:16px;padding:8px 18px;
+    backdrop-filter:blur(10px);
+    box-shadow:0 6px 20px rgba(0,0,0,0.5);
+  }
+  .inv-item{
+    display:flex;flex-direction:column;align-items:center;gap:3px;
+    font-size:10px;color:rgba(0,220,180,0.75);font-weight:600;
+  }
+  .inv-icon{font-size:20px;filter:drop-shadow(0 0 6px rgba(255,226,122,0.4))}
+  .inv-count{
+    background:rgba(0,220,180,0.18);border:1px solid rgba(0,220,180,0.35);
+    border-radius:6px;padding:2px 7px;min-width:24px;text-align:center;
+    font-weight:700;color:#e0f8f0;
+  }
+
+  /* Progress */
+  #progress-wrap{
+    position:absolute;bottom:22px;left:18px;
+    background:rgba(0,14,12,0.85);border:1.5px solid rgba(0,220,180,0.25);
+    border-radius:14px;padding:12px 16px;
+    backdrop-filter:blur(10px);min-width:180px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.5);
+  }
+  #progress-label{font-size:10px;color:rgba(0,220,180,0.7);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px}
+  #progress-bar-wrap{height:6px;background:rgba(255,255,255,0.1);border-radius:99px;overflow:hidden}
+  #progress-bar{height:100%;background:linear-gradient(90deg,#00b894,#00e5c0,#ffe27a);transition:width 0.4s ease;border-radius:99px}
+  #progress-text{font-size:12px;color:#7ee8c8;margin-top:6px;font-weight:600}
+
+  /* ── QUESTION DIALOG ── */
+  #question-dialog{
+    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+    z-index:150;
+    width:min(600px,calc(100vw - 32px));
+    background:radial-gradient(ellipse at top, rgba(0,28,24,0.98), rgba(0,12,10,0.98));
+    border:2px solid rgba(0,220,180,0.45);
+    border-radius:20px;
+    backdrop-filter:blur(20px);
+    box-shadow:0 24px 70px rgba(0,0,0,0.9),0 0 50px rgba(0,220,180,0.2);
+    overflow:hidden;
+    animation:dialogIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  #question-dialog.hidden{display:none}
+  @keyframes dialogIn{from{opacity:0;transform:translate(-50%,-50%) scale(0.9)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+
+  .dialog-header{
+    padding:20px 24px 16px;
+    border-bottom:1px solid rgba(0,220,180,0.2);
+    background:linear-gradient(135deg,rgba(0,40,34,0.7),rgba(0,22,18,0.85));
+  }
+  .dialog-chapter{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#ffe27a;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+  .dialog-question{font-size:17px;font-weight:600;color:#f0fff8;line-height:1.55}
+
+  .dialog-options{padding:18px 24px;display:flex;flex-direction:column;gap:11px}
+  .opt-btn{
+    padding:13px 18px;
+    background:rgba(255,255,255,0.03);
+    border:1.5px solid rgba(0,220,180,0.22);
+    border-radius:12px;
+    color:#b8e8d8;font-size:14.5px;font-weight:500;
+    text-align:left;cursor:pointer;
+    transition:all 0.2s;
+    display:flex;align-items:center;gap:12px;
+  }
+  .opt-btn:hover:not(:disabled){
+    background:rgba(0,220,180,0.12);
+    border-color:rgba(0,220,180,0.6);
+    color:#f0fff8;
+    transform:translateX(4px);
+    box-shadow:0 4px 15px rgba(0,220,180,0.15);
+  }
+  .opt-btn.correct{background:rgba(0,184,148,0.25);border-color:#00e5c0;color:#a8ffd8;box-shadow:0 0 20px rgba(0,229,192,0.3)}
+  .opt-btn.wrong{background:rgba(231,76,60,0.2);border-color:#e74c3c;color:#ffb3ae}
+  .opt-btn:disabled{cursor:default}
+  .opt-letter{
+    width:26px;height:26px;border-radius:7px;
+    background:rgba(0,220,180,0.12);border:1px solid rgba(0,220,180,0.35);
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:700;color:#00e5c0;flex-shrink:0;
+  }
+
+  .dialog-feedback{
+    padding:14px 24px;
+    background:rgba(0,18,15,0.85);
+    border-top:1px solid rgba(0,220,180,0.2);
+    font-size:13.5px;line-height:1.6;
+  }
+  .dialog-feedback.correct{color:#a8ffd8;border-top-color:rgba(0,184,148,0.5)}
+  .dialog-feedback.wrong{color:#ffb3ae;border-top-color:rgba(231,76,60,0.4)}
+  .feedback-icon{font-size:18px;margin-right:8px;vertical-align:middle}
+
+  /* ── SCROLL DIALOG ── */
+  #scroll-dialog{
+    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+    z-index:150;
+    width:min(480px,calc(100vw - 32px));
+    background:radial-gradient(ellipse at center, rgba(14,24,18,0.98), rgba(6,12,10,0.98));
+    border:2px solid rgba(201,160,67,0.5);
+    border-radius:18px;
+    backdrop-filter:blur(20px);
+    box-shadow:0 24px 60px rgba(0,0,0,0.9),0 0 40px rgba(201,160,67,0.2);
+    padding:26px;
+    animation:dialogIn 0.3s ease;
+  }
+  #scroll-dialog.hidden{display:none}
+  .scroll-header{font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:#ffe27a;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .scroll-content{font-size:15px;line-height:1.7;color:#f5e8b8;font-style:italic;border-left:3px solid #c9a043;padding-left:16px}
+  .scroll-chapter{font-size:12px;color:rgba(255,226,122,0.8);margin-top:14px;font-weight:600}
+
+  /* ── TOAST ── */
+  #toast{
+    position:fixed;top:80px;left:50%;transform:translateX(-50%);
+    z-index:200;
+    background:rgba(0,18,15,0.95);border:1.5px solid rgba(0,220,180,0.45);
+    border-radius:12px;padding:12px 24px;
+    font-size:14px;font-weight:600;color:#7ee8c8;
+    text-align:center;backdrop-filter:blur(10px);
+    box-shadow:0 8px 30px rgba(0,0,0,0.7),0 0 20px rgba(0,229,192,0.2);
+    transition:opacity 0.3s ease,transform 0.3s ease;
+    pointer-events:none;
+  }
+  #toast.hidden{opacity:0;transform:translateX(-50%) translateY(-12px)}
+
+  /* ── WIN / LOSE screens ── */
+  #win-screen,#lose-screen,#pause-screen{gap:20px}
+  .result-stats{
+    display:grid;grid-template-columns:1fr 1fr;gap:12px;
+    background:rgba(255,255,255,0.04);border-radius:14px;
+    padding:18px;width:100%;max-width:380px;
+    border:1px solid rgba(0,220,180,0.2);
+  }
+  .stat-item{display:flex;flex-direction:column;align-items:center;gap:4px}
+  .stat-num{font-family:'Cinzel',serif;font-size:30px;font-weight:900;color:#00e5c0}
+  .stat-lab{font-size:11px;color:rgba(200,240,230,0.65);text-transform:uppercase;letter-spacing:0.06em}
+
+  /* ── MENU SCREEN ── */
+  #menu-screen .menu-logo{
+    font-family:'Cinzel',serif;font-size:clamp(26px,5vw,46px);font-weight:900;
+    background:linear-gradient(135deg,#00e5c0,#4effd8,#ffe27a,#c9a043);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    text-align:center;margin-bottom:2px;
+    filter:drop-shadow(0 0 24px rgba(0,229,192,0.4));
+  }
+  .menu-course{font-size:13px;font-weight:700;letter-spacing:0.12em;color:#ffe27a;text-transform:uppercase;margin-bottom:20px}
+
+  .menu-controls{
+    display:grid;grid-template-columns:1fr 1fr;gap:9px;
+    background:rgba(0,30,24,0.6);border-radius:14px;
+    padding:16px;width:100%;max-width:380px;margin-bottom:4px;
+    border:1px solid rgba(0,220,180,0.25);
+  }
+  .ctrl{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(200,240,230,0.85)}
+  .ctrl kbd{
+    background:rgba(0,220,180,0.18);border:1px solid rgba(0,220,180,0.45);
+    border-radius:5px;padding:2px 7px;font-size:11px;font-weight:700;color:#00e5c0;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ SCREENS ═══════════════════════════════ -->
+
+<!-- MENU -->
+<div id="menu-screen" class="screen">
+  <div class="menu-logo">🏛 Mê Cung Kinh Tế</div>
+  <div class="menu-course">MLN122 · Kinh tế chính trị Mác-Lênin</div>
+  <p class="screen-sub">Vượt qua các cánh cửa tri thức, mở khóa ổ khóa cổ bằng chìa khóa, thu thập cuộn bí kíp và tìm đến Cổng Thoát Vàng trước khi hết giờ!</p>
+  <div class="menu-controls">
+    <div class="ctrl"><kbd>WASD</kbd> Di chuyển</div>
+    <div class="ctrl"><kbd>Chuột</kbd> Xoay nhìn</div>
+    <div class="ctrl"><kbd>E</kbd> Tương tác</div>
+    <div class="ctrl"><kbd>M</kbd> Mở bản đồ</div>
+    <div class="ctrl"><kbd>ESC</kbd> Tạm dừng</div>
+    <div class="ctrl">🗝 Chìa → mở khóa</div>
+    <div class="ctrl">🚪 Cửa → câu hỏi</div>
+    <div class="ctrl">📜 Cuộn → ý chính</div>
+  </div>
+  <button class="btn btn-primary" id="btn-start" style="font-size:16px;padding:14px 40px">
+    <span>Bắt đầu cuộc phiêu lưu</span> →
+  </button>
+  <button class="btn btn-secondary" id="btn-back-menu">← Về cổng chọn game</button>
+</div>
+
+<!-- PAUSE -->
+<div id="pause-screen" class="screen hidden">
+  <div class="screen-title">⏸ Tạm dừng</div>
+  <p class="screen-sub">Mê cung đang chờ bạn tiếp tục bước đi!</p>
+  <button class="btn btn-primary" id="btn-resume">Tiếp tục chơi</button>
+  <button class="btn btn-secondary" id="btn-back-pause">← Về cổng chọn game</button>
+</div>
+
+<!-- WIN -->
+<div id="win-screen" class="screen hidden">
+  <div class="screen-title">🎉 Thoát thành công!</div>
+  <p class="screen-sub">Chúc mừng! Bạn đã chinh phục toàn bộ Mê Cung Kinh Tế và nắm vững các quy luật cốt lõi của môn học MLN122!</p>
+  <div class="result-stats">
+    <div class="stat-item"><span class="stat-num" id="win-time">--</span><span class="stat-lab">Thời gian còn</span></div>
+    <div class="stat-item"><span class="stat-num" id="win-doors">--</span><span class="stat-lab">Cửa đã vượt</span></div>
+    <div class="stat-item"><span class="stat-num" id="win-correct">--</span><span class="stat-lab">Trả lời đúng</span></div>
+    <div class="stat-item"><span class="stat-num" id="win-wrong">--</span><span class="stat-lab">Trả lời sai</span></div>
+  </div>
+  <button class="btn btn-primary" id="btn-play-again-win">Chơi lại mê cung mới</button>
+  <button class="btn btn-secondary" id="btn-back-win">← Về cổng chọn game</button>
+</div>
+
+<!-- LOSE -->
+<div id="lose-screen" class="screen hidden">
+  <div class="screen-title" style="background:linear-gradient(135deg,#e74c3c,#ff7675,#c0392b);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">⌛ Cạn kiệt thời gian!</div>
+  <p class="screen-sub">Thời gian đã hết! Hãy nhớ rằng thời gian lao động xã hội cần thiết và sự kiên trì là chìa khóa vượt qua mê cung.</p>
+  <div class="result-stats">
+    <div class="stat-item"><span class="stat-num" id="lose-doors">--</span><span class="stat-lab">Cửa đã mở</span></div>
+    <div class="stat-item"><span class="stat-num" id="lose-correct">--</span><span class="stat-lab">Trả lời đúng</span></div>
+  </div>
+  <button class="btn btn-primary" id="btn-play-again-lose">Thử lại lần nữa</button>
+  <button class="btn btn-secondary" id="btn-back-lose">← Về cổng chọn game</button>
+</div>
+
+<!-- ═══════════════════════════════════ HUD ═══════════════════════════════════ -->
+<div id="hud" class="hidden">
+  <div id="timer-wrap">
+    <span id="timer-icon">⏳</span>
+    <span id="timer-val">6:00</span>
+  </div>
+
+  <div id="crosshair">
+    <div id="crosshair-dot"></div>
+  </div>
+
+  <div id="interact-hint" class="hidden"><kbd>E</kbd> <span>Tương tác</span></div>
+
+  <!-- Minimap -->
+  <div id="minimap-wrap" class="locked">
+    <canvas id="minimap-canvas" width="130" height="130"></canvas>
+    <div id="minimap-label">Bản đồ 🔒</div>
+  </div>
+
+  <!-- Inventory -->
+  <div id="inventory">
+    <div class="inv-item"><span class="inv-icon">🗝</span><span class="inv-count" id="inv-keys">0</span><span>Chìa</span></div>
+    <div class="inv-item"><span class="inv-icon">📜</span><span class="inv-count" id="inv-scrolls">0</span><span>Cuộn</span></div>
+    <div class="inv-item"><span class="inv-icon">🗺</span><span class="inv-count" id="inv-maps">0</span><span>Bản đồ</span></div>
+  </div>
+
+  <!-- Progress -->
+  <div id="progress-wrap">
+    <div id="progress-label">Tiến độ vượt ải</div>
+    <div id="progress-bar-wrap"><div id="progress-bar" style="width:0%"></div></div>
+    <div id="progress-text">0 / 0 cửa đã mở</div>
+  </div>
+</div>
+
+<!-- Navigation buttons -->
+<button class="btn-back hidden" id="btn-back-game">← Về Portal</button>
+<button class="btn-sound hidden" id="btn-sound-toggle">🔊 Bật âm</button>
+
+<!-- ═══════════════════════════════════ DIALOGS ═══════════════════════════════ -->
+<div id="question-dialog" class="hidden">
+  <div class="dialog-header">
+    <div class="dialog-chapter" id="q-chapter">Chương 2 · Hàng hóa và Thị trường</div>
+    <div class="dialog-question" id="q-text"></div>
+  </div>
+  <div class="dialog-options" id="q-options"></div>
+  <div class="dialog-feedback hidden" id="q-feedback"></div>
+</div>
+
+<div id="scroll-dialog" class="hidden">
+  <div class="scroll-header">📜 Ý chính học phần</div>
+  <div class="scroll-content" id="scroll-text"></div>
+  <div class="scroll-chapter" id="scroll-chap"></div>
+  <br/>
+  <button class="btn btn-secondary" id="btn-close-scroll" style="width:100%">Đã hiểu · Tiếp tục đi</button>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="hidden"></div>
+
+<!-- ══════════════════════════════════ GAME CANVAS ════════════════════════════ -->
+<canvas id="c"></canvas>
+
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js';
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  SOUND SYNTHESIZER (Web Audio API)
+// ═══════════════════════════════════════════════════════════════════════════
+class SoundEngine {
+  constructor() {
+    this.ctx = null;
+    this.muted = false;
+  }
+  init() {
+    if (!this.ctx) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) this.ctx = new AudioCtx();
+    }
+    if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume();
+    }
+  }
+  play(type) {
+    if (this.muted) return;
+    this.init();
+    if (!this.ctx) return;
+    const now = this.ctx.currentTime;
+
+    if (type === 'footstep') {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(60, now);
+      osc.frequency.exponentialRampToValueAtTime(30, now + 0.08);
+      gain.gain.setValueAtTime(0.04, now);
+      gain.gain.linearRampToValueAtTime(0, now + 0.08);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.08);
+    } else if (type === 'pickup') {
+      const notes = [523.25, 659.25, 783.99, 1046.50];
+      notes.forEach((freq, idx) => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+        gain.gain.setValueAtTime(0.12, now + idx * 0.06);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.25);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now + idx * 0.06);
+        osc.stop(now + idx * 0.06 + 0.25);
+      });
+    } else if (type === 'correct') {
+      const notes = [440, 554.37, 659.25, 880];
+      notes.forEach((freq, idx) => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+        gain.gain.setValueAtTime(0.15, now + idx * 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.4);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now + idx * 0.08);
+        osc.stop(now + idx * 0.08 + 0.4);
+      });
+    } else if (type === 'wrong') {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(160, now);
+      osc.frequency.linearRampToValueAtTime(90, now + 0.35);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.35);
+    } else if (type === 'unlock') {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(1200, now);
+      osc.frequency.exponentialRampToValueAtTime(300, now + 0.12);
+      gain.gain.setValueAtTime(0.18, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.15);
+    } else if (type === 'doorOpen') {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(180, now);
+      osc.frequency.exponentialRampToValueAtTime(540, now + 0.6);
+      gain.gain.setValueAtTime(0.18, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.8);
+    } else if (type === 'tick') {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(800, now);
+      gain.gain.setValueAtTime(0.06, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.04);
+    } else if (type === 'win') {
+      const melody = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+      melody.forEach((freq, idx) => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.12);
+        gain.gain.setValueAtTime(0.18, now + idx * 0.12);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.12 + 0.5);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now + idx * 0.12);
+        osc.stop(now + idx * 0.12 + 0.5);
+      });
+    } else if (type === 'lose') {
+      const notes = [330, 311, 293, 277];
+      notes.forEach((freq, idx) => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.2);
+        gain.gain.setValueAtTime(0.15, now + idx * 0.2);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.2 + 0.35);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now + idx * 0.2);
+        osc.stop(now + idx * 0.2 + 0.35);
+      });
+    }
+  }
+}
+const sound = new SoundEngine();
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  LOAD DATA
+// ═══════════════════════════════════════════════════════════════════════════
+const [questions, config] = await Promise.all([
+  fetch('./questions.json').then(r => r.json()),
+  fetch('./config.json').then(r => r.json()),
+]);
+
+const CFG = {
+  W: config.maze.width,
+  H: config.maze.height,
+  CELL: config.maze.cellSize,
+  WH: config.maze.wallHeight,
+  TOTAL_TIME: config.game.totalTime,
+  PENALTY: config.game.wrongAnswerTimePenalty,
+  LOCK_SECS: config.game.doorLockSeconds,
+  SPEED: config.game.playerSpeed,
+  P_HEIGHT: config.game.playerHeight,
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  MAZE GENERATION (Recursive Backtracker + Loops)
+// ═══════════════════════════════════════════════════════════════════════════
+function generateMaze(w, h) {
+  const visited = Array.from({ length: h }, () => new Array(w).fill(false));
+  const grid = Array.from({ length: h }, () => new Array(w).fill(1));
+
+  function carve(cx, cy) {
+    visited[cy][cx] = true;
+    grid[cy][cx] = 0;
+    const dirs = [[0,-2],[0,2],[-2,0],[2,0]].sort(() => Math.random()-0.5);
+    for (const [dx, dy] of dirs) {
+      const nx = cx+dx, ny = cy+dy;
+      if (nx >= 0 && ny >= 0 && nx < w && ny < h && !visited[ny][nx]) {
+        grid[cy+dy/2][cx+dx/2] = 0;
+        carve(nx, ny);
+      }
+    }
+  }
+  carve(1, 1);
+
+  // Ensure exit is open at bottom right
+  grid[h-2][w-2] = 0;
+  grid[h-2][w-3] = 0;
+  grid[h-3][w-2] = 0;
+
+  // Add loop corridors so wrong answers don't trap the player
+  for (let i = 0; i < 6; i++) {
+    const rx = 1 + Math.floor(Math.random() * (w - 2));
+    const ry = 1 + Math.floor(Math.random() * (h - 2));
+    if (grid[ry][rx] === 1) {
+      const neighbors = (grid[ry-1]?.[rx]===0?1:0) + (grid[ry+1]?.[rx]===0?1:0) +
+                        (grid[ry]?.[rx-1]===0?1:0) + (grid[ry]?.[rx+1]===0?1:0);
+      if (neighbors >= 2) grid[ry][rx] = 0;
+    }
+  }
+
+  return grid;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  GAME STATE
+// ═══════════════════════════════════════════════════════════════════════════
+let state = {
+  phase: 'menu',
+  timeLeft: CFG.TOTAL_TIME,
+  doorsOpened: 0,
+  doorsTotal: 0,
+  correctAnswers: 0,
+  wrongAnswers: 0,
+  inventory: { keys: 0, scrolls: 0, maps: 0 },
+  minimapUnlocked: false,
+  activeDoorIndex: -1,
+  activeScrollIndex: -1,
+  nearInteractable: null,
+};
+
+const stats = { doorsOpened: 0, correct: 0, wrong: 0 };
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  THREE.JS SETUP
+// ═══════════════════════════════════════════════════════════════════════════
+const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('c'), antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.35;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x02120e);
+scene.fog = new THREE.Fog(0x041814, 12, 45);
+
+const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.05, 75);
+camera.position.set(0, CFG.P_HEIGHT, 0);
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  LIGHTING & LANTERN
+// ═══════════════════════════════════════════════════════════════════════════
+const ambientLight = new THREE.AmbientLight(0x22584b, 2.4);
+scene.add(ambientLight);
+
+const hemiLight = new THREE.HemisphereLight(0x00e5c0, 0x14382e, 1.0);
+scene.add(hemiLight);
+
+const playerLantern = new THREE.PointLight(0x00e5c0, 3.4, 22);
+playerLantern.castShadow = false;
+scene.add(playerLantern);
+
+const playerWarmGlow = new THREE.PointLight(0xffe27a, 2.0, 12);
+playerWarmGlow.castShadow = false;
+scene.add(playerWarmGlow);
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  PROCEDURAL TEXTURES & MATERIALS (Phong cách 6B: Đền đá rêu + Bánh răng + Cán cân + Tiền)
+// ═══════════════════════════════════════════════════════════════════════════
+function makeWallTexture() {
+  const size = 512;
+  const cv = document.createElement('canvas');
+  cv.width = cv.height = size;
+  const ctx = cv.getContext('2d');
+
+  ctx.fillStyle = '#14382f';
+  ctx.fillRect(0, 0, size, size);
+
+  ctx.strokeStyle = '#0a201b';
+  ctx.lineWidth = 4;
+  const rows = 8;
+  const cols = 4;
+  const rh = size / rows;
+  const cw = size / cols;
+
+  for (let r = 0; r <= rows; r++) {
+    ctx.beginPath();
+    ctx.moveTo(0, r * rh);
+    ctx.lineTo(size, r * rh);
+    ctx.stroke();
+  }
+
+  for (let r = 0; r < rows; r++) {
+    const offset = (r % 2) * (cw / 2);
+    for (let c = 0; c <= cols + 1; c++) {
+      ctx.beginPath();
+      ctx.moveTo(c * cw - offset, r * rh);
+      ctx.lineTo(c * cw - offset, (r + 1) * rh);
+      ctx.stroke();
+    }
+  }
+
+  // Stone crack & noise details
+  ctx.strokeStyle = 'rgba(0, 255, 210, 0.28)';
+  ctx.lineWidth = 1.5;
+  for (let i = 0; i < 20; i++) {
+    ctx.beginPath();
+    let x = Math.random() * size, y = Math.random() * size;
+    ctx.moveTo(x, y);
+    for (let j = 0; j < 4; j++) {
+      x += (Math.random() - 0.5) * 40;
+      y += (Math.random() - 0.5) * 40;
+      ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+
+  // Engraved Economic Symbols
+  ctx.strokeStyle = 'rgba(0, 255, 210, 0.5)';
+  ctx.fillStyle = 'rgba(255, 226, 122, 0.25)';
+  ctx.lineWidth = 3.5;
+
+  // Gear engraving
+  ctx.save();
+  ctx.translate(128, 128);
+  ctx.beginPath();
+  ctx.arc(0, 0, 38, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(0, 0, 18, 0, Math.PI * 2);
+  ctx.stroke();
+  for (let i = 0; i < 12; i++) {
+    const a = (i / 12) * Math.PI * 2;
+    ctx.beginPath();
+    ctx.moveTo(36 * Math.cos(a), 36 * Math.sin(a));
+    ctx.lineTo(46 * Math.cos(a), 46 * Math.sin(a));
+    ctx.stroke();
+  }
+  ctx.restore();
+
+  // Scales engraving
+  ctx.save();
+  ctx.translate(384, 384);
+  ctx.beginPath();
+  ctx.moveTo(0, -38); ctx.lineTo(0, 38);
+  ctx.moveTo(-38, -20); ctx.lineTo(38, -20);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(-26, 8, 15, 0, Math.PI); ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(26, 8, 15, 0, Math.PI); ctx.stroke();
+  ctx.restore();
+
+  // Currency Symbol (₫) & Circulation arrows
+  ctx.save();
+  ctx.translate(384, 128);
+  ctx.font = 'bold 40px Georgia';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = 'rgba(255, 226, 122, 0.4)';
+  ctx.fillText('₫', 0, 0);
+  ctx.beginPath();
+  ctx.arc(0, 0, 34, 0, Math.PI * 1.6);
+  ctx.strokeStyle = 'rgba(0, 255, 210, 0.5)';
+  ctx.stroke();
+  ctx.restore();
+
+  const tex = new THREE.CanvasTexture(cv);
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  tex.repeat.set(1, 1);
+  return tex;
+}
+
+const wallTex = makeWallTexture();
+const wallMat = new THREE.MeshStandardMaterial({
+  map: wallTex,
+  color: 0x1f5c4d,
+  emissive: 0x0c2a22,
+  emissiveIntensity: 0.45,
+  roughness: 0.8,
+  metalness: 0.15,
+});
+
+const floorMat = new THREE.MeshStandardMaterial({
+  color: 0x14382f,
+  roughness: 0.85,
+  metalness: 0.05,
+  emissive: 0x081f19,
+  emissiveIntensity: 0.35,
+});
+
+const ceilMat = new THREE.MeshStandardMaterial({
+  color: 0x0f2922,
+  roughness: 0.95,
+  emissive: 0x061713,
+  emissiveIntensity: 0.25,
+});
+
+const doorOpenMat = new THREE.MeshStandardMaterial({
+  color: 0x004d3a,
+  emissive: 0x00e5c0,
+  emissiveIntensity: 0.6,
+  transparent: true,
+  opacity: 0.35,
+});
+
+const doorClosedMat = new THREE.MeshStandardMaterial({
+  color: 0x22483d,
+  emissive: 0x00e5c0,
+  emissiveIntensity: 0.65,
+  roughness: 0.25,
+  metalness: 0.75,
+});
+
+const doorNeedsKeyMat = new THREE.MeshStandardMaterial({
+  color: 0x5a4208,
+  emissive: 0xffb703,
+  emissiveIntensity: 0.9,
+  roughness: 0.2,
+  metalness: 0.85,
+});
+
+const doorLockedMat = new THREE.MeshStandardMaterial({
+  color: 0x50100c,
+  emissive: 0xe74c3c,
+  emissiveIntensity: 0.75,
+  roughness: 0.25,
+  metalness: 0.65,
+});
+
+const exitMat = new THREE.MeshStandardMaterial({
+  color: 0x5a4500,
+  emissive: 0xffe27a,
+  emissiveIntensity: 1.4,
+  roughness: 0.15,
+  metalness: 0.85,
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  MAZE WORLD OBJECTS
+// ═══════════════════════════════════════════════════════════════════════════
+let mazeGrid = [];
+let doorObjects = [];
+let itemObjects = [];
+let exitObject = null;
+let pointLights = [];
+let playerCollider = { radius: 0.38 };
+let playerPos = new THREE.Vector3();
+
+const mazeGroup = new THREE.Group();
+scene.add(mazeGroup);
+
+function worldPos(cx, cy) {
+  return new THREE.Vector3(
+    cx * CFG.CELL - (CFG.W * CFG.CELL) / 2,
+    0,
+    cy * CFG.CELL - (CFG.H * CFG.CELL) / 2
+  );
+}
+
+const scrollTexts = [
+  { chapter: 1, text: 'Kinh tế chính trị Mác-Lênin nghiên cứu quan hệ sản xuất & trao đổi trong tương tác hữu cơ với LLSX và kiến trúc thượng tầng. Phương pháp đặc thù là trừu tượng hóa khoa học.' },
+  { chapter: 2, text: 'Lao động trừu tượng là chất của giá trị hàng hóa. Quy luật giá trị điều tiết sản xuất và trao đổi hàng hóa theo hao phí thời gian lao động xã hội cần thiết.' },
+  { chapter: 3, text: 'Giá trị thặng dư (m) sinh ra duy nhất từ lao động thặng dư của công nhân trong sản xuất. Tích lũy tư bản thực chất là sự tư bản hóa giá trị thặng dư.' },
+  { chapter: 4, text: 'Độc quyền sinh ra từ cạnh tranh tự do nhưng không thủ tiêu cạnh tranh mà nâng cạnh tranh lên quy mô toàn cầu. Xuất khẩu tư bản là đặc trưng cơ bản của chủ nghĩa đế quốc.' },
+  { chapter: 5, text: 'KTTT định hướng XHCN ở Việt Nam: mục tiêu dân giàu, nước mạnh, dân chủ, công bằng, văn minh. Kinh tế nhà nước giữ vai trò chủ đạo, kinh tế tư nhân là động lực quan trọng.' },
+  { chapter: 6, text: 'CMCN 4.0 dựa trên hệ thống thực - ảo, AI, Big Data, IoT. Hội nhập kinh tế quốc tế sâu rộng gắn liền với giữ vững độc lập, tự chủ kinh tế quốc gia.' },
+];
+
+function buildMaze() {
+  while (mazeGroup.children.length) mazeGroup.remove(mazeGroup.children[0]);
+  doorObjects = [];
+  itemObjects = [];
+  exitObject = null;
+  pointLights.forEach(l => scene.remove(l));
+  pointLights = [];
+
+  mazeGrid = generateMaze(CFG.W, CFG.H);
+
+  const WS = CFG.CELL;
+  const WH = CFG.WH;
+  const wallGeo = new THREE.BoxGeometry(WS, WH, WS);
+  const floorGeo = new THREE.PlaneGeometry(CFG.W * WS, CFG.H * WS);
+  const ceilGeo = new THREE.PlaneGeometry(CFG.W * WS, CFG.H * WS);
+
+  // Floor
+  const floor = new THREE.Mesh(floorGeo, floorMat);
+  floor.rotation.x = -Math.PI / 2;
+  floor.receiveShadow = true;
+  mazeGroup.add(floor);
+
+  // Ceiling
+  const ceil = new THREE.Mesh(ceilGeo, ceilMat);
+  ceil.rotation.x = Math.PI / 2;
+  ceil.position.y = WH;
+  mazeGroup.add(ceil);
+
+  // Walls & Torch lights
+  let placedLights = 0;
+  for (let y = 0; y < CFG.H; y++) {
+    for (let x = 0; x < CFG.W; x++) {
+      if (mazeGrid[y][x] === 1) {
+        const wp = worldPos(x, y);
+        const m = new THREE.Mesh(wallGeo, wallMat);
+        m.position.set(wp.x, WH / 2, wp.z);
+        m.castShadow = true;
+        m.receiveShadow = true;
+        mazeGroup.add(m);
+      } else if (placedLights < 14 && Math.random() < 0.08 && (x > 2 || y > 2)) {
+        const wp = worldPos(x, y);
+        const col = Math.random() < 0.65 ? 0x00e5c0 : 0xffe27a;
+        const pl = new THREE.PointLight(col, 0.9, 12);
+        pl.position.set(wp.x, WH * 0.75, wp.z);
+        scene.add(pl);
+        pointLights.push(pl);
+
+        const torchGeo = new THREE.CylinderGeometry(0.06, 0.03, 0.4, 6);
+        const torchMat = new THREE.MeshStandardMaterial({ color: 0x111111, emissive: col, emissiveIntensity: 0.6 });
+        const torch = new THREE.Mesh(torchGeo, torchMat);
+        torch.position.copy(pl.position).setY(WH * 0.65);
+        mazeGroup.add(torch);
+        placedLights++;
+      }
+    }
+  }
+
+  // Doors
+  const doorCandidates = [];
+  for (let y = 2; y < CFG.H - 2; y++) {
+    for (let x = 2; x < CFG.W - 2; x++) {
+      if (mazeGrid[y][x] === 0) {
+        const n = mazeGrid[y-1]?.[x] ?? 1;
+        const s = mazeGrid[y+1]?.[x] ?? 1;
+        const e = mazeGrid[y]?.[x+1] ?? 1;
+        const w = mazeGrid[y]?.[x-1] ?? 1;
+        if ((n===1 && s===1 && e===0 && w===0) || (n===0 && s===0 && e===1 && w===1)) {
+          doorCandidates.push({ x, y });
+        }
+      }
+    }
+  }
+
+  doorCandidates.sort(() => Math.random() - 0.5);
+  const doorCount = Math.min(questions.length, doorCandidates.length, 8);
+  state.doorsTotal = doorCount;
+
+  const doorGeo = new THREE.BoxGeometry(WS * 0.92, WH * 0.94, 0.2);
+
+  for (let i = 0; i < doorCount; i++) {
+    const { x, y } = doorCandidates[i];
+    const wp = worldPos(x, y);
+    const q = questions[i % questions.length];
+
+    const needsKey = (i === 1 || i === 4);
+    const mat = needsKey ? doorNeedsKeyMat.clone() : doorClosedMat.clone();
+
+    const mesh = new THREE.Mesh(doorGeo, mat);
+    mesh.position.set(wp.x, WH / 2, wp.z);
+    mesh.castShadow = true;
+
+    // Proper door rotation: if walls are North-South, rotate 90 deg so door spans North-South!
+    const isNS = mazeGrid[y-1]?.[x] === 1 && mazeGrid[y+1]?.[x] === 1;
+    mesh.rotation.y = isNS ? Math.PI / 2 : 0;
+
+    mazeGroup.add(mesh);
+
+    const dlColor = needsKey ? 0xffb703 : 0x00e5c0;
+    const dl = new THREE.PointLight(dlColor, 1.0, 7);
+    dl.position.copy(mesh.position).setY(WH * 0.75);
+    scene.add(dl);
+    pointLights.push(dl);
+
+    doorObjects.push({
+      mesh,
+      light: dl,
+      questionIndex: i,
+      question: q,
+      status: 'closed',
+      needsKey,
+      keyUnlocked: false,
+      worldPos: mesh.position.clone(),
+      lockTimer: 0,
+      cx: x, cy: y,
+    });
+  }
+
+  // Items
+  const openCells = [];
+  for (let y = 1; y < CFG.H - 1; y++) {
+    for (let x = 1; x < CFG.W - 1; x++) {
+      if (mazeGrid[y][x] === 0 && !(x <= 2 && y <= 2)) {
+        const isDoor = doorCandidates.slice(0, doorCount).some(d => d.x === x && d.y === y);
+        if (!isDoor) openCells.push({ x, y });
+      }
+    }
+  }
+  openCells.sort(() => Math.random() - 0.5);
+
+  let cellIdx = 0;
+  const keyGeo = new THREE.TorusGeometry(0.12, 0.03, 8, 16);
+  const keyMat = new THREE.MeshStandardMaterial({ color: 0xffe27a, emissive: 0xffb703, emissiveIntensity: 0.9, metalness: 0.9, roughness: 0.1 });
+
+  const scrollGeo = new THREE.CylinderGeometry(0.09, 0.09, 0.32, 12);
+  const scrollMat = new THREE.MeshStandardMaterial({ color: 0xe8d08c, emissive: 0xc9a043, emissiveIntensity: 0.5, roughness: 0.4 });
+
+  const mapGeo = new THREE.BoxGeometry(0.28, 0.02, 0.32);
+  const mapMat = new THREE.MeshStandardMaterial({ color: 0x004d40, emissive: 0x00e5c0, emissiveIntensity: 0.65, roughness: 0.3 });
+
+  const addItem = (type, geo, mat, data) => {
+    if (cellIdx >= openCells.length) return;
+    const { x, y } = openCells[cellIdx++];
+    const wp = worldPos(x, y);
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(wp.x, 0.45, wp.z);
+    mesh.castShadow = true;
+    mazeGroup.add(mesh);
+
+    const lColor = type === 'key' ? 0xffe27a : type === 'scroll' ? 0xc9a043 : 0x00e5c0;
+    const pl = new THREE.PointLight(lColor, 0.7, 5);
+    pl.position.copy(mesh.position).setY(0.75);
+    scene.add(pl);
+    pointLights.push(pl);
+
+    itemObjects.push({ mesh, light: pl, type, worldPos: mesh.position.clone(), picked: false, data });
+  };
+
+  for (let i = 0; i < (config.items.keys || 3); i++) addItem('key', keyGeo, keyMat, null);
+  for (let i = 0; i < (config.items.scrolls || 6); i++) {
+    const sd = scrollTexts[i % scrollTexts.length];
+    addItem('scroll', scrollGeo, scrollMat, sd);
+  }
+  for (let i = 0; i < (config.items.mapFragments || 2); i++) addItem('map', mapGeo, mapMat, null);
+
+  // Golden Exit Portal
+  const exitWP = worldPos(CFG.W - 2, CFG.H - 2);
+  const exitRingGeo = new THREE.TorusGeometry(0.75, 0.14, 16, 40);
+  const exitMesh = new THREE.Mesh(exitRingGeo, exitMat.clone());
+  exitMesh.position.set(exitWP.x, WH * 0.5, exitWP.z);
+  mazeGroup.add(exitMesh);
+
+  const vortexGeo = new THREE.CircleGeometry(0.65, 32);
+  const vortexMat = new THREE.MeshStandardMaterial({
+    color: 0xffe27a,
+    emissive: 0xffb703,
+    emissiveIntensity: 1.5,
+    side: THREE.DoubleSide,
+    transparent: true,
+    opacity: 0.75,
+  });
+  const vortex = new THREE.Mesh(vortexGeo, vortexMat);
+  vortex.position.copy(exitMesh.position);
+  mazeGroup.add(vortex);
+
+  const exitLight = new THREE.PointLight(0xffe27a, 2.8, 15);
+  exitLight.position.set(exitWP.x, WH * 0.7, exitWP.z);
+  scene.add(exitLight);
+  pointLights.push(exitLight);
+
+  exitObject = { mesh: exitMesh, vortex, light: exitLight, worldPos: exitMesh.position.clone() };
+
+  // Setup player start
+  const startCell = worldPos(1, 1);
+  playerPos.set(startCell.x, CFG.P_HEIGHT, startCell.z);
+  camera.position.copy(playerPos);
+
+  if (mazeGrid[2]?.[1] === 0) {
+    yaw = Math.PI;
+  } else if (mazeGrid[1]?.[2] === 0) {
+    yaw = -Math.PI / 2;
+  } else {
+    yaw = 0;
+  }
+  pitch = 0;
+  camera.rotation.set(0, yaw, 0);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  PLAYER CONTROLS & INPUT
+// ═══════════════════════════════════════════════════════════════════════════
+let yaw = 0, pitch = 0;
+const keys = {};
+let pointerLocked = false;
+let stepTimer = 0;
+
+document.addEventListener('keydown', e => {
+  keys[e.code] = true;
+  sound.init();
+});
+document.addEventListener('keyup', e => { keys[e.code] = false; });
+
+document.addEventListener('mousemove', e => {
+  if (!pointerLocked || state.phase !== 'playing') return;
+  yaw -= e.movementX * 0.0022;
+  pitch -= e.movementY * 0.0022;
+  pitch = Math.max(-Math.PI / 2.8, Math.min(Math.PI / 2.8, pitch));
+});
+
+document.addEventListener('pointerlockchange', () => {
+  pointerLocked = document.pointerLockElement === renderer.domElement;
+  if (!pointerLocked && state.phase === 'playing' && !isDialogOpen()) {
+    openPauseMenu();
+  }
+});
+
+renderer.domElement.addEventListener('click', () => {
+  sound.init();
+  if (state.phase === 'playing' && !isDialogOpen() && !pointerLocked) {
+    renderer.domElement.requestPointerLock();
+  }
+});
+
+document.addEventListener('keydown', e => {
+  if (e.code === 'Escape' && state.phase === 'playing') {
+    if (isDialogOpen()) {
+      closeQuestionDialog();
+      closeScrollDialog();
+    } else {
+      document.exitPointerLock();
+      openPauseMenu();
+    }
+  }
+  if (e.code === 'KeyE' && state.phase === 'playing' && state.nearInteractable) {
+    handleInteract();
+  }
+  if (e.code === 'KeyM' && state.phase === 'playing') {
+    toggleMinimap();
+  }
+});
+
+function toggleMinimap() {
+  if (state.inventory.maps > 0 && !state.minimapUnlocked) {
+    state.minimapUnlocked = true;
+    document.getElementById('minimap-wrap').classList.remove('locked');
+    document.getElementById('minimap-label').textContent = 'Bản đồ';
+    sound.play('pickup');
+    showToast('🗺 Đã mở khóa bản đồ mê cung!');
+  } else if (!state.minimapUnlocked) {
+    showToast('🔒 Bạn cần tìm 🗺 Mảnh bản đồ trong mê cung!');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  COLLISION DETECTION & MOVEMENT
+// ═══════════════════════════════════════════════════════════════════════════
+function isWall(cx, cy) {
+  if (cx < 0 || cy < 0 || cx >= CFG.W || cy >= CFG.H) return true;
+  if (mazeGrid[cy]?.[cx] === 1) return true;
+  for (const d of doorObjects) {
+    if (d.cx === cx && d.cy === cy && d.status !== 'open') return true;
+  }
+  return false;
+}
+
+function movePlayer(dx, dz) {
+  const newX = playerPos.x + dx;
+  const newZ = playerPos.z + dz;
+  const r = playerCollider.radius;
+  const halfW = (CFG.W * CFG.CELL) / 2;
+  const halfH = (CFG.H * CFG.CELL) / 2;
+
+  const gx = (newX + halfW) / CFG.CELL;
+  const gz = (newZ + halfH) / CFG.CELL;
+
+  const cx = Math.floor(gx);
+  const cz = Math.floor(gz);
+
+  if (!isWall(Math.floor((newX + r + halfW) / CFG.CELL), cz) &&
+      !isWall(Math.floor((newX - r + halfW) / CFG.CELL), cz)) {
+    playerPos.x = newX;
+  }
+  if (!isWall(cx, Math.floor((newZ + r + halfH) / CFG.CELL)) &&
+      !isWall(cx, Math.floor((newZ - r + halfH) / CFG.CELL))) {
+    playerPos.z = newZ;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  INTERACTION SYSTEM
+// ═══════════════════════════════════════════════════════════════════════════
+function isDialogOpen() {
+  return !document.getElementById('question-dialog').classList.contains('hidden') ||
+         !document.getElementById('scroll-dialog').classList.contains('hidden');
+}
+
+function findNearInteractable() {
+  const REACH = CFG.CELL * 1.25;
+  let nearest = null;
+  let nearDist = REACH;
+
+  for (let i = 0; i < doorObjects.length; i++) {
+    const d = doorObjects[i];
+    if (d.status === 'open') continue;
+    const dist = playerPos.distanceTo(d.worldPos);
+    if (dist < nearDist) { nearDist = dist; nearest = { type: 'door', index: i }; }
+  }
+  for (let i = 0; i < itemObjects.length; i++) {
+    const it = itemObjects[i];
+    if (it.picked) continue;
+    const dist = playerPos.distanceTo(it.worldPos);
+    if (dist < nearDist) { nearDist = dist; nearest = { type: 'item', index: i }; }
+  }
+  if (exitObject) {
+    const dist = playerPos.distanceTo(exitObject.worldPos);
+    if (dist < nearDist) { nearest = { type: 'exit', index: -1 }; }
+  }
+  return nearest;
+}
+
+function handleInteract() {
+  if (!state.nearInteractable || isDialogOpen()) return;
+  const { type, index } = state.nearInteractable;
+
+  if (type === 'door') {
+    const door = doorObjects[index];
+    if (door.status === 'locked') {
+      showToast(`⏳ Cửa đang bị phạt khóa, còn ${Math.ceil(door.lockTimer)}s...`);
+      return;
+    }
+    if (door.needsKey && !door.keyUnlocked) {
+      if (state.inventory.keys > 0) {
+        state.inventory.keys--;
+        door.keyUnlocked = true;
+        updateInventoryUI();
+        sound.play('unlock');
+        showToast('🗝 Đã dùng 1 Chìa Khóa mở ổ khóa cổ! Hãy trả lời câu hỏi.');
+        setTimeout(() => openQuestionDialog(index), 600);
+      } else {
+        sound.play('wrong');
+        showToast('🔒 Cửa này bị khóa bằng ổ khóa vàng! Hãy tìm 🗝 Chìa Khóa trong mê cung.');
+      }
+      return;
+    }
+    openQuestionDialog(index);
+  } else if (type === 'item') {
+    pickItem(index);
+  } else if (type === 'exit') {
+    triggerWin();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  QUESTION DIALOG
+// ═══════════════════════════════════════════════════════════════════════════
+let currentDoorIndex = -1;
+
+function openQuestionDialog(doorIndex) {
+  currentDoorIndex = doorIndex;
+  const door = doorObjects[doorIndex];
+  const q = door.question;
+
+  document.getElementById('q-chapter').innerHTML = `<span>🏛</span> Chương ${q.chapter} · ${q.topic}`;
+  document.getElementById('q-text').textContent = q.question;
+  const optDiv = document.getElementById('q-options');
+  optDiv.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.innerHTML = `<span class="opt-letter">${letters[i]}</span><span>${opt}</span>`;
+    btn.addEventListener('click', () => answerQuestion(i));
+    optDiv.appendChild(btn);
+  });
+  document.getElementById('q-feedback').className = 'dialog-feedback hidden';
+  document.getElementById('question-dialog').classList.remove('hidden');
+  document.exitPointerLock();
+}
+
+function answerQuestion(chosen) {
+  const door = doorObjects[currentDoorIndex];
+  const q = door.question;
+  const correct = chosen === q.correctIndex;
+  const optBtns = document.querySelectorAll('.opt-btn');
+  optBtns.forEach((b, i) => {
+    b.disabled = true;
+    if (i === q.correctIndex) b.classList.add('correct');
+    else if (i === chosen && !correct) b.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = `dialog-feedback ${correct ? 'correct' : 'wrong'}`;
+  fb.innerHTML = `<span class="feedback-icon">${correct ? '✅' : '❌'}</span>${q.explanation}`;
+
+  if (correct) {
+    sound.play('correct');
+    stats.correct++;
+    state.correctAnswers++;
+    state.doorsOpened++;
+    stats.doorsOpened++;
+    setTimeout(() => {
+      closeQuestionDialog();
+      openDoor(currentDoorIndex);
+      updateProgressUI();
+      if (!isDialogOpen() && state.phase === 'playing') renderer.domElement.requestPointerLock();
+    }, 1800);
+  } else {
+    sound.play('wrong');
+    stats.wrong++;
+    state.wrongAnswers++;
+    state.timeLeft = Math.max(0, state.timeLeft - CFG.PENALTY);
+    door.status = 'locked';
+    door.lockTimer = CFG.LOCK_SECS;
+    door.mesh.material = doorLockedMat.clone();
+    door.light.color.set(0xe74c3c);
+    showToastPenalty();
+    setTimeout(() => {
+      closeQuestionDialog();
+      if (!isDialogOpen() && state.phase === 'playing') renderer.domElement.requestPointerLock();
+    }, 2400);
+  }
+}
+
+function openDoor(index) {
+  const door = doorObjects[index];
+  door.status = 'open';
+  door.mesh.material = doorOpenMat;
+  door.light.color.set(0x00e5c0);
+  door.light.intensity = 0.4;
+  sound.play('doorOpen');
+
+  const startY = door.mesh.position.y;
+  const targetY = CFG.WH + 0.6;
+  let t = 0;
+  const anim = setInterval(() => {
+    t += 0.04;
+    door.mesh.position.y = THREE.MathUtils.lerp(startY, targetY, Math.min(t, 1));
+    if (t >= 1) clearInterval(anim);
+  }, 16);
+}
+
+function closeQuestionDialog() {
+  document.getElementById('question-dialog').classList.add('hidden');
+  currentDoorIndex = -1;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  ITEMS SYSTEM
+// ═══════════════════════════════════════════════════════════════════════════
+function pickItem(index) {
+  const item = itemObjects[index];
+  if (item.picked) return;
+  item.picked = true;
+  item.mesh.visible = false;
+  item.light.intensity = 0;
+  sound.play('pickup');
+
+  if (item.type === 'key') {
+    state.inventory.keys++;
+    showToast('🗝 Nhặt được Chìa Khóa Vàng!');
+  } else if (item.type === 'scroll') {
+    state.inventory.scrolls++;
+    openScrollDialog(item.data);
+    return;
+  } else if (item.type === 'map') {
+    state.inventory.maps++;
+    state.minimapUnlocked = true;
+    document.getElementById('minimap-wrap').classList.remove('locked');
+    document.getElementById('minimap-label').textContent = 'Bản đồ';
+    showToast('🗺 Nhặt được Mảnh Bản Đồ! Bản đồ đã được kích hoạt.');
+  }
+  updateInventoryUI();
+}
+
+function openScrollDialog(data) {
+  updateInventoryUI();
+  if (!data) return;
+  document.getElementById('scroll-text').textContent = data.text;
+  document.getElementById('scroll-chap').textContent = `Chương ${data.chapter} — Key Takeaway`;
+  document.getElementById('scroll-dialog').classList.remove('hidden');
+  document.exitPointerLock();
+}
+
+function closeScrollDialog() {
+  document.getElementById('scroll-dialog').classList.add('hidden');
+  if (state.phase === 'playing') renderer.domElement.requestPointerLock();
+}
+document.getElementById('btn-close-scroll').addEventListener('click', closeScrollDialog);
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  PAUSE / RESUME / WIN / LOSE
+// ═══════════════════════════════════════════════════════════════════════════
+function openPauseMenu() {
+  state.phase = 'paused';
+  document.getElementById('pause-screen').classList.remove('hidden');
+}
+
+function resumeGame() {
+  state.phase = 'playing';
+  document.getElementById('pause-screen').classList.add('hidden');
+  renderer.domElement.requestPointerLock();
+}
+document.getElementById('btn-resume').addEventListener('click', resumeGame);
+
+function triggerWin() {
+  state.phase = 'win';
+  sound.play('win');
+  document.getElementById('hud').classList.add('hidden');
+  document.getElementById('btn-back-game').classList.add('hidden');
+  document.getElementById('btn-sound-toggle').classList.add('hidden');
+  document.getElementById('question-dialog').classList.add('hidden');
+  document.getElementById('scroll-dialog').classList.add('hidden');
+
+  const mins = Math.floor(state.timeLeft / 60);
+  const secs = Math.floor(state.timeLeft % 60);
+  document.getElementById('win-time').textContent = `${mins}:${secs.toString().padStart(2,'0')}`;
+  document.getElementById('win-doors').textContent = stats.doorsOpened;
+  document.getElementById('win-correct').textContent = stats.correct;
+  document.getElementById('win-wrong').textContent = stats.wrong;
+  document.getElementById('win-screen').classList.remove('hidden');
+  document.exitPointerLock();
+}
+
+function triggerLose() {
+  state.phase = 'lose';
+  sound.play('lose');
+  document.getElementById('hud').classList.add('hidden');
+  document.getElementById('btn-back-game').classList.add('hidden');
+  document.getElementById('btn-sound-toggle').classList.add('hidden');
+  document.getElementById('question-dialog').classList.add('hidden');
+  document.getElementById('scroll-dialog').classList.add('hidden');
+  document.getElementById('lose-doors').textContent = stats.doorsOpened;
+  document.getElementById('lose-correct').textContent = stats.correct;
+  document.getElementById('lose-screen').classList.remove('hidden');
+  document.exitPointerLock();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  UI UPDATES
+// ═══════════════════════════════════════════════════════════════════════════
+let lastSec = -1;
+function updateTimerUI() {
+  const t = Math.max(0, state.timeLeft);
+  const mins = Math.floor(t / 60);
+  const secs = Math.floor(t % 60);
+  const el = document.getElementById('timer-val');
+  el.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+  el.className = '';
+  if (t < 30) {
+    el.className = 'danger';
+    if (secs !== lastSec) {
+      sound.play('tick');
+      lastSec = secs;
+    }
+  } else if (t < 90) {
+    el.className = 'warning';
+  }
+}
+
+function updateInventoryUI() {
+  document.getElementById('inv-keys').textContent = state.inventory.keys;
+  document.getElementById('inv-scrolls').textContent = state.inventory.scrolls;
+  document.getElementById('inv-maps').textContent = state.inventory.maps;
+}
+
+function updateProgressUI() {
+  const pct = state.doorsTotal > 0 ? (state.doorsOpened / state.doorsTotal) * 100 : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = `${state.doorsOpened} / ${state.doorsTotal} cửa đã mở`;
+}
+
+let toastTimer = null;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.remove('hidden');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.add('hidden'), 3000);
+}
+
+function showToastPenalty() {
+  showToast(`❌ Trả lời sai! Trừ ${CFG.PENALTY}s · Cửa khóa ${CFG.LOCK_SECS}s`);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  MINIMAP RENDERING
+// ═══════════════════════════════════════════════════════════════════════════
+const minimapCanvas = document.getElementById('minimap-canvas');
+const mmCtx = minimapCanvas.getContext('2d');
+const MM_SIZE = 130;
+const MM_CELL = MM_SIZE / CFG.W;
+
+function drawMinimap() {
+  mmCtx.clearRect(0, 0, MM_SIZE, MM_SIZE);
+  mmCtx.fillStyle = '#000e0a';
+  mmCtx.fillRect(0, 0, MM_SIZE, MM_SIZE);
+  if (!state.minimapUnlocked) return;
+
+  for (let y = 0; y < CFG.H; y++) {
+    for (let x = 0; x < CFG.W; x++) {
+      if (mazeGrid[y]?.[x] === 1) {
+        mmCtx.fillStyle = '#0d2820';
+        mmCtx.fillRect(x * MM_CELL, y * MM_CELL, MM_CELL, MM_CELL);
+      }
+    }
+  }
+
+  for (const d of doorObjects) {
+    mmCtx.fillStyle = d.status === 'open' ? '#00e5c0' : d.status === 'locked' ? '#e74c3c' : (d.needsKey && !d.keyUnlocked ? '#ffb703' : '#38b000');
+    mmCtx.fillRect(d.cx * MM_CELL + 0.5, d.cy * MM_CELL + 0.5, MM_CELL - 1, MM_CELL - 1);
+  }
+
+  for (const it of itemObjects) {
+    if (it.picked) continue;
+    const gx = Math.floor((it.worldPos.x + (CFG.W * CFG.CELL) / 2) / CFG.CELL);
+    const gz = Math.floor((it.worldPos.z + (CFG.H * CFG.CELL) / 2) / CFG.CELL);
+    mmCtx.fillStyle = it.type === 'key' ? '#ffe27a' : it.type === 'scroll' ? '#e8d08c' : '#00e5c0';
+    mmCtx.beginPath();
+    mmCtx.arc((gx + 0.5) * MM_CELL, (gz + 0.5) * MM_CELL, MM_CELL * 0.35, 0, Math.PI * 2);
+    mmCtx.fill();
+  }
+
+  if (exitObject) {
+    const gx = CFG.W - 2;
+    const gz = CFG.H - 2;
+    mmCtx.fillStyle = '#ffe27a';
+    mmCtx.beginPath();
+    mmCtx.arc((gx + 0.5) * MM_CELL, (gz + 0.5) * MM_CELL, MM_CELL * 0.55, 0, Math.PI * 2);
+    mmCtx.fill();
+  }
+
+  const px = (playerPos.x + (CFG.W * CFG.CELL) / 2) / CFG.CELL;
+  const pz = (playerPos.z + (CFG.H * CFG.CELL) / 2) / CFG.CELL;
+  const pScreenX = px * MM_CELL;
+  const pScreenY = pz * MM_CELL;
+
+  mmCtx.save();
+  mmCtx.translate(pScreenX, pScreenY);
+  mmCtx.rotate(-yaw);
+
+  mmCtx.fillStyle = '#ffffff';
+  mmCtx.beginPath();
+  mmCtx.moveTo(0, -5);
+  mmCtx.lineTo(3.5, 4);
+  mmCtx.lineTo(0, 2);
+  mmCtx.lineTo(-3.5, 4);
+  mmCtx.closePath();
+  mmCtx.fill();
+
+  mmCtx.restore();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  GAME LOOP & START
+// ═══════════════════════════════════════════════════════════════════════════
+const clock = new THREE.Clock();
+
+function startGame() {
+  sound.init();
+  state = {
+    phase: 'playing',
+    timeLeft: CFG.TOTAL_TIME,
+    doorsOpened: 0,
+    doorsTotal: 0,
+    correctAnswers: 0,
+    wrongAnswers: 0,
+    inventory: { keys: 0, scrolls: 0, maps: 0 },
+    minimapUnlocked: false,
+    activeDoorIndex: -1,
+    nearInteractable: null,
+  };
+  stats.doorsOpened = 0;
+  stats.correct = 0;
+  stats.wrong = 0;
+
+  buildMaze();
+  updateInventoryUI();
+  updateProgressUI();
+
+  document.getElementById('menu-screen').classList.add('hidden');
+  document.getElementById('win-screen').classList.add('hidden');
+  document.getElementById('lose-screen').classList.add('hidden');
+  document.getElementById('pause-screen').classList.add('hidden');
+  document.getElementById('hud').classList.remove('hidden');
+  document.getElementById('btn-back-game').classList.remove('hidden');
+  document.getElementById('btn-sound-toggle').classList.remove('hidden');
+  document.getElementById('minimap-wrap').classList.add('locked');
+  document.getElementById('minimap-label').textContent = 'Bản đồ 🔒';
+
+  clock.start();
+  renderer.domElement.requestPointerLock();
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  const delta = Math.min(clock.getDelta(), 0.1);
+  const t = clock.getElapsedTime();
+
+  if (state.phase === 'menu') {
+    camera.position.x = Math.sin(t * 0.15) * 4;
+    camera.position.z = Math.cos(t * 0.15) * 4;
+    camera.position.y = CFG.P_HEIGHT;
+    camera.lookAt(0, CFG.P_HEIGHT * 0.8, 0);
+
+    playerLantern.position.set(0, CFG.WH * 0.6, 0);
+    playerWarmGlow.position.set(0, CFG.WH * 0.5, 0);
+  } else if (state.phase === 'playing') {
+    state.timeLeft -= delta;
+    updateTimerUI();
+    if (state.timeLeft <= 0) { state.timeLeft = 0; triggerLose(); return; }
+
+    for (const d of doorObjects) {
+      if (d.status === 'locked') {
+        d.lockTimer -= delta;
+        if (d.lockTimer <= 0) {
+          d.status = 'closed';
+          d.mesh.material = d.needsKey && !d.keyUnlocked ? doorNeedsKeyMat.clone() : doorClosedMat.clone();
+          d.light.color.set(d.needsKey && !d.keyUnlocked ? 0xffb703 : 0x00e5c0);
+          d.light.intensity = 1.0;
+        }
+      }
+    }
+
+    if (!isDialogOpen()) {
+      const forward = new THREE.Vector3(-Math.sin(yaw), 0, -Math.cos(yaw));
+      const right = new THREE.Vector3(Math.cos(yaw), 0, -Math.sin(yaw));
+      let move = new THREE.Vector3();
+
+      if (keys['KeyW'] || keys['ArrowUp']) move.add(forward);
+      if (keys['KeyS'] || keys['ArrowDown']) move.sub(forward);
+      if (keys['KeyA'] || keys['ArrowLeft']) move.sub(right);
+      if (keys['KeyD'] || keys['ArrowRight']) move.add(right);
+
+      if (move.length() > 0) {
+        move.normalize().multiplyScalar(CFG.SPEED * delta);
+        movePlayer(move.x, move.z);
+
+        stepTimer += delta;
+        if (stepTimer > 0.38) {
+          sound.play('footstep');
+          stepTimer = 0;
+        }
+      }
+    }
+
+    camera.position.copy(playerPos);
+    camera.rotation.order = 'YXZ';
+    camera.rotation.y = yaw;
+    camera.rotation.x = pitch;
+
+    playerLantern.position.copy(playerPos);
+    playerLantern.position.y += 0.2;
+    playerWarmGlow.position.copy(playerPos);
+
+    for (const it of itemObjects) {
+      if (!it.picked) {
+        it.mesh.position.y = 0.45 + Math.sin(t * 2.5 + it.mesh.id) * 0.08;
+        it.mesh.rotation.y = t * 1.5;
+      }
+    }
+
+    if (exitObject) {
+      exitObject.mesh.rotation.y = t * 0.9;
+      exitObject.mesh.rotation.z = Math.sin(t * 0.6) * 0.25;
+      exitObject.vortex.rotation.z = -t * 1.5;
+      exitObject.light.intensity = 2.2 + Math.sin(t * 4) * 0.6;
+    }
+
+    const near = findNearInteractable();
+    state.nearInteractable = near;
+    const hint = document.getElementById('interact-hint');
+    if (near && !isDialogOpen()) {
+      hint.classList.remove('hidden');
+      if (near.type === 'door') {
+        const d = doorObjects[near.index];
+        if (d.status === 'locked') {
+          hint.innerHTML = `<kbd>E</kbd> Cửa khóa phạt (${Math.ceil(d.lockTimer)}s)`;
+        } else if (d.needsKey && !d.keyUnlocked) {
+          hint.innerHTML = `<kbd>E</kbd> 🗝 Dùng Chìa Khóa mở ổ khóa (${state.inventory.keys} chìa)`;
+        } else {
+          hint.innerHTML = `<kbd>E</kbd> 🚪 Trả lời câu hỏi để mở cửa`;
+        }
+      } else if (near.type === 'item') {
+        const it = itemObjects[near.index];
+        hint.innerHTML = `<kbd>E</kbd> Nhặt ${it.type === 'key' ? '🗝 Chìa Khóa Vàng' : it.type === 'scroll' ? '📜 Cuộn Bí Kíp' : '🗺 Mảnh Bản Đồ'}`;
+      } else if (near.type === 'exit') {
+        hint.innerHTML = `<kbd>E</kbd> 🌟 Bước vào Cổng Thoát Vàng!`;
+      }
+    } else {
+      hint.classList.add('hidden');
+    }
+
+    drawMinimap();
+  }
+
+  renderer.render(scene, camera);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  WIRING & NAVIGATION
+// ═══════════════════════════════════════════════════════════════════════════
+function goBack() {
+  if (window.parent !== window) {
+    window.parent.postMessage('ECONOMY_MAZE_BACK_TO_PORTAL', '*');
+  } else {
+    history.back();
+  }
+}
+
+document.getElementById('btn-start').addEventListener('click', startGame);
+document.getElementById('btn-play-again-win').addEventListener('click', startGame);
+document.getElementById('btn-play-again-lose').addEventListener('click', startGame);
+document.getElementById('btn-back-menu').addEventListener('click', goBack);
+document.getElementById('btn-back-win').addEventListener('click', goBack);
+document.getElementById('btn-back-lose').addEventListener('click', goBack);
+document.getElementById('btn-back-pause').addEventListener('click', goBack);
+document.getElementById('btn-back-game').addEventListener('click', () => {
+  document.exitPointerLock();
+  goBack();
+});
+
+const soundBtn = document.getElementById('btn-sound-toggle');
+soundBtn.addEventListener('click', () => {
+  sound.muted = !sound.muted;
+  soundBtn.textContent = sound.muted ? '🔇 Tắt âm' : '🔊 Bật âm';
+  sound.init();
+});
+
+buildMaze();
+animate();
+</script>
+</body>
+</html>

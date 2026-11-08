@@ -1,6 +1,7 @@
 import { useMuseumStore } from '../store/useMuseumStore.js'
 import { ROOMS, COUNTABLE } from '../world/layout.js'
 import { unlockAudio } from '../audio/sfx.js'
+import { usePortalStore } from '../store/usePortalStore.js'
 
 export default function StartScreen() {
   const started = useMuseumStore((s) => s.started)
@@ -8,6 +9,7 @@ export default function StartScreen() {
   const resetProgress = useMuseumStore((s) => s.resetProgress)
   const done = useMuseumStore((s) => COUNTABLE.filter((exhibit) => s.discovered.has(exhibit.id)).length)
   const hasChecked = useMuseumStore((s) => s.discovered.size > 0)
+  const returnToPortal = usePortalStore((s) => s.returnToPortal)
 
   if (started) return null
 
@@ -51,6 +53,9 @@ export default function StartScreen() {
             Xoá tiến trình và bắt đầu lại
           </button>
         )}
+        <button className="start__link" onClick={returnToPortal} style={{ marginTop: 8 }}>
+          ← Về trang chọn game
+        </button>
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 import { useMuseumStore } from '../store/useMuseumStore.js'
 import { ROOMS, COUNTABLE } from '../world/layout.js'
 import Minimap from './Minimap.jsx'
+import { usePortalStore } from '../store/usePortalStore.js'
 
 function Progress({ done, total }) {
   return (
@@ -42,6 +43,13 @@ export default function HUD() {
         <Minimap />
         <button className="hud__button" onClick={toggleMute} title="Phím M">
           {muted ? 'Bật âm thanh' : 'Tắt âm thanh'}
+        </button>
+        <button
+          className="hud__button"
+          onClick={() => { const returnToPortal = usePortalStore.getState().returnToPortal; returnToPortal() }}
+          title="Về trang chọn game"
+        >
+          ← Về portal
         </button>
       </div>
 

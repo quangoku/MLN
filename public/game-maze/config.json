@@ -1,0 +1,28 @@
+{
+  "maze": {
+    "width": 21,
+    "height": 21,
+    "cellSize": 3.5,
+    "wallHeight": 2.8
+  },
+  "game": {
+    "totalTime": 360,
+    "wrongAnswerTimePenalty": 30,
+    "doorLockSeconds": 10,
+    "playerSpeed": 6.0,
+    "playerHeight": 1.6
+  },
+  "items": {
+    "keys": 3,
+    "scrolls": 6,
+    "mapFragments": 2
+  },
+  "chapters": {
+    "1": { "name": "Đối tượng và Phương pháp", "color": "#4a90d9", "zone": "north" },
+    "2": { "name": "Hàng hóa và Thị trường",   "color": "#27ae60", "zone": "east" },
+    "3": { "name": "Giá trị thặng dư",           "color": "#e74c3c", "zone": "center" },
+    "4": { "name": "Độc quyền và Cạnh tranh",    "color": "#8e44ad", "zone": "west" },
+    "5": { "name": "KTTT XHCN Việt Nam",          "color": "#f39c12", "zone": "south" },
+    "6": { "name": "Công nghiệp hóa & Hội nhập", "color": "#16a085", "zone": "exit" }
+  }
+}

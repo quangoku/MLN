@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Inter:wght@400;500;600;700&display=swap');
+
 :root {
   --ink: #3a2a2a;
   --paper: #fbf3e2;
@@ -863,5 +865,654 @@ kbd {
 @keyframes textBlink {
   from { opacity: 0.6; }
   to { opacity: 1; }
+}
+
+/* ========================================================
+   PORTAL SCREEN — DUAL GATE SELECTOR
+   ======================================================== */
+
+.portal-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background: radial-gradient(ellipse at 50% 0%, #1a0c2e 0%, #0a0614 40%, #050210 100%);
+  overflow: hidden;
+  font-family: 'Inter', system-ui, sans-serif;
+  transition: opacity 0.9s ease;
+}
+
+.portal-screen--exit-1 { animation: portalExitGold 0.9s ease forwards; }
+.portal-screen--exit-2 { animation: portalExitTeal 0.9s ease forwards; }
+
+@keyframes portalExitGold {
+  0% { opacity: 1; }
+  100% { opacity: 0; background: radial-gradient(circle at 50% 40%, #ffe27a 0%, #c9a043 40%, #fff 100%); }
+}
+@keyframes portalExitTeal {
+  0% { opacity: 1; }
+  100% { opacity: 0; background: radial-gradient(circle at 50% 40%, #00e5c0 0%, #00695c 40%, #000 100%); }
+}
+
+/* Starfield */
+.portal-stars { position: absolute; inset: 0; pointer-events: none; }
+.portal-star-dot {
+  position: absolute;
+  width: 2px; height: 2px;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0;
+  animation: starTwinkle 4s ease-in-out infinite;
+}
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.8; }
+}
+
+/* Header */
+.portal-header {
+  text-align: center;
+  z-index: 2;
+  padding: 0 20px;
+}
+.portal-header__eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #c9a043;
+  opacity: 0.85;
+  margin-bottom: 6px;
+}
+.portal-header__title {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 900;
+  background: linear-gradient(135deg, #ffe27a 0%, #c9a043 40%, #7ce2fe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 8px;
+  letter-spacing: 0.04em;
+  text-shadow: none;
+  filter: drop-shadow(0 0 30px rgba(201, 160, 67, 0.4));
+}
+.portal-header__subtitle {
+  font-size: 14px;
+  color: rgba(255,255,255,0.55);
+  margin: 0;
+  letter-spacing: 0.03em;
+}
+
+/* Gates layout */
+.portal-gates {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  z-index: 2;
+  width: 100%;
+  max-width: 960px;
+  padding: 0 20px;
+  justify-content: center;
+}
+.portal-gate-wrap {
+  flex: 1;
+  max-width: 380px;
+  cursor: pointer;
+}
+
+/* Divider */
+.portal-divider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
+  flex-shrink: 0;
+}
+.portal-divider__line {
+  width: 1px;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.2), transparent);
+}
+.portal-divider__orb {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.05em;
+}
+
+/* Quote */
+.portal-quote {
+  z-index: 2;
+  height: 28px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 14px;
+  font-style: italic;
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
+}
+.portal-quote--visible { opacity: 1; transform: translateY(0); }
+.portal-quote__mark { color: #c9a043; font-size: 18px; vertical-align: middle; margin: 0 4px; }
+
+/* Transition overlay */
+.portal-transition {
+  position: fixed; inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  animation: portalFlash 0.9s ease forwards;
+}
+.portal-transition--1 { background: radial-gradient(circle at 50% 40%, #fff8e0, #ffe27a, transparent); }
+.portal-transition--2 { background: radial-gradient(circle at 50% 40%, #b2fff0, #00e5c0, transparent); }
+@keyframes portalFlash {
+  0% { opacity: 0; }
+  30% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ── COMMON GATE STYLES ── */
+.portal-gate {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  max-height: 480px;
+  border-radius: 16px 16px 8px 8px;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+}
+.portal-gate--hovered { transform: translateY(-8px) scale(1.02); }
+
+/* Portal label base */
+.portal-label__eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+.portal-label__name {
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: clamp(14px, 2.5vw, 20px);
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 2px 0 4px;
+}
+.portal-label__tagline {
+  font-size: 11px;
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+/* ══════════════════════════════════
+   GATE 1 — PHILOSOPHY (Stone + Light)
+   ══════════════════════════════════ */
+.portal-gate--1 {
+  background: linear-gradient(180deg, #2a1e0a 0%, #1a0e05 100%);
+  box-shadow: 0 20px 60px rgba(201, 160, 67, 0.25), 0 0 0 1px rgba(201, 160, 67, 0.2);
+}
+.portal-gate--1.portal-gate--hovered {
+  box-shadow: 0 30px 80px rgba(201, 160, 67, 0.45), 0 0 0 1px rgba(255, 226, 122, 0.5), 0 0 40px rgba(255, 226, 122, 0.2) inset;
+}
+
+.gate1-sky {
+  position: absolute;
+  inset: 0 0 30% 0;
+  background: linear-gradient(180deg, #0d1a3a 0%, #1a2d6e 50%, #c87941 85%, #f0a060 100%);
+}
+.gate1-star {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0;
+  animation: starTwinkle 3s ease-in-out infinite;
+}
+.gate1-ground {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 30%;
+  background: linear-gradient(180deg, #8b6540 0%, #6b4e2e 60%, #4a3020 100%);
+}
+
+/* Columns */
+.gate1-col {
+  position: absolute;
+  bottom: 28%;
+  width: 14%;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+.gate1-col--left { left: 6%; }
+.gate1-col--right { right: 6%; }
+
+.gate1-col-body {
+  width: 100%;
+  flex: 1;
+  height: 55%;
+  background: linear-gradient(90deg, #c8a878 0%, #e8c89a 40%, #d4a870 100%);
+  position: relative;
+  overflow: hidden;
+}
+.gate1-col-body--light {
+  background: linear-gradient(90deg, #e8d4b0 0%, #fff8e8 40%, #ffe8a0 100%);
+  box-shadow: inset 0 0 20px rgba(255, 226, 122, 0.3);
+}
+.gate1-col-flutes {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0%, transparent 30%,
+    rgba(0,0,0,0.12) 30%, rgba(0,0,0,0.12) 35%,
+    transparent 35%, transparent 65%,
+    rgba(0,0,0,0.12) 65%, rgba(0,0,0,0.12) 70%,
+    transparent 70% 100%
+  );
+}
+.gate1-col-capital {
+  width: 150%; height: 8px;
+  background: linear-gradient(180deg, #d4a870 0%, #b88848 100%);
+  border-radius: 3px 3px 0 0;
+}
+.gate1-col-base {
+  width: 150%; height: 12px;
+  background: #b88848;
+  border-radius: 0 0 4px 4px;
+  margin-top: 0;
+}
+
+/* Statues */
+.gate1-statue {
+  position: absolute;
+  bottom: 0;
+  width: 30px; height: 60px;
+  background: linear-gradient(180deg, #c8a878 0%, #a88050 100%);
+  border-radius: 4px 4px 0 0;
+  opacity: 0.6;
+}
+.gate1-statue--left { right: -22px; }
+.gate1-statue--right { left: -22px; }
+
+/* Arch */
+.gate1-arch {
+  position: absolute;
+  top: 10%; left: 10%; right: 10%;
+  height: 45%;
+  display: flex;
+  overflow: hidden;
+}
+.gate1-arch-half {
+  flex: 1;
+  position: relative;
+}
+.gate1-arch-half--matter {
+  background: linear-gradient(135deg, #c8a878 0%, #a07040 60%, #8a5e30 100%);
+  clip-path: polygon(0 100%, 100% 100%, 100% 30%, 50% 0%, 0 30%);
+}
+.gate1-arch-half--spirit {
+  background: linear-gradient(135deg, #fff8d0 0%, #ffe880 50%, transparent 100%);
+  clip-path: polygon(0 100%, 100% 100%, 100% 30%, 50% 0%, 0 30%);
+  box-shadow: inset 0 0 30px rgba(255, 226, 122, 0.5);
+  animation: spiritPulse 3s ease-in-out infinite;
+}
+.portal-gate--hovered .gate1-arch-half--spirit {
+  animation: spiritPulse 1.5s ease-in-out infinite;
+}
+@keyframes spiritPulse {
+  0%, 100% { opacity: 0.85; filter: brightness(1); }
+  50% { opacity: 1; filter: brightness(1.3); }
+}
+.gate1-arch-keystone {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, #ffe27a 50%, transparent 100%);
+  box-shadow: 0 0 20px 10px rgba(255, 226, 122, 0.6);
+  animation: keystonePulse 2s ease-in-out infinite;
+}
+@keyframes keystonePulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
+  50% { transform: translate(-50%, -50%) scale(1.4); opacity: 1; }
+}
+
+/* Light rays */
+.gate1-rays {
+  position: absolute;
+  top: 10%; left: 50%;
+  width: 0; height: 0;
+  pointer-events: none;
+}
+.gate1-ray {
+  position: absolute;
+  top: 0; left: 0;
+  width: 2px; height: 120px;
+  background: linear-gradient(to bottom, rgba(255,226,122,0.6), transparent);
+  transform-origin: top center;
+  transform: rotate(calc(var(--i) * 30deg - 75deg));
+  opacity: 0.4;
+  animation: rayPulse 2.5s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.3s);
+}
+.portal-gate--hovered .gate1-ray { opacity: 0.8; height: 180px; }
+@keyframes rayPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+}
+
+/* Particles */
+.gate1-particles { position: absolute; inset: 0; pointer-events: none; }
+.gate1-particle {
+  position: absolute;
+  left: var(--x);
+  bottom: 30%;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: #ffe27a;
+  box-shadow: 0 0 6px #ffe27a;
+  animation: floatUp var(--dur) var(--delay) ease-in-out infinite;
+}
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-120px) scale(0.2); opacity: 0; }
+}
+
+/* Shadow */
+.gate1-shadow {
+  position: absolute;
+  bottom: 29%;
+  left: 0; right: 0;
+  height: 4px;
+  background: rgba(80, 40, 10, 0.5);
+  filter: blur(6px);
+  transform: skewX(-20deg) translateX(-10%);
+}
+
+/* Gate 1 Label */
+.gate1-label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 14px 16px;
+  background: linear-gradient(0deg, rgba(15,8,2,0.92) 0%, transparent 100%);
+  color: #f0d89a;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.portal-gate--1.portal-gate--hovered .gate1-label { opacity: 1; }
+.portal-gate--1 .portal-label__eyebrow { color: #c9a043; }
+.portal-gate--1 .portal-label__name { color: #ffe27a; }
+
+/* ══════════════════════════════════
+   GATE 2 — ECONOMY (Dark temple + Jade sphere)
+   ══════════════════════════════════ */
+.portal-gate--2 {
+  background: linear-gradient(180deg, #020e0c 0%, #041210 100%);
+  box-shadow: 0 20px 60px rgba(0, 180, 140, 0.2), 0 0 0 1px rgba(0, 220, 180, 0.15);
+}
+.portal-gate--2.portal-gate--hovered {
+  box-shadow: 0 30px 80px rgba(0, 220, 180, 0.4), 0 0 0 1px rgba(0, 240, 200, 0.4), 0 0 40px rgba(0, 200, 160, 0.15) inset;
+}
+
+.gate2-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 60%, #0a2e28 0%, #030f0c 60%, #010806 100%);
+}
+
+/* Stone columns gate 2 */
+.gate2-col {
+  position: absolute;
+  bottom: 25%; top: 15%;
+  width: 13%;
+  background: linear-gradient(90deg, #1a2e2a 0%, #253830 50%, #1a2e2a 100%);
+  border-radius: 3px;
+}
+.gate2-col--left { left: 5%; }
+.gate2-col--right { right: 5%; }
+.gate2-col-engraving {
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  width: 70%; height: 20px;
+  border-radius: 3px;
+  opacity: 0.4;
+}
+.gate2-col-engraving--scales { top: 25%; background: rgba(0,220,180,0.3); }
+.gate2-col-engraving--wheat { top: 60%; background: rgba(201,160,67,0.3); }
+
+/* Archway */
+.gate2-archway {
+  position: absolute;
+  top: 8%; left: 8%; right: 8%;
+  height: 50%;
+  border: 3px solid #1e4a42;
+  border-bottom: none;
+  border-radius: 50% 50% 0 0 / 30% 30% 0 0;
+  background: linear-gradient(180deg, #041a16 0%, transparent 100%);
+  display: flex;
+  justify-content: center;
+}
+
+/* Coin emblem */
+.gate2-coin-emblem {
+  position: absolute;
+  top: -18px;
+  width: 36px; height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gate2-coin-rays {
+  position: absolute; inset: 0;
+  animation: coinSpin 8s linear infinite;
+}
+.portal-gate--hovered .gate2-coin-rays { animation-duration: 3s; }
+.gate2-coin-ray {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 1px; height: 22px;
+  transform-origin: top center;
+  transform: translate(-50%, 0) rotate(calc(var(--n) * 45deg));
+  background: linear-gradient(to bottom, #c9a043, transparent);
+  opacity: 0.7;
+}
+.gate2-coin-face {
+  position: relative;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffe27a, #c9a043);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #7a4a10;
+  font-weight: 900;
+  box-shadow: 0 0 12px rgba(201, 160, 67, 0.7);
+}
+@keyframes coinSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Steps */
+.gate2-steps {
+  position: absolute;
+  bottom: 25%; left: 10%; right: 10%;
+}
+.gate2-step {
+  height: 8px;
+  background: #1a3530;
+  border-radius: 2px;
+  margin-bottom: 2px;
+}
+.gate2-step--1 { margin: 0 0 2px; }
+.gate2-step--2 { margin: 0 5% 2px; }
+.gate2-step--3 { margin: 0 10% 2px; }
+
+/* Floor coins */
+.gate2-floor-coin {
+  position: absolute;
+  left: var(--cx); bottom: var(--cy);
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffe27a, #c9a043);
+  box-shadow: 0 0 4px rgba(201, 160, 67, 0.5);
+  opacity: 0.6;
+  transition: opacity 0.3s ease, box-shadow 0.3s ease;
+}
+.portal-gate--hovered .gate2-floor-coin {
+  opacity: 1;
+  box-shadow: 0 0 10px rgba(201, 160, 67, 0.9);
+  animation: coinGlow 1s ease-in-out infinite alternate;
+}
+@keyframes coinGlow {
+  from { box-shadow: 0 0 6px rgba(201, 160, 67, 0.7); }
+  to { box-shadow: 0 0 16px rgba(255, 226, 122, 1); }
+}
+
+/* Jade sphere */
+.gate2-sphere-wrap {
+  position: absolute;
+  top: 20%; left: 50%;
+  transform: translateX(-50%);
+  width: 100px; height: 100px;
+  display: flex; align-items: center; justify-content: center;
+}
+.gate2-sphere-glow {
+  position: absolute; inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,220,180,0.3) 0%, transparent 70%);
+  animation: sphereGlow 3s ease-in-out infinite;
+}
+.portal-gate--hovered .gate2-sphere-glow { animation-duration: 1.5s; }
+@keyframes sphereGlow {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+.gate2-sphere {
+  position: relative;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #4effd8 0%, #00b894 35%, #004d40 80%, #002a24 100%);
+  box-shadow: 0 0 30px rgba(0,220,180,0.5), inset -10px -10px 20px rgba(0,0,0,0.4);
+  overflow: hidden;
+  transition: transform 0.4s ease;
+}
+.portal-gate--hovered .gate2-sphere { transform: scale(1.15); }
+.portal-gate--2.portal-gate--hovered .gate2-sphere {
+  animation: sphereExpand 0.5s ease 0.4s forwards paused;
+}
+.gate2-sphere-inner {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.2) 0%, transparent 60%);
+}
+.gate2-sphere-pattern {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background:
+    repeating-conic-gradient(rgba(0,220,180,0.1) 0deg 10deg, transparent 10deg 20deg),
+    radial-gradient(circle at 60% 60%, rgba(0,150,120,0.2) 0%, transparent 50%);
+}
+
+/* Orbital rings */
+.gate2-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0,220,180,0.5);
+  animation: ringOrbit 4s linear infinite;
+}
+.gate2-ring--1 {
+  width: 100px; height: 40px;
+  top: 30px; left: 0;
+  border-color: rgba(0,220,180,0.6);
+  animation-duration: 3s;
+}
+.gate2-ring--2 {
+  width: 100px; height: 55px;
+  top: 22px; left: 0;
+  border-color: rgba(201,160,67,0.4);
+  animation-duration: 5s;
+  animation-direction: reverse;
+}
+.gate2-ring--3 {
+  width: 100px; height: 25px;
+  top: 37px; left: 0;
+  border-color: rgba(0,180,140,0.3);
+  animation-duration: 7s;
+}
+.portal-gate--hovered .gate2-ring--1 { animation-duration: 1.5s; }
+.portal-gate--hovered .gate2-ring--2 { animation-duration: 2.5s; }
+.portal-gate--hovered .gate2-ring--3 { animation-duration: 3.5s; }
+@keyframes ringOrbit {
+  from { transform: rotate(0deg) rotateX(65deg); }
+  to { transform: rotate(360deg) rotateX(65deg); }
+}
+
+/* Ground glow */
+.gate2-ground-glow {
+  position: absolute;
+  bottom: 24%; left: 20%; right: 20%;
+  height: 20px;
+  background: radial-gradient(ellipse, rgba(0,220,180,0.4) 0%, transparent 70%);
+  filter: blur(8px);
+}
+
+/* Moss on columns */
+.gate2-moss {
+  position: absolute;
+  top: 20%; bottom: 25%;
+  width: 4%;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(0, 100, 60, 0.6) 0%, rgba(0, 80, 50, 0.3) 20%,
+    transparent 20%, transparent 40%
+  );
+}
+.gate2-moss--left { left: 18%; }
+.gate2-moss--right { right: 18%; }
+
+/* Gate 2 label */
+.gate2-label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 14px 16px;
+  background: linear-gradient(0deg, rgba(0,8,7,0.95) 0%, transparent 100%);
+  color: #7ee8c8;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.portal-gate--2.portal-gate--hovered .gate2-label { opacity: 1; }
+.portal-gate--2 .portal-label__eyebrow { color: rgba(0,220,180,0.7); }
+.portal-gate--2 .portal-label__name { color: #00e5c0; }
+.portal-gate--2 .portal-label__tagline { color: rgba(126,232,200,0.7); }
+
+/* Responsive */
+@media (max-width: 640px) {
+  .portal-gates {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .portal-divider { flex-direction: row; }
+  .portal-divider__line { width: 60px; height: 1px; }
+  .portal-gate {
+    aspect-ratio: 16/9;
+    max-height: 200px;
+  }
 }
 

@@ -1,0 +1,290 @@
+[
+  {
+    "id": 1,
+    "chapter": 1,
+    "session": 1,
+    "topic": "Lịch sử KTCT",
+    "type": "choice",
+    "question": "Hệ thống lý luận kinh tế nào nghiên cứu lĩnh vực sản xuất đầu tiên trong lịch sử?",
+    "options": [
+      "Chủ nghĩa Trọng thương",
+      "Chủ nghĩa Trọng nông",
+      "Kinh tế chính trị cổ điển Anh",
+      "Kinh tế chính trị Mác - Lênin"
+    ],
+    "correctIndex": 1,
+    "explanation": "Chủ nghĩa Trọng nông (thế kỷ 17–18) là trường phái đầu tiên chuyển trọng tâm nghiên cứu từ lưu thông (Trọng thương) sang lĩnh vực sản xuất nông nghiệp."
+  },
+  {
+    "id": 2,
+    "chapter": 1,
+    "session": 2,
+    "topic": "Phương pháp nghiên cứu",
+    "type": "choice",
+    "question": "Phương pháp nghiên cứu đặc thù và quan trọng nhất của Kinh tế chính trị Mác - Lênin là gì?",
+    "options": [
+      "Phương pháp thực nghiệm trong phòng thí nghiệm",
+      "Phương pháp trừu tượng hóa khoa học",
+      "Phương pháp thống kê xã hội học",
+      "Phương pháp mô hình hóa toán học thuần túy"
+    ],
+    "correctIndex": 1,
+    "explanation": "Phương pháp trừu tượng hóa khoa học giúp gạt bỏ những hiện tượng ngẫu nhiên, bề ngoài để nhận thức bản chất và các quy luật kinh tế khách quan."
+  },
+  {
+    "id": 3,
+    "chapter": 1,
+    "session": 2,
+    "topic": "Đối tượng nghiên cứu",
+    "type": "choice",
+    "question": "Đối tượng nghiên cứu của Kinh tế chính trị Mác - Lênin là gì?",
+    "options": [
+      "Quy trình kỹ thuật công nghệ sản xuất",
+      "Các quan hệ xã hội của sản xuất và trao đổi trong sự tương tác với LLSX và kiến trúc thượng tầng",
+      "Hành vi tâm lý của người tiêu dùng trên thị trường",
+      "Cách thức tổ chức phân công lao động vi mô trong doanh nghiệp"
+    ],
+    "correctIndex": 1,
+    "explanation": "Kinh tế chính trị Mác - Lênin nghiên cứu hệ thống các quan hệ sản xuất và trao đổi trong mối liên hệ hữu cơ với lực lượng sản xuất và kiến trúc thượng tầng."
+  },
+  {
+    "id": 4,
+    "chapter": 2,
+    "session": 6,
+    "topic": "Thuộc tính hàng hóa",
+    "type": "choice",
+    "question": "Hàng hóa có hai thuộc tính cơ bản nào?",
+    "options": [
+      "Giá trị sử dụng và giá trị",
+      "Giá cả và chất lượng",
+      "Cung và cầu",
+      "Lao động cụ thể và lao động xã hội"
+    ],
+    "correctIndex": 0,
+    "explanation": "Mọi hàng hóa đều có hai thuộc tính: giá trị sử dụng (công dụng thỏa mãn nhu cầu) và giá trị (lao động xã hội của người sản xuất kết tinh trong hàng hóa)."
+  },
+  {
+    "id": 5,
+    "chapter": 2,
+    "session": 6,
+    "topic": "Lao động trừu tượng",
+    "type": "choice",
+    "question": "Loại lao động nào tạo ra GIÁ TRỊ của hàng hóa?",
+    "options": [
+      "Lao động cụ thể",
+      "Lao động trừu tượng",
+      "Lao động giản đơn",
+      "Lao động phức tạp"
+    ],
+    "correctIndex": 1,
+    "explanation": "Lao động trừu tượng (sự hao phí sức lao động nói chung) tạo ra giá trị hàng hóa. Lao động cụ thể tạo ra giá trị sử dụng của hàng hóa."
+  },
+  {
+    "id": 6,
+    "chapter": 2,
+    "session": 6,
+    "topic": "Quy luật giá trị",
+    "type": "choice",
+    "question": "Quy luật kinh tế cơ bản chi phối sản xuất và trao đổi hàng hóa là gì?",
+    "options": [
+      "Quy luật cung – cầu",
+      "Quy luật lưu thông tiền tệ",
+      "Quy luật giá trị",
+      "Quy luật cạnh tranh"
+    ],
+    "correctIndex": 2,
+    "explanation": "Quy luật giá trị yêu cầu sản xuất và trao đổi hàng hóa phải dựa trên cơ sở hao phí lao động xã hội cần thiết — là quy luật kinh tế cơ bản của sản xuất hàng hóa."
+  },
+  {
+    "id": 7,
+    "chapter": 2,
+    "session": 7,
+    "topic": "Chủ thể thị trường",
+    "type": "choice",
+    "question": "Chủ thể nào đóng vai trò kiến tạo môi trường pháp lý và khắc phục các khuyết tật thị trường?",
+    "options": [
+      "Người sản xuất",
+      "Người tiêu dùng",
+      "Các chủ thể trung gian",
+      "Nhà nước"
+    ],
+    "correctIndex": 3,
+    "explanation": "Nhà nước ban hành pháp luật, sửa chữa các thất bại thị trường (độc quyền, ngoại ứng tiêu cực, phân hóa giàu nghèo) và điều tiết kinh tế vĩ mô."
+  },
+  {
+    "id": 8,
+    "chapter": 3,
+    "session": 8,
+    "topic": "Công thức chung của tư bản",
+    "type": "choice",
+    "question": "Công thức chung của tư bản trong học thuyết Marx là gì?",
+    "options": [
+      "H – T – H' (Hàng → Tiền → Hàng')",
+      "T – H – T' (Tiền → Hàng → Tiền')",
+      "T – H (Tiền → Hàng)",
+      "H – T (Hàng → Tiền)"
+    ],
+    "correctIndex": 1,
+    "explanation": "Công thức T – H – T' thể hiện bản chất tư bản: tiền ứng ra mua hàng hóa để bán lấy số tiền lớn hơn (T' = T + ΔT). ΔT chính là giá trị thặng dư."
+  },
+  {
+    "id": 9,
+    "chapter": 3,
+    "session": 8,
+    "topic": "Hàng hóa sức lao động",
+    "type": "choice",
+    "question": "Sức lao động trở thành hàng hóa khi thỏa mãn hai điều kiện nào?",
+    "options": [
+      "Người lao động được tự do về thân thể VÀ không có tư liệu sản xuất",
+      "Người lao động có trình độ cao VÀ thị trường khan hiếm",
+      "Nhà nước cho phép VÀ tiền tệ xuất hiện",
+      "Có người mua VÀ có người bán thỏa thuận"
+    ],
+    "correctIndex": 0,
+    "explanation": "Sức lao động trở thành hàng hóa khi: (1) người lao động được tự do về thân thể; (2) người lao động bị tước đoạt hết tư liệu sản xuất, buộc phải bán sức lao động để sống."
+  },
+  {
+    "id": 10,
+    "chapter": 3,
+    "session": 9,
+    "topic": "Giá trị thặng dư tương đối",
+    "type": "choice",
+    "question": "Giá trị thặng dư tương đối được tạo ra bằng phương pháp nào?",
+    "options": [
+      "Kéo dài độ dài ngày lao động vượt quá mức bình thường",
+      "Tăng cường độ lao động của công nhân",
+      "Rút ngắn thời gian lao động tất yếu nhờ tăng NSLĐ xã hội, độ dài ngày lao động không đổi",
+      "Thuê thêm lao động thời vụ"
+    ],
+    "correctIndex": 2,
+    "explanation": "Giá trị thặng dư tương đối thu được do rút ngắn thời gian lao động tất yếu nhờ tăng năng suất lao động xã hội, trong khi độ dài ngày lao động không đổi."
+  },
+  {
+    "id": 11,
+    "chapter": 3,
+    "session": 9,
+    "topic": "Giá trị thặng dư siêu ngạch",
+    "type": "choice",
+    "question": "Giá trị thặng dư siêu ngạch là phần thu được của đối tượng nào?",
+    "options": [
+      "Toàn bộ giai cấp tư sản nói chung",
+      "Nhà tư bản cá biệt có NSLĐ cá biệt cao hơn NSLĐ xã hội trung bình",
+      "Nhà nước tư sản thông qua thu thuế",
+      "Công nhân lành nghề có tay nghề cao"
+    ],
+    "correctIndex": 1,
+    "explanation": "Giá trị thặng dư siêu ngạch là phần chênh lệch giữa giá trị xã hội và giá trị cá biệt, thuộc về nhà tư bản cá biệt áp dụng công nghệ mới đi trước xã hội."
+  },
+  {
+    "id": 12,
+    "chapter": 3,
+    "session": 10,
+    "topic": "Tích lũy tư bản",
+    "type": "choice",
+    "question": "Thực chất của tích lũy tư bản là gì?",
+    "options": [
+      "Dành dụm tiền bạc từ tiết kiệm chi tiêu cá nhân",
+      "Sự tư bản hóa giá trị thặng dư (chuyển một phần m thành tư bản phụ thêm)",
+      "Vay vốn ngân hàng để mở rộng quy mô",
+      "Bán bớt máy móc thiết bị cũ để tái đầu tư"
+    ],
+    "correctIndex": 1,
+    "explanation": "Thực chất của tích lũy tư bản là sự tư bản hóa giá trị thặng dư — biến một phần giá trị thặng dư thành tư bản phụ thêm để mở rộng quy mô sản xuất."
+  },
+  {
+    "id": 13,
+    "chapter": 4,
+    "session": 13,
+    "topic": "Độc quyền và cạnh tranh",
+    "type": "choice",
+    "question": "Mối quan hệ giữa độc quyền và cạnh tranh được xác định như thế nào?",
+    "options": [
+      "Độc quyền hoàn toàn thủ tiêu cạnh tranh tự do",
+      "Độc quyền sinh ra từ cạnh tranh tự do và làm cho cạnh tranh trở nên gay gắt, khốc liệt hơn",
+      "Độc quyền và cạnh tranh không liên quan tới nhau",
+      "Cạnh tranh chỉ tồn tại trong giai đoạn trước độc quyền"
+    ],
+    "correctIndex": 1,
+    "explanation": "Độc quyền sinh ra từ cạnh tranh tự do nhưng không thủ tiêu cạnh tranh, mà làm cho cạnh tranh trở nên gay gắt, toàn diện và tàn khốc hơn."
+  },
+  {
+    "id": 14,
+    "chapter": 4,
+    "session": 14,
+    "topic": "Đặc điểm của độc quyền",
+    "type": "choice",
+    "question": "Theo V.I. Lênin, đặc điểm nào sau đây phân biệt chủ nghĩa đế quốc với chủ nghĩa tư bản tự do cạnh tranh?",
+    "options": [
+      "Xuất khẩu hàng hóa chiếm vị trí tuyệt đối",
+      "Xuất khẩu tư bản trở nên đặc biệt quan trọng, nổi bật hơn xuất khẩu hàng hóa",
+      "Cạnh tranh trong nước hoàn toàn chấm dứt",
+      "Tất cả xí nghiệp tư nhân bị quốc hữu hóa"
+    ],
+    "correctIndex": 1,
+    "explanation": "Xuất khẩu tư bản (đầu tư tư bản ra nước ngoài để bòn rút giá trị thặng dư) là một trong 5 đặc điểm kinh tế cơ bản của chủ nghĩa đế quốc do Lênin chỉ ra."
+  },
+  {
+    "id": 15,
+    "chapter": 5,
+    "session": 18,
+    "topic": "KTTT định hướng XHCN",
+    "type": "choice",
+    "question": "Trong nền kinh tế thị trường định hướng XHCN ở Việt Nam, thành phần kinh tế nào giữ vai trò CHỦ ĐẠO?",
+    "options": [
+      "Kinh tế tư nhân",
+      "Kinh tế có vốn đầu tư nước ngoài (FDI)",
+      "Kinh tế nhà nước",
+      "Kinh tế tập thể"
+    ],
+    "correctIndex": 2,
+    "explanation": "Kinh tế nhà nước giữ vai trò chủ đạo, là công cụ vật chất quan trọng để Nhà nước ổn định kinh tế vĩ mô và định hướng XHCN."
+  },
+  {
+    "id": 16,
+    "chapter": 5,
+    "session": 18,
+    "topic": "Động lực kinh tế ở Việt Nam",
+    "type": "choice",
+    "question": "Trong nền kinh tế Việt Nam hiện nay, thành phần kinh tế nào được xác định là một 'động lực quan trọng'?",
+    "options": [
+      "Kinh tế cá thể tiểu nông",
+      "Kinh tế tư nhân",
+      "Kinh tế ngầm phi chính thức",
+      "Kinh tế bao cấp"
+    ],
+    "correctIndex": 1,
+    "explanation": "Nghị quyết Trung ương Đảng khẳng định: Kinh tế nhà nước giữ vai trò chủ đạo, còn kinh tế tư nhân là một động lực quan trọng của nền kinh tế thị trường định hướng XHCN."
+  },
+  {
+    "id": 17,
+    "chapter": 6,
+    "session": 24,
+    "topic": "Cách mạng công nghiệp 4.0",
+    "type": "choice",
+    "question": "Cốt lõi của cuộc Cách mạng công nghiệp lần thứ tư (4.0) là gì?",
+    "options": [
+      "Động cơ hơi nước và cơ khí hóa",
+      "Điện năng và dây chuyền sản xuất hàng loạt",
+      "Máy tính điện tử và mạng Internet ban đầu",
+      "Các hệ thống vật lý - không gian mạng, AI, Internet vạn vật (IoT) và Dữ liệu lớn (Big Data)"
+    ],
+    "correctIndex": 3,
+    "explanation": "CMCN 4.0 dựa trên nền tảng kỹ thuật số, tích hợp các công nghệ thông minh: AI, Big Data, IoT, điện toán đám mây và hệ thống thực - ảo."
+  },
+  {
+    "id": 18,
+    "chapter": 6,
+    "session": 29,
+    "topic": "Hội nhập kinh tế quốc tế",
+    "type": "choice",
+    "question": "Nguyên tắc cốt lõi của Việt Nam khi thực hiện hội nhập kinh tế quốc tế là gì?",
+    "options": [
+      "Chủ động, tích cực hội nhập kinh tế quốc tế gắn với xây dựng nền kinh tế độc lập, tự chủ",
+      "Mở cửa tuyệt đối và phụ thuộc hoàn toàn vào chuỗi cung ứng nước ngoài",
+      "Bảo hộ mậu dịch khép kín không tiếp nhận đầu tư FDI",
+      "Chỉ tham gia liên minh với các nước láng giềng"
+    ],
+    "correctIndex": 0,
+    "explanation": "Việt Nam thực hiện nhất quán đường lối: chủ động, tích cực hội nhập kinh tế quốc tế sâu rộng, đồng thời không ngừng củng cố và xây dựng nền kinh tế độc lập, tự chủ."
+  }
+]
